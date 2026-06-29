@@ -2167,8 +2167,8 @@ function toggleTlPanel(key, node) {
   if (!isOpen) {
     wrap.classList.add('open');
     node.classList.add('active');
-    // scroll panel into view smoothly
-    setTimeout(() => wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+    // scroll to the clicked node (stable position) rather than the panel (shifts during transition)
+    node.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
 
