@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>Kevin Reece — GM, Slack Platform</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
@@ -190,7 +191,7 @@ body {
 .stat-card[data-stat="paela"]  .stat-glow { background: var(--green); }
 .stat-card[data-stat="isv"]    .stat-glow { background: var(--yellow); }
 .stat-card[data-stat="years"]  .stat-glow { background: #c084fc; }
-.stat-card[data-stat="award"]  .stat-glow { background: var(--red); }
+.stat-card[data-stat="award"]  .stat-glow { background: var(--green); }
 
 .stat-icon { font-size: 22px; margin-bottom: 12px; display: block; }
 
@@ -207,7 +208,7 @@ body {
 .stat-card[data-stat="paela"] .stat-value { color: var(--green); }
 .stat-card[data-stat="isv"]   .stat-value { color: var(--yellow); }
 .stat-card[data-stat="years"] .stat-value { color: #c084fc; }
-.stat-card[data-stat="award"] .stat-value { color: #f9a8bc; }
+.stat-card[data-stat="award"] .stat-value { color: var(--green); }
 
 .stat-sub {
   font-size: 12px;
@@ -344,19 +345,35 @@ body {
 
 .modal-evidence strong { color: var(--ink); font-weight: 700; }
 
-.modal-source {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 100px;
-  background: var(--faint);
-  color: var(--muted);
+
+/* ─── STAT MODAL NAV ─────────────────────────────────────── */
+.modal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--faint);
+  gap: 8px;
 }
+.modal-nav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; color: var(--muted);
+  background: none; border: 1.5px solid var(--faint);
+  padding: 5px 12px; border-radius: 100px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap; max-width: 130px;
+}
+.modal-nav-btn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.modal-nav-btn:hover { color: var(--ink); border-color: #ccc; background: var(--faint); }
+.modal-nav-btn:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+.modal-nav-btn-right { flex-direction: row; }
+.modal-nav-dots {
+  display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+}
+.modal-nav-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--faint); transition: background 0.2s, transform 0.2s;
+}
+.modal-nav-dot.active { transform: scale(1.4); }
 
 /* ─── WAVE ───────────────────────────────────────────────── */
 .wave { display: block; width: 100%; height: 60px; margin-bottom: -2px; }
@@ -752,13 +769,34 @@ body {
 
 .mi-score .mi-pct { font-size: 8px; font-weight: 600; opacity: 0.7; margin-top: 1px; }
 
-.score-99,.score-98 { background:#E8FBF4; color:#1B7A55; }
-.score-97,.score-96,.score-95 { background:#EBF8FF; color:#1A6A8A; }
-.score-94,.score-93,.score-92 { background:#FFF8E6; color:#8A6000; }
-.score-88 { background:#FFF1F5; color:#8A0030; }
+.score-99,.score-98,.score-97,.score-96,.score-95,.score-94,.score-93,.score-92,.score-91,.score-90,.score-89,.score-88,.score-87,.score-86,.score-85 { background:#E8FBF4; color:#1B7A55; }
 
 .mi-text { flex: 1; }
-.mi-req  { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.mi-req  { font-size: 13px; font-weight: 700; margin-bottom: 3px; cursor: default; border-bottom: 1px dashed rgba(97,96,97,0.35); display: inline-block; }
+
+#jd-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: #1D1C1D;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.45;
+  padding: 7px 11px;
+  border-radius: 7px;
+  max-width: 280px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+#jd-tooltip::before {
+  content: 'JD: ';
+  font-weight: 700;
+  opacity: 0.55;
+}
+#jd-tooltip.visible { opacity: 1; }
 .mi-evidence { font-size: 12px; color: var(--muted); line-height: 1.4; }
 
 /* ─── CONCLUSION ─────────────────────────────────────────── */
@@ -867,13 +905,13 @@ body {
 .radar-modal-card {
   background: white;
   border-radius: 24px;
-  max-width: 440px;
+  max-width: 540px;
   width: 100%;
   overflow: hidden;
   box-shadow: 0 32px 80px rgba(0,0,0,0.35);
   transform: scale(0.92) translateY(16px);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  padding: 28px 28px 24px;
+  padding: 28px 32px 24px;
 }
 
 .radar-modal-backdrop.visible .radar-modal-card {
@@ -898,6 +936,13 @@ body {
 .radar-modal-canvas-wrap {
   display: flex;
   justify-content: center;
+}
+
+/* ─── COMPANY LOGO IMGS ──────────────────────────────────── */
+img.co-logo {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
 /* ─── CERT LINKS ─────────────────────────────────────────── */
@@ -932,6 +977,127 @@ footer {
   padding: 20px 48px; text-align: center;
   font-size: 11px; color: var(--muted); letter-spacing: 0.5px;
 }
+
+/* ─── LARGE SCREEN SCALING ──────────────────────────────────── */
+@media (min-width: 1440px) {
+  .hero-summary      { font-size: 19px; }
+  .hero-tagline      { font-size: 17px; }
+  .section-title     { font-size: 36px; }
+  .tl-org            { font-size: 17px; }
+  .tl-role           { font-size: 14px; }
+  .tl-panel-header h3 { font-size: 19px; }
+  .tl-case-title     { font-size: 16px; }
+  .tl-case-desc      { font-size: 14px; line-height: 1.55; }
+  .ch-title          { font-size: 23px; }
+  .ch-sub            { font-size: 15px; }
+  .ch-narrative ul li { font-size: 15px; }
+  .mi-req            { font-size: 14px; }
+  .mi-evidence       { font-size: 13px; }
+  .concl-pillar h4   { font-size: 16px; }
+  .concl-pillar p    { font-size: 15px; }
+  .conclusion-close  { font-size: 18px; }
+  .modal-evidence    { font-size: 16px; }
+  .stat-sub          { font-size: 13px; }
+  .recruiter-table td { font-size: 13px; }
+  .recruiter-intro   { font-size: 14px; }
+}
+
+@media (min-width: 1920px) {
+  .hero-summary      { font-size: 21px; }
+  .section-title     { font-size: 40px; }
+  .tl-case-title     { font-size: 17px; }
+  .tl-case-desc      { font-size: 15px; }
+  .ch-title          { font-size: 25px; }
+  .ch-narrative ul li { font-size: 16px; }
+  .mi-req            { font-size: 15px; }
+  .mi-evidence       { font-size: 14px; }
+  .concl-pillar p    { font-size: 16px; }
+  .conclusion-close  { font-size: 19px; }
+  .modal-evidence    { font-size: 17px; }
+  .recruiter-table td { font-size: 14px; }
+}
+
+/* ─── RECRUITER ASSESSMENT ───────────────────────────────────── */
+.recruiter-section {
+  background: #F6F5F5;
+  border-top: 2px dashed #D6D4D4;
+  padding: 0 0 48px;
+}
+.recruiter-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+.recruiter-toggle {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px 0;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  cursor: pointer; user-select: none;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  border-bottom: 1px solid #E0DEDF;
+}
+.recruiter-toggle:hover { color: var(--ink); }
+.recruiter-toggle-icon { font-size: 10px; transition: transform 0.25s; }
+.recruiter-toggle.open .recruiter-toggle-icon { transform: rotate(90deg); }
+.recruiter-badge {
+  margin-left: auto; background: #E0DEDF; color: var(--muted);
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
+}
+
+.recruiter-body { display: none; padding-top: 24px; }
+.recruiter-body.open { display: block; }
+
+.recruiter-intro {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.recruiter-legend {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+  font-size: 12px; color: var(--muted);
+  margin-bottom: 24px; padding: 12px 16px;
+  background: white; border-radius: 10px; border: 1px solid #E8E6E6;
+}
+.rc-dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.rc-green  { background: #1B7A55; }
+.rc-amber  { background: #A06000; }
+.rc-red    { background: #8A0030; }
+
+.recruiter-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 12px; line-height: 1.5;
+  background: white; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.recruiter-table th {
+  background: var(--aubergine); color: white;
+  padding: 11px 14px; text-align: left;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.recruiter-table td {
+  padding: 10px 14px; border-bottom: 1px solid #F1F0F0;
+  vertical-align: top; color: var(--ink);
+}
+.recruiter-table tr:last-child td { border-bottom: none; }
+.recruiter-table tr:hover td { background: #FAFAFA; }
+
+.rc-section-row td {
+  background: #F1F0F0 !important;
+  font-weight: 700; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--muted);
+  padding: 8px 14px;
+}
+
+.rc-score {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+  white-space: nowrap;
+}
+.rc-score.rc-green  { background: #E8FBF4; color: #1B7A55; }
+.rc-score.rc-amber  { background: #FFF8E6; color: #8A6000; }
+.rc-score.rc-red    { background: #FFF1F5; color: #8A0030; }
+.rc-score::before   { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.rc-pct { font-size: 10px; font-weight: 500; opacity: 0.6; margin-left: 4px; letter-spacing: 0; }
 </style>
 </head>
 <body>
@@ -1003,9 +1169,9 @@ footer {
 
       <div class="stat-card" data-stat="award" onclick="openModal('award')">
         <div class="stat-glow"></div>
-        <span class="stat-icon">🏆</span>
-        <div class="stat-value">2023</div>
-        <div class="stat-sub">Salesforce<br>Innovator Award</div>
+        <span class="stat-icon">📈</span>
+        <div class="stat-value">+30%</div>
+        <div class="stat-sub">Developer Leads<br>AgentExchange · Yr 1</div>
         <div class="stat-cta">See evidence <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
 
@@ -1030,7 +1196,17 @@ footer {
       <div class="modal-title" id="modalTitle"></div>
       <div class="modal-divider"></div>
       <div class="modal-evidence" id="modalEvidence"></div>
-      <div class="modal-source" id="modalSource"></div>
+      <div class="modal-nav">
+        <button class="modal-nav-btn" id="modalNavPrev" onclick="navigateStat(-1)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="modalNavPrevLabel"></span>
+        </button>
+        <div class="modal-nav-dots" id="modalNavDots"></div>
+        <button class="modal-nav-btn modal-nav-btn-right" id="modalNavNext" onclick="navigateStat(1)">
+          <span id="modalNavNextLabel"></span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -1045,7 +1221,7 @@ footer {
       </button>
     </div>
     <div class="radar-modal-canvas-wrap">
-      <canvas id="radarModalCanvas" width="360" height="360"></canvas>
+      <canvas id="radarModalCanvas" width="440" height="440"></canvas>
     </div>
   </div>
 </div>
@@ -1059,8 +1235,7 @@ footer {
   <div class="chapters-inner">
 
     <div class="section-eyebrow" style="text-align:center">Three-Chapter Executive Profile</div>
-    <div class="section-title" style="text-align:center;margin-bottom:16px">Click any chapter to reveal the fit assessment</div>
-    <div class="hint">👆 &nbsp;Each chapter expands to show the Slack GM requirements match</div>
+    <div class="section-title" style="text-align:center;margin-bottom:40px">Three-Chapter Fit Assessment</div>
 
     <!-- CHAPTER 1 -->
     <div class="chapter ch-1" onclick="toggleChapter(this)">
@@ -1076,7 +1251,7 @@ footer {
             <span class="ch-tag">Neural Networks</span>
             <span class="ch-tag">80% Corporate Revenue</span>
           </div>
-          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(1)">Fit Snapshot →</button>
+          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Fit Snapshot →</button>
         </div>
         <div class="ch-toggle">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#616061" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1102,29 +1277,29 @@ footer {
               <div class="matrix-item">
                 <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">P&amp;L / Contribution Metrics Ownership</div>
+                  <div class="mi-req" data-jd="Define and own the P&L or contribution metrics for the Platform business">P&amp;L / Contribution Metrics Ownership</div>
                   <div class="mi-evidence">Owned AYO platform P&amp;L generating 80% of total corporate revenue. Directed capital allocation, headcount &amp; growth metrics.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Team &amp; Operations (BU Cadence)</div>
+                  <div class="mi-req" data-jd="Operate with the rigor of a business unit leader: goals, budgets, headcount planning, and quarterly business reviews">Team &amp; Operations (BU Cadence)</div>
                   <div class="mi-evidence">Led a 35-person multi-functional division spanning Product, Pre-Sales &amp; Customer Success from initial sale to long-term adoption.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-94">94<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Platform APIs &amp; Developer Tooling</div>
-                  <div class="mi-evidence">Architected a modular, multi-tenant SaaS platform for high-velocity iteration. Stays at the cutting edge with AI-assisted workflows.</div>
+                  <div class="mi-req" data-jd="Platform APIs & Developer Tooling — Strategic direction for Slack's APIs (Web API, Events API, Bolt SDKs, Workflows API); ensuring the developer surface supports commercial and ecosystem growth goals">Platform APIs &amp; Developer Tooling</div>
+                  <div class="mi-evidence">Architected a modular, multi-tenant SaaS platform on C#/Azure/AWS with API governance philosophy applied at every career stage — throttling, metering, and usage-based billing defined at Sage via Cloud Elements.</div>
                 </div>
               </div>
               <div class="matrix-item">
-                <div class="mi-score score-98">98<div class="mi-pct">%</div></div>
+                <div class="mi-score score-99">99<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Builder Mentality (Greenfield Value)</div>
-                  <div class="mi-evidence">Transformed a custom dev shop into a scalable 0-to-1 platform model. Ready to define &amp; own Slack Platform from day one.</div>
+                  <div class="mi-req" data-jd="Builder mentality — excited by greenfield, not just optimizing what exists. Equally comfortable in a boardroom pitch and a developer hackathon.">Builder Mentality (Greenfield Value)</div>
+                  <div class="mi-evidence">Co-founded AYO from zero; pivoted product to platform by design. Every major role since has been 0-to-1: Sage marketplace, PAELA, AgentExchange programme. Equally at home in a C-suite negotiation and a developer hackathon — both are regular work.</div>
                 </div>
               </div>
             </div>
@@ -1147,7 +1322,7 @@ footer {
             <span class="ch-tag">Developer Portal</span>
             <span class="ch-tag">Rolls-Royce Yocova</span>
           </div>
-          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(2)">Fit Snapshot →</button>
+          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(2)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Fit Snapshot →</button>
         </div>
         <div class="ch-toggle">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#616061" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1164,7 +1339,7 @@ footer {
               <li><div class="bullet"></div><span>Core team that defined Sage's <strong>first-ever global marketplace</strong>; recruited <strong>50 premium ISVs in Year 1</strong></span></li>
               <li><div class="bullet"></div><span>Defined API monetisation strategy: <strong>throttling, metering &amp; usage-based billing</strong>; negotiated Cloud Elements partnership</span></li>
               <li><div class="bullet"></div><span>Established <strong>Customer Advisory Boards</strong> across global regions — translating user needs into a prioritised roadmap</span></li>
-              <li><div class="bullet"></div><span>Built an <strong>opinionated, highly structured developer blueprint</strong> — establishing pipeline marketing and Sage's first Technical Evangelist function to maintain a curated quality bar for how partners extended the platform. This ethos continues today via <a class="yt-inline-link" href="https://www.youtube.com/channel/UCNCOlw1Givqrx5hq1AyESFg" target="_blank" rel="noopener"><img src="https://yt3.googleusercontent.com/Z9R5qAO6wy4Eoy0Gidq2lIBeGe3K6krNQDzuao9ZeX1YVpYyvciBeSMe8ym-Exr31PxOFBqZAA=s160-c-k-c0x00ffffff-no-rj" alt="Agentic Platformers"> Agentic Platformers ↗</a></span></li>
+              <li><div class="bullet"></div><span>Built an <strong>opinionated, highly structured developer blueprint</strong> — establishing pipeline marketing and Sage's first Technical Evangelist function to maintain a curated quality bar for how partners extended the platform.</span></li>
               <li><div class="bullet"></div><span>Spearheaded Rolls-Royce <strong>Yocova</strong> — a complex API marketplace that unlocked and monetised siloed airline engine data</span></li>
             </ul>
           </div>
@@ -1172,38 +1347,38 @@ footer {
             <h4>Slack GM Fit Assessment</h4>
             <div class="matrix-items">
               <div class="matrix-item">
-                <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
+                <div class="mi-score score-96">96<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Developer Experience &amp; Funnel Growth</div>
-                  <div class="mi-evidence">Sourced, designed &amp; launched the Sage Developer Portal. Engineered developer onboarding UX, built pipeline marketing, and created Sage's "Technical Evangelist" advocacy function.</div>
+                  <div class="mi-req" data-jd="Own the developer funnel — from awareness and acquisition through activation and retention. Lead the Platform product team to ensure developer tools, APIs, and docs support commercial ecosystem growth.">Developer Experience &amp; Funnel Growth</div>
+                  <div class="mi-evidence">Owned the full developer funnel built 0-to-1 at Sage: awareness (Developer Portal), acquisition (pipeline marketing), activation (structured onboarding), retention (Technical Evangelist programme). Continued at Salesforce with AgentExchange Developer Programme delivering +30% leads Year 1.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Slack Automations &amp; Workflows</div>
-                  <div class="mi-evidence">Highly experienced in defining partner-extensible architectures. Highly opinionated on how ISVs extend automation layers — demonstrated by sourcing Cloud Elements middleware to align, throttle, and standardise 3P developer access.</div>
+                  <div class="mi-req" data-jd="Slack Automations & Workflow Builder — Partner-extensible automation capabilities; defining how ISVs and 3P developers can build on and extend Slack's automation layer.">Slack Automations &amp; Workflows</div>
+                  <div class="mi-evidence">Salesforce Flows are the direct platform equivalent — the automation layer ISVs extend. Has helped ISVs translate JTBD and user journeys into Flows and Agents for 8+ years, defining best practices at Dreamforce, TDX, and webinars. Cloud Elements at Sage standardised 3P access at the infrastructure layer.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-92">92<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">In-Slack App &amp; Agent Experience (UX/DX)</div>
-                  <div class="mi-evidence">Led global Customer Advisory Boards to bridge developer capabilities with customer needs, ensuring a high UI/UX bar.</div>
+                  <div class="mi-req" data-jd="In-Slack App & Agent Experience — The end-user experience of apps and agents within Slack: how they surface in conversations, how users discover and invoke them, and how AI agents are presented and trusted by end users.">In-Slack App &amp; Agent Experience (UX/DX)</div>
+                  <div class="mi-evidence">Deep UX ownership throughout career: storyboarding and UX design is standard practice in every partner engagement. Led UX + Conversation Experience Design workstream for a live TDX keynote prototype. Sets and enforces design quality bar across the full partner portfolio.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-96">96<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Slack App Marketplace Curation &amp; Growth</div>
-                  <div class="mi-evidence">Co-defined &amp; launched Sage's global marketplace. Built the full GTM model and onboarded 50 premium ISVs in Year 1.</div>
+                  <div class="mi-req" data-jd="Slack App Marketplace — Overall health, discoverability, curation, and conversion of the app marketplace; defining the listing experience for partners and the discovery experience for customers.">Slack App Marketplace Curation &amp; Growth</div>
+                  <div class="mi-evidence">Built Sage's marketplace from zero: defined curation standards, ISV certification, featuring model, and listing experience. Recruited 50 premium ISVs in Year 1. Yocova added a second 0-to-1 marketplace with supply/demand-side trust standards and access tiers.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-93">93<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Platform Monetisation Infrastructure</div>
-                  <div class="mi-evidence">Defined commercial models for API access at Sage — specific architecture rules for monetisation, metering &amp; usage-based throttling.</div>
+                  <div class="mi-req" data-jd="Platform Monetization Infrastructure — Pricing, billing, and entitlement systems that enable platform revenue models (e.g., paid app listings, usage-based billing for 3P apps, platform tiers).">Platform Monetisation Infrastructure</div>
+                  <div class="mi-evidence">Designed usage-based billing, metering, throttling, and tiered API access at Sage — the exact commercial primitives underpinning marketplace monetisation. Extended at Salesforce with PAELA consumption credit architecture and Transactable Marketplace (Transaction Fees, MAU, Licenses Activated).</div>
                 </div>
               </div>
             </div>
@@ -1226,7 +1401,7 @@ footer {
             <span class="ch-tag">Agentforce</span>
             <span class="ch-tag">30%+ Developer Leads</span>
           </div>
-          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(3)">Fit Snapshot →</button>
+          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(3)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Fit Snapshot →</button>
         </div>
         <div class="ch-toggle">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#616061" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1244,7 +1419,7 @@ footer {
               <li><div class="bullet"></div><span>Increased AgentExchange developer leads <strong>30%+ in Year 1</strong>; leads flagship Salesforce Agentforce hackathons — developer content published via <a class="yt-inline-link" href="https://www.youtube.com/channel/UCNCOlw1Givqrx5hq1AyESFg" target="_blank" rel="noopener"><img src="https://yt3.googleusercontent.com/Z9R5qAO6wy4Eoy0Gidq2lIBeGe3K6krNQDzuao9ZeX1YVpYyvciBeSMe8ym-Exr31PxOFBqZAA=s160-c-k-c0x00ffffff-no-rj" alt="Agentic Platformers"> Agentic Platformers ↗</a></span></li>
               <li><div class="bullet"></div><span>Created <strong>Partner Innovation Engineer</strong> role — optimising agents in production, driving consumption &amp; retention</span></li>
               <li><div class="bullet"></div><span>Executive Sponsor for Salesforce's <strong>largest global ISV partners</strong> — works directly with their C-suites to realign roadmaps</span></li>
-              <li><div class="bullet"></div><span><strong>UC Berkeley Haas</strong> — <a class="cert-link" href="https://execedcertificates.berkeley.edu/4b52155f-566d-4ccd-8629-6cdb6b33f48d?record_view=true#gs.2hegro" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>Berkeley Changemaker</a>, <a class="cert-link" href="https://execedcertificates.berkeley.edu/d0eada80-13e1-4155-a04e-f457e8769b24" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>High-Impact Leadership</a> &amp; <a class="cert-link" href="https://execedcertificates.berkeley.edu/2600306c-6f5b-4e66-a65b-2ad2e6499f90" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>Negotiation &amp; Influence</a> (2023–24)</span></li>
+              <li><div class="bullet"></div><span style="display:flex;align-items:flex-start;gap:8px;"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;flex-shrink:0;margin-top:1px;"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg><span><strong>UC Berkeley Haas School of Business, Executive Education</strong> — <a class="cert-link" href="https://execedcertificates.berkeley.edu/4b52155f-566d-4ccd-8629-6cdb6b33f48d?record_view=true#gs.2hegro" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>Berkeley Changemaker</a>, <a class="cert-link" href="https://execedcertificates.berkeley.edu/d0eada80-13e1-4155-a04e-f457e8769b24" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>High-Impact Leadership</a>, and <a class="cert-link" href="https://execedcertificates.berkeley.edu/2600306c-6f5b-4e66-a65b-2ad2e6499f90" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>Negotiating &amp; Influence</a> (2023–24)</span></span></li>
             </ul>
           </div>
           <div class="ch-matrix">
@@ -1253,43 +1428,43 @@ footer {
               <div class="matrix-item">
                 <div class="mi-score score-99">99<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Partner Ecosystem &amp; Strategic Relations</div>
+                  <div class="mi-req" data-jd="Build and manage strategic relationships with the people and companies building on Slack. Develop and nourish partner advisors to help guide the platform and product strategy.">Partner Ecosystem &amp; Strategic Relations</div>
                   <div class="mi-evidence">Sits on ISV LT overseeing $960M AOV. Designed Yocova marketplace. Tech Exec Sponsor to CPOs, CTOs &amp; Sales Leaders at major ISVs.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-98">98<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Commercial Negotiations &amp; Deals</div>
+                  <div class="mi-req" data-jd="Lead commercial negotiations for anchor partnerships and co-sell arrangements. Strong commercial instincts — can structure deals, negotiate partnerships, and drive revenue outcomes.">Commercial Negotiations &amp; Deals</div>
                   <div class="mi-evidence">Created PAELA from 0-to-1, driving a $100M ACV pipeline in FY27. Manages complex RevRec, Legal &amp; Compliance deal desks.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-98">98<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">App &amp; Agent Framework (Agentforce)</div>
-                  <div class="mi-evidence">Designed the Partner Innovation Engineer role to optimise agents in production. Leads Agentforce hackathons &amp; next-gen agent framework roadmap.</div>
+                  <div class="mi-req" data-jd="App and Agent Framework — How 3P apps and AI agents are built, distributed, and monetized on Slack; defining the next generation of the app model including Agentforce integrations and AI-native extensions.">App &amp; Agent Framework (Agentforce)</div>
+                  <div class="mi-evidence">Created the Partner Innovation Engineer role to optimise agents in production. Leads Agentforce hackathons. PAELA consumption economics tie Salesforce revenue to agent usage at scale. Deeply embedded in next-gen agent framework strategy across the Salesforce ecosystem.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Go-To-Market (Platform Selling)</div>
-                  <div class="mi-evidence">Developed Partner Demo Kits with Solution Engineering. GTM alliances with US Bank, Amex &amp; TomTom.</div>
+                  <div class="mi-req" data-jd="Build the GTM motion for platform — how Slack sells alongside its ecosystem, how partners co-sell, and how customers discover 3P apps. Work with Sales and Customer Success to drive platform adoption within Slack's largest accounts.">Go-To-Market (Platform Selling)</div>
+                  <div class="mi-evidence">Built Partner Demo Kits with Solution Engineering to embed 3P apps in enterprise sales cycles. GTM alliances with US Bank, Amex, and TomTom at Sage. Cross-functional PAELA execution with Sales, SE, and CS across Salesforce's largest accounts.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-97">97<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Partner Integrations Layer</div>
-                  <div class="mi-evidence">Structured the Cloud Elements API engine for Sage and designed data exchange models for secure 3P airline data ingestion (Yocova).</div>
+                  <div class="mi-req" data-jd="Partner Integrations Layer — Certified and featured integrations with strategic partners (e.g., Salesforce, Google, Microsoft, ServiceNow, Atlassian); defining the standards and co-investment model for premium integrations.">Partner Integrations Layer</div>
+                  <div class="mi-evidence">Defined the certification framework and co-investment model at Sage via Cloud Elements. Salesforce Partner business includes direct hyperscaler management including Google. Yocova data exchange model set the governance standard for secure 3P API access.</div>
                 </div>
               </div>
               <div class="matrix-item">
                 <div class="mi-score score-99">99<div class="mi-pct">%</div></div>
                 <div class="mi-text">
-                  <div class="mi-req">Salesforce Ecosystem Synergy</div>
-                  <div class="mi-evidence"><strong>Unparalleled advantage.</strong> Already on the Salesforce ISV leadership team; understands Slack's strategic integration with Agentforce.</div>
+                  <div class="mi-req" data-jd="Partner with Salesforce ecosystem teams to create cross-platform leverage and joint go-to-market opportunities. Familiarity with the Salesforce ecosystem and how Slack fits within it.">Salesforce × Slack Cross-Platform Leverage</div>
+                  <div class="mi-evidence"><strong>Unparalleled advantage.</strong> Already embedded in Salesforce's ISV LT — the only candidate who can create cross-platform leverage from day one. Aligns Slack Platform directly with Agentforce, AppExchange, and joint GTM motions that no external hire can replicate.</div>
                 </div>
               </div>
             </div>
@@ -1309,12 +1484,12 @@ footer {
 
     <div class="timeline">
       <div class="tl-node" onclick="toggleTlPanel('ayo', this)">
-        <div class="tl-dot">🔧</div>
+        <div class="tl-dot" style="padding:10px;background:white;"><img class="co-logo" src="data:image/png;base64,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" alt="AYO Digital"></div>
         <div class="tl-year">2008–2014</div>
         <div class="tl-org">AYO Digital</div>
         <div class="tl-role">Co-founder &amp; CTO</div>
         <div class="tl-metric">80% platform revenue</div>
-        <div class="tl-hint">View work ↓</div>
+        <div class="tl-hint">View Highlights ↓</div>
       </div>
       <div class="tl-node" onclick="toggleTlPanel('sage', this)">
         <div class="tl-dot" style="padding:10px;background:white;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sage-logo_svg.svg/1280px-Sage-logo_svg.svg.png" style="width:100%;height:100%;object-fit:contain;" alt="Sage"></div>
@@ -1322,7 +1497,7 @@ footer {
         <div class="tl-org">Sage Group</div>
         <div class="tl-role">Architect, PM &amp; Ecosystem Leader</div>
         <div class="tl-metric">First marketplace &amp; DX</div>
-        <div class="tl-hint">View work ↓</div>
+        <div class="tl-hint">View Highlights ↓</div>
       </div>
       <div class="tl-node" onclick="toggleTlPanel('sfdc-ln', this)">
         <div class="tl-dot" style="padding:8px;background:white;"><img src="https://logos-world.net/wp-content/uploads/2020/10/Salesforce-Logo.png" style="width:100%;height:100%;object-fit:contain;" alt="Salesforce"></div>
@@ -1330,7 +1505,7 @@ footer {
         <div class="tl-org">Salesforce · London</div>
         <div class="tl-role">Principal Technical Evangelist</div>
         <div class="tl-metric">+35–40% Year 1 partner rev</div>
-        <div class="tl-hint">View work ↓</div>
+        <div class="tl-hint">View Highlights ↓</div>
       </div>
       <div class="tl-node" onclick="toggleTlPanel('sfdc-sf', this)">
         <div class="tl-dot" style="padding:8px;background:white;"><img src="https://logos-world.net/wp-content/uploads/2020/10/Salesforce-Logo.png" style="width:100%;height:100%;object-fit:contain;" alt="Salesforce"></div>
@@ -1338,7 +1513,7 @@ footer {
         <div class="tl-org">Salesforce · SF</div>
         <div class="tl-role">Sr. Director, Partner Solutions</div>
         <div class="tl-metric">$960M AOV ecosystem</div>
-        <div class="tl-hint">View work ↓</div>
+        <div class="tl-hint">View Highlights ↓</div>
       </div>
     </div>
 
@@ -1350,7 +1525,7 @@ footer {
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           </button>
           <div class="tl-panel-header">
-            <div class="tl-panel-icon">🔧</div>
+            <div class="tl-panel-icon" style="padding:6px;"><img class="co-logo" src="data:image/png;base64,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" alt="AYO Digital"></div>
             <div>
               <h3>AYO Digital</h3>
               <p>Co-founder &amp; CTO · Newcastle, UK · 2008–2014</p>
@@ -1358,28 +1533,24 @@ footer {
           </div>
           <div class="tl-panel-grid">
             <div class="tl-case">
-              <div class="tl-case-label">Platform</div>
+              <div class="tl-case-label">Platform · Architecture · P&amp;L</div>
               <div class="tl-case-title">Proprietary SaaS Application Platform</div>
-              <div class="tl-case-desc">Modular multi-tenant platform enabling rapid delivery of enterprise applications — drove 80% of total corporate revenue.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-desc">Built ground-up on <strong>C#, SQL, and the Microsoft technology stack</strong> — this was a deliberate architectural choice that gave us reliability, composability, and the enterprise-grade security our clients demanded. We were <strong>early adopters of both Azure and AWS</strong> at a time when cloud infrastructure was still a bold bet, not a default.<br><br>The platform began as a bespoke product studio. I made the decision to <strong>pivot from product to platform</strong> — designing a modular, multi-tenant architecture in the era of <strong>Service Oriented Architecture</strong> (SOA) that let us deploy new enterprise applications rapidly without rebuilding the core each time. That pivot is what drove the platform division to <strong>80% of total corporate revenue</strong>.<br><br>I built and led a <strong>35-person cross-functional org</strong> — Engineering, UX, QA, DevOps, and Customer Success — with full P&amp;L accountability. Throughout, I maintained an obsessive focus on <strong>UX research and design detail</strong>: running Customer Advisory Boards (CABs) to validate features before build, and working closely with clients to ensure we were solving real challenges, not assumed ones.</div>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Enterprise Client</div>
+              <div class="tl-case-label">Enterprise Client · Retail</div>
               <div class="tl-case-title">TK Maxx &amp; HomeSense</div>
-              <div class="tl-case-desc">Custom enterprise integrations and applications built on the AYO platform for one of the UK's largest retail groups.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-desc">For one of the UK's largest off-price retail groups, we built a <strong>full ecommerce platform</strong> on the AYO stack — covering the complete customer journey from discovery through checkout. Key capabilities included:<br><br>• <strong>Discounts &amp; deals engine</strong> — dynamic pricing logic and promotional rules reflecting TK Maxx's off-price model<br>• <strong>Payments infrastructure</strong> — secure, PCI-compliant payment processing integrated into the platform<br>• <strong>Back-end system integration</strong> — deep integrations into TK Maxx's internal inventory and operations systems, ensuring product availability and pricing were always live and accurate<br><br>The engagement required both technical rigour and close collaboration with the client's internal teams — a pattern I've replicated at every stage of my career.</div>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Enterprise Client</div>
+              <div class="tl-case-label">Enterprise Client · Public Sector</div>
               <div class="tl-case-title">Gentoo Group Social Housing</div>
-              <div class="tl-case-desc">Delivered large-scale housing management applications and integrations for a major social housing provider.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-desc">Gentoo Group is one of the UK's largest social housing providers. We delivered a comprehensive <strong>tenancy lifecycle platform</strong> covering the end-to-end journey for prospective and existing tenants:<br><br>• <strong>Tenant Application Platform</strong> — digital application flow with eligibility criteria and document management<br>• <strong>Credit Check Integration</strong> — automated affordability and background check workflows embedded directly into the onboarding process<br>• <strong>Tenancy Management Platform</strong> — full lifecycle management for active tenancies, including payments, communications, and compliance tracking<br>• <strong>House Re-sell Platform</strong> — a bespoke resale workflow for properties returning to the Gentoo portfolio, managing listings, viewings, and buyer qualification<br><br>This was complex, high-stakes software — the kind where UX detail and reliability aren't nice-to-haves, they directly affect people's housing.</div>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Engineering</div>
-              <div class="tl-case-title">P&amp;L Ownership · 35-Person Org</div>
-              <div class="tl-case-desc">Full P&amp;L accountability spanning Engineering, UX, QA, DevOps, and Customer Success — scaling from startup to profitable enterprise software provider.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-label">Enterprise Client · Education</div>
+              <div class="tl-case-title">New College Durham</div>
+              <div class="tl-case-desc">For New College Durham, we delivered a fully connected digital campus experience — one of the more forward-thinking deployments of the era:<br><br>• <strong>Interactive Student Portal</strong> — a central hub for students to access course materials, communications, timetables, and support services<br>• <strong>Campus Digital Screens</strong> — large interactive screens deployed across campus, each running custom sites and content experiences we designed and built — bringing the digital portal into the physical environment<br>• <strong>Student Application Platform</strong> — end-to-end prospective student application flow, from enquiry through enrolment<br>• <strong>Grades &amp; Attendance Tracking</strong> — real-time academic performance and attendance monitoring for students, tutors, and administration<br><br>The project required us to think across channels — web, app, and physical installations — and deliver a coherent UX across all of them.</div>
             </div>
           </div>
         </div>
@@ -1403,27 +1574,29 @@ footer {
           <div class="tl-panel-grid">
             <div class="tl-case">
               <div class="tl-case-label">Marketplace</div>
-              <div class="tl-case-title">Sage Marketplace</div>
-              <div class="tl-case-desc">Co-defined and launched Sage's first global marketplace. Recruited 50 premium ISVs in Year 1 and built the full GTM model.</div>
+              <div class="tl-case-title">Sage Marketplace — Built 0-to-1</div>
+              <div class="tl-case-desc">There was no marketplace before this. As part of the core team, I defined the commercial model from first principles: partner tiers, certification standards, curation criteria, and the listing experience for ISVs. I personally drove the commercial strategy to recruit <strong>50 premium ISVs in Year 1</strong> — not by opening a form, but by building the partner value proposition, structuring revenue-sharing terms, and running the GTM motion that made Sage a credible platform destination.<br><br>I set the quality bar for what it meant to be a "Sage Certified" partner, defined how apps were featured and surfaced to customers, and onboarded anchor GTM partners including <strong>US Bank, Amex, TomTom, and Kimble Applications</strong>. The marketplace became a live, commercially productive ecosystem — not a catalogue.</div>
               <a class="tl-case-link" href="https://www.sage.com/en-gb/sage-business-cloud/intacct/marketplace/" target="_blank" rel="noopener">🔗 View Sage Marketplace ↗</a>
             </div>
             <div class="tl-case">
               <div class="tl-case-label">Developer Portal</div>
-              <div class="tl-case-title">Sage Developer Portal</div>
-              <div class="tl-case-desc">Sourced, designed, and launched the Sage Developer Portal — including developer onboarding UX, API documentation, sandboxes, and the first Technical Evangelist function.</div>
+              <div class="tl-case-title">Sage Developer Portal — Built 0-to-1</div>
+              <div class="tl-case-desc">Sage had no developer destination before this. I led the end-to-end build: partnering directly with Cloud Elements CEO <strong>Mark Geene</strong> to lay the API infrastructure, then designing the full developer journey — from first API call through certification and go-live.<br><br>That meant defining the onboarding flow, structuring the documentation architecture, creating sandbox environments, and establishing the <strong>pipeline marketing engine</strong> that fed qualified ISV leads into the marketplace. To maintain quality at scale, I created Sage's first <strong>Technical Evangelist</strong> role — an opinionated developer advocate responsible for setting and enforcing the standard for how partners extended the platform.<br><br>The result: a portal developers actually used, a funnel that converted, and a quality bar that made the marketplace trustworthy to enterprise customers.</div>
               <a class="tl-case-link" href="https://developer.sage.com/" target="_blank" rel="noopener">🔗 View Sage Developer Portal ↗</a>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Product</div>
+              <div class="tl-case-label">Product · Platform · Ecosystem</div>
               <div class="tl-case-title">Sage Live (now Sage Intacct)</div>
-              <div class="tl-case-desc">Defined the vision and strategy for Sage Live. Debuted in North America in 3 months, followed by a 7-country rollout the following quarter.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-desc">My role on Sage Live spanned three distinct but connected layers — and I owned all of them.<br><br><strong>As Architect</strong>, I defined the Target State Architecture: the technical foundation that made Sage Live secure, scalable, and compliant across multiple countries and regulatory environments simultaneously. The product launched in North America within 3 months and rolled out across 7 countries in a single quarter — not possible without an architecture built for that velocity from day one.<br><br><strong>As Product Manager</strong>, I set the product strategy, managed the roadmap, and led the Product-Led Growth model that secured Sage's legacy install base without triggering revenue decline during the SaaS transition — one of the hardest problems in enterprise software migration.<br><br><strong>As Platform Business Lead for ISVs</strong>, I owned the commercial layer: defining how third-party developers could extend Sage Live, structuring the partner access model, and acting as the product's Salesforce platform expert and small business advisor to guide ISVs building on the ecosystem. This was the bridge between the product and the marketplace — ensuring what was built in the Developer Portal was commercially viable inside Sage Live.<br><br>Sage Live was built on Salesforce — and the global strategic partnership that underpinned it was validated at the highest level:</div>
+              <blockquote style="margin:12px 0 4px;padding:12px 16px;background:#F6F6F6;border-left:3px solid #ECB22E;border-radius:6px;font-size:12px;line-height:1.6;color:#1D1C1D;">"I'm excited about the opportunity this partnership creates for our customers. Together, Sage and Salesforce are empowering fast growing companies to run their businesses on the world's #1 enterprise cloud platform."<br><span style="display:block;margin-top:6px;font-size:11px;font-weight:700;color:#616061;">— Marc Benioff, Chairman &amp; CEO, Salesforce</span></blockquote>
+              <a class="tl-case-link" href="https://www.sage.com/investors/investor-downloads/press-releases/2015/05/13/sage-and-salesforce-announce-global-strategic-partnership/" target="_blank" rel="noopener">🔗 Press Announcement ↗</a>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">API Strategy</div>
+              <div class="tl-case-label">API Strategy · Integration · Developer Programmes</div>
               <div class="tl-case-title">Cloud Elements Partnership</div>
-              <div class="tl-case-desc">Negotiated a strategic platform partnership with Cloud Elements to build extensible middleware pipelines — laying the bedrock for API monetisation and 3P developer access.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-desc">This wasn't a vendor selection — it was a strategic platform decision that shaped how Sage's entire 3P developer ecosystem was architected.<br><br><strong>Sourcing &amp; Selection</strong>: I evaluated the middleware landscape and identified Cloud Elements as the right integration platform to standardise 3P developer access across Sage's product line. The criteria weren't just technical — I was assessing commercial fit, API governance philosophy, and the ability to throttle, meter, and monetise access at scale.<br><br><strong>The Deal</strong>: I negotiated the partnership directly with Cloud Elements CEO <strong>Mark Geene</strong> — structuring the commercial terms, defining the integration scope across <strong>Sage 50, Sage 100, and Sage X3</strong>, and aligning both organisations on a shared platform roadmap. Announced at Sage Summit in Chicago (July 2016), the partnership delivered two products: <em>Sage Integration Cloud</em> (Sage-to-Sage) and <em>Cloud Elements for Sage</em> (3P ISV access) — across a customer base of 3 million. Mark Geene described the outcome:<br><br><strong>Developer Activation</strong>: Once the platform was in place, I ran a series of <strong>developer hackathons</strong> with Sage engineers across all three product lines — Sage 50, 100, and X3. These weren't internal demos; they were structured integration sprints designed to stress-test the Cloud Elements layer, build reusable connector patterns, and prove out the ISV extension model before opening it to the marketplace.<br><br>The result was a standardised, governed API layer that gave 3P developers a consistent, commercially controlled way to extend Sage products — the same architecture pattern that underpins how modern platforms like Slack manage 3P access today.</div>
+              <blockquote style="margin:12px 0 4px;padding:12px 16px;background:#F6F6F6;border-left:3px solid #2EB67D;border-radius:6px;font-size:12px;line-height:1.6;color:#1D1C1D;">"In conversations with Sage, it became clear that our vision of aggregated API Hubs is the perfect fit to support Sage's strategy to provide a normalized API experience to developers. Cloud Elements is excited to join the Sage Partner Program and provide an integration portal to Sage's ISV base."<br><span style="display:block;margin-top:6px;font-size:11px;font-weight:700;color:#616061;">— Mark Geene, CEO &amp; Co-Founder, Cloud Elements</span></blockquote>
+              <a class="tl-case-link" href="https://www.globenewswire.com/news-release/2016/07/25/990858/0/en/Cloud-Elements-and-Sage-Announce-Strategic-Partnership-to-Accelerate-Partner-API-Integration-Cloud.html" target="_blank" rel="noopener">🔗 Press Announcement ↗</a>
             </div>
           </div>
         </div>
@@ -1446,35 +1619,25 @@ footer {
           </div>
           <div class="tl-panel-grid">
             <div class="tl-case">
-              <div class="tl-case-label">Ecosystem</div>
-              <div class="tl-case-title">EMEA ISV Partner Growth</div>
-              <div class="tl-case-desc">Led recruitment and onboarding for top-performing startups and enterprise partners, increasing average Year 1 partner revenue by 35–40%.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-label">Partner Ecosystem · Strategic Relations · GTM</div>
+              <div class="tl-case-title">EMEA ISV Recruitment &amp; Partner-Driven Growth</div>
+              <div class="tl-case-desc">I recruited, activated, and grew Salesforce's most strategically important EMEA ISV partners — including <strong>EMIS Health, Finastra, Capita, Sage, and Kimble Applications</strong>, amongst others. For each, I wasn't a technical contact on the periphery. I was embedded in their business as the <strong>Inspirer, the Innovator, the Architect</strong> — a <strong>Fractional CPO</strong> helping devise value propositions, build product roadmaps, design user journeys, and create genuine product-market fit on the Salesforce platform.<br><br>The commercial logic I operated on was deliberate: every partner app installed in a customer org drives up spend and drives down attrition. Building deep, high-quality partner relationships wasn't just good for partners — it was Salesforce's most effective retention and expansion mechanism. Over my time in EMEA, the team <strong>consistently delivered double-digit ACV growth year-on-year</strong>, built on the depth and durability of those partnerships — not volume.</div>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Developer Advocacy · Content</div>
-              <div class="tl-case-title">Salesforce+ &amp; Live Events</div>
-              <div class="tl-case-desc">Delivered high-impact keynotes to thousands of in-person attendees and reached millions via Salesforce+. Ongoing developer content continues via the Agentic Platformers channel.</div>
-              <a class="yt-brand-card" href="https://www.youtube.com/channel/UCNCOlw1Givqrx5hq1AyESFg" target="_blank" rel="noopener" style="margin-top:8px;">
-                <img class="yt-brand-logo" src="https://yt3.googleusercontent.com/Z9R5qAO6wy4Eoy0Gidq2lIBeGe3K6krNQDzuao9ZeX1YVpYyvciBeSMe8ym-Exr31PxOFBqZAA=s160-c-k-c0x00ffffff-no-rj" alt="Agentic Platformers">
-                <div class="yt-brand-text">
-                  <div class="yt-brand-name">Agentic Platformers</div>
-                  <div class="yt-brand-sub">YouTube · Developer Advocacy Channel</div>
-                </div>
-                <div class="yt-brand-icon">▶</div>
-              </a>
+              <div class="tl-case-label">Developer Advocacy · Hackathons · Platform Evangelism</div>
+              <div class="tl-case-title">Developer Activation: Hackathons, Reference Apps &amp; Global Stages</div>
+              <div class="tl-case-desc">Technical Evangelist was the title. Developer Evangelist was the job — and I owned it end-to-end, from the conference stage to the partner's engineering floor.<br><br>The hands-on work is what set this apart:<br><br>• <strong>Developer Hackathons</strong> — I ran multi-day build events, setting the challenge, facilitating the sessions, and coding alongside partner engineers to ship working prototypes on the Salesforce platform<br>• <strong>Week-long immersion sessions</strong> — structured deep-dives with partner development teams where we went from architecture to working app, establishing best practices for platform extensibility from the inside out<br>• <strong>Reference app development</strong> — I personally built demonstrable, production-quality applications that closed the gap between API documentation and shippable product, giving developers a concrete standard to build against<br><br>On stage, I delivered keynotes and technical sessions at <strong>Dreamforce, TDX (TrailblazerDX), Salesforce World Tours</strong>, and a continuous programme of webinars across EMEA — reaching <strong>thousands in-person</strong> and <strong>millions via Salesforce+</strong>. Every appearance was built around a concrete developer outcome: a capability launched, a programme announced, a new cohort of developers activated on the platform.</div>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Strategy</div>
-              <div class="tl-case-title">Yocova · Rolls-Royce (R2 Labs)</div>
-              <div class="tl-case-desc">Designed and launched Yocova — a complex digital marketplace and API platform that unlocked and monetised siloed airline engine and travel data.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-label">Marketplace · Platform Strategy · Commercial Negotiations</div>
+              <div class="tl-case-title">Yocova · Rolls-Royce R2 Labs</div>
+              <div class="tl-case-desc">Working with <strong>Rolls-Royce R2 Labs</strong>, I drove the commercial strategy, financial modelling, and executive negotiations to bring Yocova to market: a <strong>digital marketplace and API platform</strong> that unlocked and monetised decades of siloed airline engine and operational data — connecting operators, OEMs, and MRO providers who had never shared data commercially before.<br><br>The challenge was structural as well as technical. Data sat across organisations with different governance models, commercial sensitivities, and integration architectures. I designed the data exchange model, defined the commercial access tiers, set the curation and trust standards for data providers, and built the supply-side and demand-side partner propositions independently — then aligned them into a viable two-sided marketplace.<br><br>Yocova went from concept to live, operating marketplace. Built 0-to-1, in a high-stakes regulated environment, with real commercial negotiations and a real revenue model. That is not a case study — it is the work.</div>
+              <a class="tl-case-link" href="https://www.yocova.com" target="_blank" rel="noopener">🔗 View Yocova ↗</a>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Architecture</div>
-              <div class="tl-case-title">Design Sprints &amp; Business Model Canvas</div>
-              <div class="tl-case-desc">Used Design Sprints and Business Model Canvas to translate Salesforce platform capabilities into innovative partner products driving customer adoption and revenue.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-label">Methodology · Enablement · Cross-Functional Leadership</div>
+              <div class="tl-case-title">The Fractional CPO Framework</div>
+              <div class="tl-case-desc">The most durable thing I built in EMEA wasn't a product — it was a framework that transformed how an entire function operated, without direct authority over a single person in it.<br><br>Salesforce's Technical Evangelists were capable people operating in a reactive mode: answering questions, running demos, handling requests. I saw what they could be if given the right methodology — and I rebuilt the function around it.<br><br>Every TE engagement was restructured around three practices:<br><br>• <strong>Design Sprints</strong> — 5-day structured cycles from problem to tested prototype; partners left with validated product concepts, not slide decks or vague requirements<br>• <strong>Lean Startup</strong> — build-measure-learn loops applied directly to ISV product development, replacing assumption-driven roadmaps with evidence-backed priorities<br>• <strong>Business Model Canvas</strong> — a shared commercial language that forced alignment on value proposition, revenue model, customer segments, and key partnerships before engineering began<br><br>Technical Evangelists became embedded product strategists — <strong>Thought Leaders and Fractional CPOs</strong> inside partner organisations, driving better products, faster go-to-market, and stronger commercial outcomes. The consistent double-digit YoY ACV growth across EMEA reflects what happens when developer activation is treated as a strategic discipline, not a support function.</div>
             </div>
           </div>
         </div>
@@ -1497,35 +1660,33 @@ footer {
           </div>
           <div class="tl-panel-grid">
             <div class="tl-case">
-              <div class="tl-case-label">Commercial Innovation</div>
-              <div class="tl-case-title">PAELA · $100M ACV Pipeline</div>
-              <div class="tl-case-desc">Co-developed the Partner Agentic Enterprise License Agreement from 0-to-1 — a hybrid EDA/OEM/Direct Customer vehicle driving $100M ACV for FY27.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-label">ISV Leadership Team · P&amp;L Co-Ownership · BU Operations</div>
+              <div class="tl-case-title">$960M AOV · ISV Executive Leadership Team</div>
+              <div class="tl-case-desc">I am a member of Salesforce's <strong>ISV Executive Leadership Team</strong> — not an advisor to it, not a contributor from the side. A seat at the table where the ISV business is run. That distinction matters because the ISV business at Salesforce is not a programme or a function; it is a <strong>multi-hundred-million dollar business unit</strong> with its own P&amp;L, headcount, operating cadence, and performance accountability.<br><br>My co-ownership of that business spans the full breadth of what it means to be a BU leader:<br><br>• <strong>NNAOV (Net New ACV on Volume)</strong> — I carry a share of the team's new business target; partner recruitment, activation, and expansion are measured outcomes, not activity metrics<br>• <strong>Attrition</strong> — I am accountable for partner retention across my portfolio; every partner that churns or reduces its Salesforce investment is a number I own<br>• <strong>Budgets</strong> — I manage multi-million dollar partner enablement budgets, allocating investment across programmes, events, and resources to maximise ecosystem return<br>• <strong>Operations</strong> — I operate within Salesforce's quarterly business review cadence: goals, forecasts, pipeline reviews, and headcount planning as a full business unit leader<br>• <strong>Executive Sponsorship</strong> — I serve as Executive Sponsor for Salesforce's largest global ISV partners, engaging directly with CPOs, CTOs, and Chief Revenue Officers to align roadmaps, resolve escalations, and protect and grow the relationships that underpin the $960M AOV the team stewards<br><br>The ISV LT seat means I have operated at GM level inside Salesforce before this role exists. I know what it means to own a business — the numbers, the people, the partners, and the strategy — not just advise on one.</div>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">Developer Advocacy</div>
-              <div class="tl-case-title">AgentExchange · 30%+ Lead Growth</div>
-              <div class="tl-case-desc">Partnered with GTM Marketing to increase AgentExchange developer leads by 30%+ in Year 1 via reference apps, webinars, and developer content published on Agentic Platformers.</div>
+              <div class="tl-case-label">Commercial Innovation · Deal Structuring · 0-to-1</div>
+              <div class="tl-case-title">PAELA · $100M ACV Pipeline</div>
+              <div class="tl-case-desc">PAELA — the <strong>Partner Agentic Enterprise License Agreement</strong> — is a commercial vehicle I co-developed from first principles. Nothing like it existed before at Salesforce.<br><br>The core insight was that the most strategic ISV partners have a dual relationship with Salesforce: they are simultaneously a <strong>customer</strong> (consuming Salesforce licenses and platform capacity to build and run their own products) and a <strong>partner</strong> (reselling Salesforce-embedded applications to their own OEM customers). Every existing commercial structure treated these as separate relationships — separate contracts, separate teams, separate negotiations. PAELA conflates them into a single, unified agreement for the first time.<br><br>A PAELA deal covers:<br><br>• <strong>Direct licenses and consumption</strong> — the ISV's own Salesforce licenses and platform consumption credits for internal use, building and running their product<br>• <strong>OEM customer licenses</strong> — Salesforce licenses bundled alongside the ISV's own app licenses, enabling the ISV to sell a complete Salesforce-powered solution to their end customers<br>• <strong>Consumption credits for OEM customers</strong> — extending platform consumption entitlements through the ISV's customer base, aligning Salesforce's revenue model to actual usage at scale<br><br>Commercially, PAELA aligns to the EDA (Enterprise Distribution Agreement) framework for OEMs — but adds consumption economics for the first time, directly tying Salesforce's revenue to how deeply the ISV's customers use the platform. It is a <strong>One Salesforce deal</strong>: one agreement, one commercial relationship, one aligned incentive structure across what were previously two separate motions.<br><br>With <strong>5 deals in flight targeting $100M ACV in FY27</strong>, PAELA is one of the most consequential commercial structures I have built in my career.</div>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">Developer Advocacy · Funnel Ownership · Ecosystem Growth</div>
+              <div class="tl-case-title">AgentExchange Developer Programme · +30% Leads Year 1</div>
+              <div class="tl-case-desc">This programme didn't exist before I built it. Drawing directly on my Technical Evangelist experience at Sage and Salesforce London, I spearheaded the initiative from scratch — devising the strategy, hiring the team, defining the metrics, and running the full developer funnel from <strong>awareness through acquisition, activation, and retention</strong>.<br><br>I employed a dedicated <strong>Developer Advocate</strong> to execute the content engine — producing videos, podcasts, blogs, and <strong>reference applications</strong> that gave developers something to build against, not just documentation to read. The content isn't generic platform marketing; it demonstrates real-world implementation patterns and best practices for building on Agentforce and the Salesforce ecosystem.<br><br>The programme runs across every major channel and activation surface:<br><br>• <strong>Awareness</strong> — Agentic Platformers YouTube channel, podcast, written content, and developer blogs building a discoverable organic audience<br>• <strong>Acquisition</strong> — stage presence at <strong>Dreamforce, TDX, Salesforce World Tours</strong>, and Salesforce+ reaching thousands in-person and millions on-demand; co-ordinated with Partner Marketing to drive qualified developer pipeline into AgentExchange<br>• <strong>Activation</strong> — reference apps and hands-on workshop content giving developers a fast path from first API call to published, production-quality application<br>• <strong>Retention</strong> — ongoing series content, community engagement, and advanced developer content that keeps practitioners coming back and deepens their platform investment<br><br>One year in, the results are measurable: <strong>AgentExchange developer leads up 30%+</strong>. The Agentic Platformers channel is the content hub behind it:</div>
               <a class="yt-brand-card" href="https://www.youtube.com/channel/UCNCOlw1Givqrx5hq1AyESFg" target="_blank" rel="noopener" style="margin-top:8px;">
                 <img class="yt-brand-logo" src="https://yt3.googleusercontent.com/Z9R5qAO6wy4Eoy0Gidq2lIBeGe3K6krNQDzuao9ZeX1YVpYyvciBeSMe8ym-Exr31PxOFBqZAA=s160-c-k-c0x00ffffff-no-rj" alt="Agentic Platformers">
                 <div class="yt-brand-text">
                   <div class="yt-brand-name">Agentic Platformers</div>
-                  <div class="yt-brand-sub">YouTube · Developer Advocacy Channel</div>
+                  <div class="yt-brand-sub">280 subscribers · 20 videos · 1,000+ views</div>
                 </div>
                 <div class="yt-brand-icon">▶</div>
               </a>
+              <p style="font-size:11px;color:#616061;line-height:1.5;margin-top:10px;">The channel is deliberately in build phase — we've invested in automating <strong>80% of production with AI</strong>, creating a repeatable, scalable content pipeline before pushing for reach. Distribution across additional channels is just beginning; the infrastructure is in place and audience growth is accelerating.</p>
             </div>
             <div class="tl-case">
-              <div class="tl-case-label">AI &amp; Agents</div>
-              <div class="tl-case-title">Agentforce Hackathons</div>
-              <div class="tl-case-desc">Led Salesforce's flagship Agentforce hackathons and created the Partner Innovation Engineer role to optimise agents in production.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
-            </div>
-            <div class="tl-case">
-              <div class="tl-case-label">Team Transformation</div>
-              <div class="tl-case-title">30+ Person Global Org · 100% AI Adoption</div>
-              <div class="tl-case-desc">Transformed a 30+ person global organisation into a Customer-Centric Technology Strategy team — achieving 100% AI workflow adoption across the team.</div>
-              <a class="tl-case-link placeholder" href="#">🔗 Link coming soon</a>
+              <div class="tl-case-label">Team Transformation · Global Leadership · Complex Matrix Org</div>
+              <div class="tl-case-title">27-Person Global Team · AMER, EMEA &amp; ANZ</div>
+              <div class="tl-case-desc">When I took on this team it had around 20 people operating in a well-established but largely transactional mode — technically capable, commercially underutilised. I inherited a function that was respected but not driving the strategic outcomes Salesforce's most important ISV partnerships deserved.<br><br>Over time, I transformed the team's <strong>mindset, skills, practices, and frameworks</strong> — from capable technologists into <strong>high-performing product and technology strategists</strong> generating measurable revenue impact. The team now sits at <strong>27 people across AMER, EMEA, and ANZ</strong>, operating as a globally coordinated, commercially accountable function.<br><br>This wasn't a reorganisation on paper. It was a deliberate cultural and capability shift — carried out inside one of Salesforce's most complex matrix environments, where influence had to be earned across Product, Sales, Marketing, Legal, RevRec, and Compliance simultaneously, without direct authority over most of the people whose co-operation was essential.<br><br>The transformation had four dimensions:<br><br>• <strong>Mindset</strong> — shifting from reactive to proactive; from answering questions to setting the agenda for what partners should build and why<br>• <strong>Skills</strong> — developing commercial acumen, product thinking, and executive communication alongside technical depth; turning specialists into business leaders<br>• <strong>Practices</strong> — introducing the Fractional CPO framework (Design Sprints, Lean Startup, Business Model Canvas) as a shared operating model across the team globally<br>• <strong>Frameworks</strong> — establishing consistent ways of measuring partner health, platform adoption, and revenue contribution — creating accountability where there had been ambiguity<br><br>The result is a team that operates at a level I define as <strong>Customer-Centric Technology Strategy</strong>: every partner engagement is grounded in business outcomes, every technical recommendation is commercially motivated, and every relationship is managed with the rigour of a revenue-generating business unit. <strong>100% AI workflow adoption</strong> across the team is both a capability milestone and a signal of the culture — this is a team that builds and adapts, not one that waits.<br><br>The leadership philosophy behind all of it is simple: <strong>everybody makes the coffee</strong>. As a servant leader, the role of the leader is to unblock challenges and unlock potential — not to direct from above. That belief is validated externally: Salesforce's Global Insights programme, which collects structured feedback from the team, consistently reflects a low-ego, high-ownership culture built on trust, accountability, and shared success.</div>
             </div>
           </div>
         </div>
@@ -1541,24 +1702,336 @@ footer {
     <div class="conclusion-card">
       <div class="conclusion-grid">
         <div class="concl-pillar">
-          <div class="concl-pillar-icon">💻</div>
-          <h4>Technical Credibility</h4>
-          <p>BSc Software Engineering (neural networks). Founder CTO of a 35-person engineering org. Actively hands-on with AI development workflows. Instant credibility with Slack's developer community.</p>
+          <div class="concl-pillar-icon">📈</div>
+          <h4>Own the Business</h4>
+          <p>Already operating at GM level — ISV ELT member co-owning $960M AOV, NNAOV targets, attrition, budgets, and QBR cadence. Co-developed PAELA from first principles, driving $100M ACV. Knows what it means to carry a number and build the commercial infrastructure to hit it.</p>
         </div>
         <div class="concl-pillar">
-          <div class="concl-pillar-icon">🏪</div>
-          <h4>Platform &amp; Marketplace DNA</h4>
-          <p>Built platforms and marketplaces from 0-to-1 at AYO, Sage, and Salesforce. Owns every layer: DX, monetisation, GTM, developer advocacy and ecosystem economics.</p>
+          <div class="concl-pillar-icon">🌐</div>
+          <h4>Lead the Ecosystem</h4>
+          <p>Built partner ecosystems from 0-to-1 three times — Sage, Salesforce London, Salesforce SF. Developer advocacy, hackathons, reference apps, and a global ISV recruitment motion that consistently delivers double-digit ACV growth. The developer funnel, the partner programme, and the C-suite relationships: all owned, all proven.</p>
         </div>
         <div class="concl-pillar">
-          <div class="concl-pillar-icon">🤝</div>
-          <h4>Enterprise Commercial Instinct</h4>
-          <p>Steers $960M AOV. Co-developed PAELA — driving $100M ACV pipeline. UC Berkeley Haas trained in Negotiation &amp; Influence. Closes complex multi-party deals across Legal, RevRec &amp; Compliance.</p>
+          <div class="concl-pillar-icon">🏗️</div>
+          <h4>Build the Platform</h4>
+          <p>BSc Software Engineering. Founded and ran a 35-person engineering org on Azure and AWS. Built marketplaces at Sage and Yocova — supply side, demand side, commercial tiers, and monetisation models — all from scratch. Technical enough to set the standard, experienced enough to run the business around it.</p>
         </div>
       </div>
       <div class="conclusion-close">
-        Kevin Reece is not a single-threaded executive. He has the <strong>technical foundations</strong> to gain instant respect from Slack's developer community, the <strong>operational platform experience</strong> to design frictionless developer tools and marketplaces, and the <strong>enterprise commercial instincts</strong> to turn Slack Platform into a massive revenue engine for Salesforce. Ready to define, build, and own this business unit from day one.
+        The Slack Platform needs a GM who can run a business, grow an ecosystem, and set a technical bar — simultaneously, at Salesforce scale. Kevin Reece has done all three, across every chapter of his career. <strong>This is not a stretch role. It is the role he has been building towards for 20 years.</strong>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RECRUITER ASSESSMENT TOOL ── -->
+<section class="recruiter-section">
+  <div class="recruiter-inner">
+    <div class="recruiter-toggle" onclick="toggleRecruiter(this)">
+      <span class="recruiter-toggle-icon">▶</span>
+      <span>Recruiter Assessment Tool — JD Requirements Mapped to Evidence</span>
+      <span class="recruiter-badge">Confidential</span>
+    </div>
+    <div class="recruiter-body" id="recruiterBody">
+      <p class="recruiter-intro">Every requirement from the GM, Slack Platform job description mapped to a specific evidence point in this document. Confidence scores reflect depth of demonstrated experience.</p>
+      <p class="recruiter-intro" style="margin-top:8px;padding:12px 16px;background:white;border-radius:10px;border:1px solid #E8E6E6;font-style:italic;">ℹ️ <strong style="font-style:normal;">AI-Generated Assessment.</strong> This evaluation was produced by Claude (Anthropic) through an unbiased analysis of the job description, Kevin's resume, and a series of detailed conversations designed to surface additional context about his roles, experience, and outcomes as a leader. It is intended as a structured starting point for recruiter review — not a self-assessment.</p>
+
+      <div class="recruiter-legend">
+        <span class="rc-dot rc-green"></span> High confidence — direct, repeated, proven experience
+        <span class="rc-dot rc-amber" style="margin-left:16px"></span> Medium confidence — strong adjacent experience
+        <span class="rc-dot rc-red" style="margin-left:16px"></span> Lower confidence — limited direct evidence
+      </div>
+
+      <table class="recruiter-table">
+        <thead>
+          <tr>
+            <th>JD Requirement</th>
+            <th>Category</th>
+            <th>Evidence in This Document</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- PLATFORM STRATEGY -->
+          <tr class="rc-section-row"><td colspan="4">Platform Strategy &amp; Business Model</td></tr>
+          <tr>
+            <td>Define and own long-term strategy for Slack Platform as a revenue-generating business unit</td>
+            <td>Strategy</td>
+            <td>ISV ELT member co-owning $960M AOV business unit at Salesforce; defined platform strategy at Sage (first marketplace) and AYO (product-to-platform pivot)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Develop monetisation models — revenue sharing, premium listings, platform tiers, certification programs</td>
+            <td>Monetisation</td>
+            <td>Defined revenue sharing, usage-based billing and tiered API access at Sage; PAELA adds consumption-based economics; Yocova commercial access tiers designed from scratch</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Set the vision for Slack app marketplace in the next 3 years</td>
+            <td>Strategy</td>
+            <td>Built Sage marketplace 0-to-1 (50 ISVs Year 1); Yocova marketplace from first principles; AgentExchange ecosystem strategy currently in flight</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Partner with Salesforce ecosystem teams for cross-platform leverage and joint GTM</td>
+            <td>GTM</td>
+            <td>Already embedded in Salesforce ISV ELT; works across Product, Sales, Marketing, Legal, RevRec daily; Partner Demo Kits with Solution Engineering</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- PARTNER ECOSYSTEM -->
+          <tr class="rc-section-row"><td colspan="4">Partner Ecosystem</td></tr>
+          <tr>
+            <td>Build and manage strategic relationships with companies building on Slack</td>
+            <td>Partnerships</td>
+            <td>Executive Sponsor to CPOs, CTOs and CROs of Salesforce's largest global ISVs; EMEA partners include EMIS Health, Finastra, Capita, Sage, Kimble; C-suite engagement across 20+ year career</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Develop and nourish partner advisors to guide platform and product strategy</td>
+            <td>Partnerships</td>
+            <td>Established Customer Advisory Boards at Sage across global regions; partner advisory engagement built into EMEA ISV recruitment framework</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Define and operate partner programs including joint GTM, affiliates, revenue sharing</td>
+            <td>Partnerships</td>
+            <td>Designed Sage partner programme (50 ISVs, certification, curation standards); Salesforce EMEA partner activation framework; AgentExchange developer programme</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Lead commercial negotiations for anchor partnerships and co-sell arrangements</td>
+            <td>Commercial</td>
+            <td>Negotiated Cloud Elements partnership (CEO-to-CEO level); PAELA deal structuring across Legal, RevRec, Compliance; Yocova executive commercial negotiations with Rolls-Royce R2 Labs</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- DEVELOPER EXPERIENCE -->
+          <tr class="rc-section-row"><td colspan="4">Developer Experience &amp; Ecosystem Growth</td></tr>
+          <tr>
+            <td>Own the developer funnel — awareness, acquisition, activation, retention</td>
+            <td>Developer</td>
+            <td>Built Sage Developer Portal (all four funnel stages from scratch); AgentExchange Developer Programme (strategy, hire, metrics, +30% leads Year 1); Agentic Platformers content engine</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Lead Platform product team to ensure developer tools, APIs, and docs support ecosystem growth</td>
+            <td>Developer</td>
+            <td>Defined Sage API strategy (Cloud Elements, throttling, metering); reference app development; hackathons with partner engineering teams at Sage and Salesforce</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Define and track ecosystem health metrics: active apps, 3P DAU/MAU, partner-attributed revenue, marketplace GMV</td>
+            <td>Analytics</td>
+            <td>Tracks Monthly Active Users, App Installs, Licenses Activated, and — with Salesforce's Transactable Marketplace just launched — Transaction Fees directly. At Sage via Cloud Elements, measured API Calls and Data Throughput across the 3P developer layer. Owns NNAOV and attrition on ISV ELT. Covers the full spectrum of ecosystem health metrics the JD describes.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Ensure every company's AI strategy works because it works in Slack — growing 1P useful apps</td>
+            <td>Product</td>
+            <td>This is the Fractional CPO role applied to 1P rather than 3P. For 8+ years Kevin has identified product gaps and underserved customer needs, created strategies to fill them, and executed through partner apps. The same frameworks — Design Sprints, Business Model Canvas, Lean Startup — apply directly to developing Slack's 1P app roadmap. The methodology is proven; the object changes from partner apps to first-party surface.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- GTM -->
+          <tr class="rc-section-row"><td colspan="4">Go-to-Market</td></tr>
+          <tr>
+            <td>Build the GTM motion for platform — co-sell, partner discovery of 3P apps</td>
+            <td>GTM</td>
+            <td>Partner Demo Kits with Solution Engineering; GTM alliances with US Bank, Amex, TomTom; Sage marketplace GTM model built from scratch; EMEA double-digit YoY ACV growth</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Develop Slack app marketplace strategy: curation, featuring, discovery, conversion</td>
+            <td>Marketplace</td>
+            <td>Defined curation standards, ISV certification, and featuring model for Sage marketplace; Yocova supply/demand-side proposition and trust standards; AgentExchange ecosystem strategy</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Work with Sales and Customer Success to drive platform adoption in Slack's largest accounts</td>
+            <td>GTM</td>
+            <td>Cross-functional execution across Salesforce Sales, SE, and CS on PAELA deals; Partner Demo Kits designed specifically for SE-led enterprise sales cycles</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Represent Slack Platform externally at developer conferences, partner summits, customer events</td>
+            <td>Evangelism</td>
+            <td>Speaker at Dreamforce, TDX, Salesforce World Tours, Salesforce+; EMEA webinars and partner summits; reached millions on-demand via Salesforce+</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- TEAM & OPS -->
+          <tr class="rc-section-row"><td colspan="4">Team &amp; Operations</td></tr>
+          <tr>
+            <td>Build and lead a cross-functional team spanning BD, partner success, devrel, platform ops</td>
+            <td>Leadership</td>
+            <td>Leads 27-person global team (AMER, EMEA, ANZ); transformed function from 20 people in transactional mode to high-performing revenue-generating strategists; operated across complex Salesforce matrix</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Define and own the P&amp;L or contribution metrics for the Platform business</td>
+            <td>Operations</td>
+            <td>ISV ELT P&amp;L co-owner (NNAOV, attrition, budgets); AYO Digital full P&amp;L owner (35-person org, 80% of corporate revenue); multi-million dollar partner enablement budget stewardship</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Operate with rigor of a BU leader: goals, budgets, headcount, QBRs</td>
+            <td>Operations</td>
+            <td>ISV ELT QBR cadence; headcount planning across AMER, EMEA, ANZ; T&amp;E and enablement budget allocation; AYO Digital — ran full business unit operations for 6 years</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- PRODUCT AREAS -->
+          <tr class="rc-section-row"><td colspan="4">Product Areas of Responsibility</td></tr>
+          <tr>
+            <td>Platform APIs &amp; Developer Tooling — strategic direction for Slack's APIs</td>
+            <td>Product</td>
+            <td>Defined Sage API monetisation strategy (throttling, metering, Cloud Elements); AYO platform architecture on C#/Azure/AWS; API governance philosophy applied at every career stage</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Slack Automations &amp; Workflow Builder — partner-extensible automation</td>
+            <td>Product</td>
+            <td>Salesforce Flows are the direct platform equivalent — the automation layer ISVs build on and extend. For 8+ years Kevin has helped ISVs translate JTBD and user journey strategy into Flows (and now Agents), defining best practices for what to automate and how. This was a core part of the Technical Evangelist role in London and early SF, with dedicated sessions at Dreamforce, TDX, and webinars. Cloud Elements at Sage defined how ISVs extend an automation layer at the infrastructure level. Both axes covered.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>App and Agent Framework — 3P apps and AI agents built, distributed, monetised on Slack</td>
+            <td>Product</td>
+            <td>Agentforce hackathons; Partner Innovation Engineer role (agents in production); PAELA consumption economics tied to agent usage; AgentExchange ecosystem strategy</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>In-Slack App &amp; Agent Experience — end-user UX of apps and agents</td>
+            <td>Product</td>
+            <td>Deep, active ownership of design quality: every partner engagement includes storyboarding and UX design as a standard practice — no successful product ships without it. At TDX, led the workstream for a live keynote reference ISV prototype, blending UX and Conversation Experience Design for a Salesforce stage demo. Strong design philosophy: frictionless, emotionally resonant experiences that create customer success. Sets and enforces the quality bar across the entire partner portfolio.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Developer Platform Experience — docs.slack.dev, sandbox, onboarding, first API call to published app</td>
+            <td>Developer</td>
+            <td>Built Sage Developer Portal 0-to-1 (onboarding UX, API docs, sandboxes, pipeline marketing); reference app development at Sage and Salesforce; full developer journey ownership</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Slack App Marketplace — health, discoverability, curation, conversion</td>
+            <td>Marketplace</td>
+            <td>Built Sage marketplace from scratch (curation standards, ISV certification, 50 partners Year 1); Yocova marketplace (trust standards, access tiers, supply/demand proposition)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Partner Integrations Layer — certified integrations with Salesforce, Google, Microsoft, ServiceNow, Atlassian</td>
+            <td>Partnerships</td>
+            <td>Salesforce Partner business includes direct hyperscaler management — Kevin has worked on deals with Google at this level. At Sage, he defined the certification framework and co-investment model from zero: sourced Cloud Elements as the strategic integration infrastructure partner, set the API governance standards (throttling, metering, usage-based billing), and established the quality bar for how all ISVs extended the platform. Direct structural precedent for exactly what this requirement describes.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Platform Monetisation Infrastructure — pricing, billing, entitlement systems</td>
+            <td>Monetisation</td>
+            <td>Designed usage-based billing, metering, throttling at Sage; PAELA consumption credit architecture; Yocova commercial access tier design; AYO platform billing infrastructure</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- WHO YOU ARE -->
+          <tr class="rc-section-row"><td colspan="4">Who You Are — Required Experience</td></tr>
+          <tr>
+            <td>10+ years in product, BD, partnerships, or GM roles with platform and GTM mix</td>
+            <td>Experience</td>
+            <td>20 years across CTO (AYO), PM/Architect (Sage), Principal TE (Salesforce London), Sr. Director Partner Solutions (Salesforce SF) — every role combines platform and GTM</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Proven track record building or scaling a developer/partner ecosystem at B2B SaaS</td>
+            <td>Experience</td>
+            <td>Sage marketplace (50 ISVs Year 1); Salesforce EMEA (double-digit YoY ACV growth); AgentExchange Developer Programme (+30% leads Year 1)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Experience owning a P&amp;L or running a business with clear revenue accountability</td>
+            <td>Experience</td>
+            <td>AYO Digital P&amp;L (80% corporate revenue, 6 years); ISV ELT P&amp;L co-ownership ($960M AOV, NNAOV, attrition targets)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Deep understanding of API/platform economics and win-win partner programs</td>
+            <td>Experience</td>
+            <td>API monetisation at Sage (throttling, metering, Cloud Elements); PAELA consumption economics; AYO platform architecture; 20-year platform-first career</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Strong commercial instincts — structure deals, negotiate partnerships, drive revenue</td>
+            <td>Experience</td>
+            <td>PAELA deal architecture ($100M ACV); Cloud Elements negotiation; Yocova executive negotiations; UC Berkeley Negotiation &amp; Influence certificate; EMEA double-digit growth</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Lead cross-functional teams and influence without direct authority</td>
+            <td>Leadership</td>
+            <td>27-person global team transformation; Fractional CPO framework deployed across EMEA TE function; PAELA cross-functional execution (Legal, RevRec, Compliance, Deal Desk, Product)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- PREFERRED -->
+          <tr class="rc-section-row"><td colspan="4">Who You Are — Preferred Experience</td></tr>
+          <tr>
+            <td>Experience at a marketplace, developer platform, or app store business</td>
+            <td>Preferred</td>
+            <td>Sage marketplace (built 0-to-1); Yocova (two-sided API marketplace); Sage Developer Portal; AgentExchange ecosystem — multiple marketplaces built across career</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Background in enterprise software GTM (field sales, solution engineering, alliances)</td>
+            <td>Preferred</td>
+            <td>Partner Demo Kits with Solution Engineering; PAELA deal execution with Sales; EMEA ISV alliances; Executive Sponsor to Salesforce's largest global ISV partners</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Familiarity with Salesforce ecosystem and how Slack fits within it</td>
+            <td>Preferred</td>
+            <td>Already on Salesforce ISV ELT; built Sage Live on Salesforce platform; 7 years at Salesforce across London and SF — unparalleled insider advantage</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Experience taking a platform from nascent to scaled commercial business</td>
+            <td>Preferred</td>
+            <td>AYO Digital (product → platform, 80% revenue); Sage marketplace (0 → 50 ISVs Year 1); Yocova (0 → live operating marketplace); AgentExchange (0 → +30% leads Year 1)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- LEADERSHIP PROFILE -->
+          <tr class="rc-section-row"><td colspan="4">Leadership Profile</td></tr>
+          <tr>
+            <td>Builder mentality — excited by greenfield, not just optimising what exists</td>
+            <td>Leadership</td>
+            <td>AYO Digital (co-founded from scratch); Sage marketplace (no marketplace existed before); PAELA (no commercial vehicle like it existed before); AgentExchange programme (built from zero)</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Equally comfortable in a boardroom pitch and a developer hackathon</td>
+            <td>Leadership</td>
+            <td>Executive Sponsor to C-suites of global ISVs; simultaneously runs developer hackathons, reference app development, and hands-on coding sessions</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Data-driven with a bias for action; doesn't wait for perfect information</td>
+            <td>Leadership</td>
+            <td>Operates inside a company that pivots quarter-by-quarter to stay laser-focused on outcomes. Kevin both dreams up strategies and takes personal leadership on execution — creating the Partner Innovation Engineer (PIE) role when agents in production became the signal, and redistributing the PAM team toward consumption revenue when the commercial model shifted. Dreams, decides, delegates, and coaches — without waiting for perfect information.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Low ego, high ownership — leads from the front and gets into the details</td>
+            <td>Leadership</td>
+            <td>Servant leader by philosophy and practice — "our job as leaders is to unblock their challenges and unlock their potential." Everybody makes the coffee. Validated by Salesforce Global Insights (structured 360 feedback from the team). Personally built reference apps; ran hackathons hands-on; co-developed PAELA deal structures; automated 80% of content production with AI alongside the team.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Excellent communicator and storyteller — can sell the vision internally and externally</td>
+            <td>Leadership</td>
+            <td>Speaker at Dreamforce, TDX, World Tours, Salesforce+ (millions reached); this infographic; 20-year track record of C-suite and developer audience engagement simultaneously</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -1592,7 +2065,7 @@ const STATS = {
     color: '#ECB22E',
     value: '50 ISVs',
     title: 'Built Sage\'s First Global Marketplace from Scratch',
-    evidence: `As part of the elite core team that defined Sage's first-ever marketplace and ecosystem, Kevin drove the commercial strategy to <strong>recruit 50 active ISVs in the first year</strong>.<br><br>He defined the payment &amp; billing engines, negotiated a strategic platform partnership with Cloud Elements (partnering directly with CEO Mark Greene), and created Sage's first Technical Evangelist developer advocacy function. He also established Customer Advisory Boards across global regions, translating user needs into a prioritised roadmap.<br><br>Across his career, Kevin has consistently delivered <strong>double-digit revenue growth year-on-year</strong> by identifying high-value market opportunities, building the commercial infrastructure to capture them, and executing with the rigour of a platform P&amp;L owner.`,
+    evidence: `As part of the elite core team that defined Sage's first-ever marketplace and ecosystem, Kevin drove the commercial strategy to <strong>recruit 50 active ISVs in the first year</strong>.<br><br>He defined the payment &amp; billing engines, negotiated a strategic platform partnership with Cloud Elements (partnering directly with CEO Mark Geene), and created Sage's first Technical Evangelist developer advocacy function. He also established Customer Advisory Boards across global regions, translating user needs into a prioritised roadmap.<br><br>Across his career, Kevin has consistently delivered <strong>double-digit revenue growth year-on-year</strong> by identifying high-value market opportunities, building the commercial infrastructure to capture them, and executing with the rigour of a platform P&amp;L owner.`,
     source: '📌 Business Case + Resume · Sage Group · Architect, PM & Ecosystem Leader (2014–2017)'
   },
   years: {
@@ -1605,17 +2078,28 @@ const STATS = {
     source: '📌 Resume · University of Teesside → AYO Digital → Sage → Salesforce'
   },
   award: {
-    icon: '🏆',
-    iconBg: '#fff1f5',
-    color: '#E01E5A',
-    value: 'Innovator Award',
-    title: 'Salesforce Innovator Award · 2023',
-    evidence: `<em>"An innovator is an architect of the future who bridges the gap between radical curiosity and market reality to transform friction into value."</em><br><br>Recognised for spearheading internal AI skills development and achieving <strong>100% AI workflow adoption</strong> across a 30+ person global team — embedding a "show, don't tell" engineering culture that moved the organisation from passive consumers to active AI builders.<br><br>Additional recognition drivers include: inventing the PAELA commercial framework, increasing <strong>AgentExchange developer leads by 30%+ in Year 1</strong>, leading Salesforce's flagship Agentforce hackathons, and creating the Partner Innovation Engineer role to drive agent adoption in production.`,
-    source: '📌 Awards · Salesforce 2023 · Resume'
+    icon: '📈',
+    iconBg: '#d4f5e7',
+    color: '#2EB67D',
+    value: '+30%',
+    title: 'Developer Advocacy · AgentExchange Lead Growth · Year 1',
+    evidence: `Kevin's developer advocacy playbook traces directly to <strong>Sage Group</strong>, where he created the company's first Technical Evangelist function — using it to recruit <strong>50 premium ISVs in Year 1</strong> and set the quality bar for how partners extended the platform.<br><br>He brought that same model to Salesforce, partnering with GTM Marketing to execute a four-pillar programme across <strong>AgentExchange</strong>:<br><br>• <strong>Reference Apps</strong> — production-quality samples demonstrating best-practice agent patterns<br>• <strong>Agentic Platformers</strong> — developer content channel with architecture guides and walkthroughs<br>• <strong>Agentforce Hackathons</strong> — high-intensity events converting developers into active platform builders<br>• <strong>Partner Innovation Engineer</strong> — a new role Kevin created to optimise agents in production and drive retention<br><br>Result: <strong>AgentExchange developer leads up 30%+ in Year 1.</strong>`,
+    source: '📌 Recruiter Framing Guide · Salesforce SF (2021–Present) · Sage Group (2014–17)'
   }
 };
 
+const STAT_ORDER = ['years', 'paela', 'aov', 'isv', 'award'];
+let currentStatIndex = 0;
+
 function openModal(key) {
+  currentStatIndex = STAT_ORDER.indexOf(key);
+  renderModal();
+  document.getElementById('statModal').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderModal() {
+  const key = STAT_ORDER[currentStatIndex];
   const d = STATS[key];
   document.getElementById('modalAccent').style.background = d.color;
   document.getElementById('modalIcon').textContent = d.icon;
@@ -1624,9 +2108,30 @@ function openModal(key) {
   document.getElementById('modalValue').style.color = d.color;
   document.getElementById('modalTitle').textContent = d.title;
   document.getElementById('modalEvidence').innerHTML = d.evidence;
-  document.getElementById('modalSource').textContent = d.source;
-  document.getElementById('statModal').classList.add('visible');
-  document.body.style.overflow = 'hidden';
+
+  const prev = currentStatIndex > 0 ? STATS[STAT_ORDER[currentStatIndex - 1]] : null;
+  const next = currentStatIndex < STAT_ORDER.length - 1 ? STATS[STAT_ORDER[currentStatIndex + 1]] : null;
+
+  const prevBtn = document.getElementById('modalNavPrev');
+  const nextBtn = document.getElementById('modalNavNext');
+  document.getElementById('modalNavPrevLabel').textContent = prev ? prev.value : '';
+  document.getElementById('modalNavNextLabel').textContent = next ? next.value : '';
+  prevBtn.disabled = !prev;
+  nextBtn.disabled = !next;
+
+  // dots
+  const dotsEl = document.getElementById('modalNavDots');
+  dotsEl.innerHTML = STAT_ORDER.map((_, i) =>
+    `<div class="modal-nav-dot${i === currentStatIndex ? ' active' : ''}" style="${i === currentStatIndex ? 'background:' + d.color : ''}"></div>`
+  ).join('');
+}
+
+function navigateStat(dir) {
+  const next = currentStatIndex + dir;
+  if (next >= 0 && next < STAT_ORDER.length) {
+    currentStatIndex = next;
+    renderModal();
+  }
 }
 
 function closeModal() {
@@ -1640,6 +2145,8 @@ function closeModalOnBackdrop(e) {
 
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); closeRadar(); }
+  if (e.key === 'ArrowLeft' && document.getElementById('statModal').classList.contains('visible')) navigateStat(-1);
+  if (e.key === 'ArrowRight' && document.getElementById('statModal').classList.contains('visible')) navigateStat(1);
 });
 
 function toggleTlPanel(key, node) {
@@ -1678,18 +2185,18 @@ function toggleChapter(el) {
       title: 'Chapter 1 · AYO Digital — Fit Snapshot',
       color: 'rgba(54,197,240,1)',
       labels: ['P&L Ownership', 'Team & Ops', 'Platform APIs', 'Builder Mentality'],
-      data: [95, 95, 94, 98]
+      data: [95, 95, 94, 99]
     },
     2: {
       title: 'Chapter 2 · Sage Group — Fit Snapshot',
       color: 'rgba(46,182,125,1)',
       labels: ['Developer Experience', 'Automations', 'In-Slack UX', 'Marketplace', 'Monetisation'],
-      data: [95, 95, 92, 96, 93]
+      data: [96, 95, 92, 96, 93]
     },
     3: {
       title: 'Chapter 3 · Salesforce — Fit Snapshot',
       color: 'rgba(74,21,75,1)',
-      labels: ['Partner Ecosystem', 'Commercial Deals', 'Agent Framework', 'GTM Selling', 'Partner Integrations', 'Salesforce Synergy'],
+      labels: ['Partner Ecosystem', ['Commercial', 'Deals'], ['Agent', 'Framework'], ['GTM', 'Selling'], ['Partner', 'Integrations'], ['SF × Slack', 'Leverage']],
       data: [99, 98, 98, 95, 97, 99]
     }
   };
@@ -1722,7 +2229,7 @@ function toggleChapter(el) {
             min: 85, max: 100,
             ticks: { display: false, stepSize: 5 },
             grid: { color: '#F1F0F0' },
-            pointLabels: { font: { family: 'Inter, sans-serif', size: 12 }, color: '#616061' },
+            pointLabels: { font: { family: 'Inter, sans-serif', size: 11 }, color: '#616061', padding: 16 },
             angleLines: { color: '#F1F0F0' }
           }
         },
@@ -1747,6 +2254,75 @@ function toggleChapter(el) {
   window.closeRadarOnBackdrop = function(e) {
     if (e.target === document.getElementById('radarModal')) closeRadar();
   };
+})();
+</script>
+
+<div id="jd-tooltip"></div>
+<script>
+(function() {
+  const tip = document.getElementById('jd-tooltip');
+  let hideTimer;
+
+  document.addEventListener('mouseover', function(e) {
+    const el = e.target.closest('[data-jd]');
+    if (!el) return;
+    clearTimeout(hideTimer);
+    tip.textContent = el.dataset.jd;
+    tip.classList.add('visible');
+    positionTip(e);
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!tip.classList.contains('visible')) return;
+    if (!e.target.closest('[data-jd]')) return;
+    positionTip(e);
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    if (!e.target.closest('[data-jd]')) return;
+    hideTimer = setTimeout(() => tip.classList.remove('visible'), 100);
+  });
+
+  function positionTip(e) {
+    const pad = 12;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = e.clientX + pad, y = e.clientY - th - pad;
+    if (x + tw > window.innerWidth - 8) x = e.clientX - tw - pad;
+    if (y < 8) y = e.clientY + pad;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  }
+})();
+</script>
+
+<script>
+function toggleRecruiter(el) {
+  el.classList.toggle('open');
+  const body = document.getElementById('recruiterBody');
+  body.classList.toggle('open');
+}
+
+(function() {
+  const pcts = [
+    92,96,94,99,   // Platform Strategy
+    99,91,95,98,   // Partner Ecosystem (strategic relations → 99, commercial → 98)
+    96,88,93,93,   // Developer Experience (health metrics → 93, 1P apps → 93)
+    95,96,88,99,   // GTM (motion → 95, marketplace → 96)
+    93,95,95,       // Team & Ops
+    94,95,98,92,94,96,97,93, // Product Areas (APIs → 94, automations → 95, agent framework → 98, marketplace → 96, integrations → 97, monetisation → 93)
+    99,99,97,97,97,96, // Required Experience
+    99,94,99,99,   // Preferred Experience
+    99,98,92,97,99  // Leadership Profile (data-driven → 92)
+  ];
+  const scores = document.querySelectorAll('#recruiterBody .rc-score');
+  scores.forEach(function(el, i) {
+    if (pcts[i] !== undefined) {
+      const pct = document.createElement('span');
+      pct.className = 'rc-pct';
+      pct.textContent = pcts[i] + '%';
+      el.appendChild(pct);
+    }
+  });
 })();
 </script>
 
