@@ -639,7 +639,7 @@ body {
 
 .ch-number {
   font-size: 72px; font-weight: 900; line-height: 1;
-  letter-spacing: -4px; opacity: 0.07;
+  letter-spacing: -4px; opacity: 0.15;
   position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
   pointer-events: none;
 }
@@ -738,6 +738,9 @@ body {
   display: flex; align-items: flex-start; gap: 10px; color: #333;
 }
 
+.stat-trigger { display:inline-flex; align-items:center; gap:3px; margin-left:6px; font-size:10px; font-weight:600; color:var(--muted); border:1px solid #ddd; border-radius:10px; padding:1px 7px; cursor:pointer; vertical-align:middle; white-space:nowrap; transition:background 0.15s, color 0.15s; }
+.stat-trigger:hover { background:var(--faint); color:var(--ink); }
+
 .bullet { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
 .ch-1 .bullet { background: var(--blue); }
 .ch-2 .bullet { background: var(--green); }
@@ -769,7 +772,7 @@ body {
 
 .mi-score .mi-pct { font-size: 8px; font-weight: 600; opacity: 0.7; margin-top: 1px; }
 
-.score-99,.score-98,.score-97,.score-96,.score-95,.score-94,.score-93,.score-92,.score-91,.score-90,.score-89,.score-88,.score-87,.score-86,.score-85 { background:#E8FBF4; color:#1B7A55; }
+.score-99,.score-98,.score-97,.score-96,.score-95,.score-94,.score-93,.score-92,.score-91,.score-90,.score-89,.score-88,.score-87,.score-86,.score-85 { background:#C8F0E0; color:#145C3F; }
 
 .mi-text { flex: 1; }
 .mi-req  { font-size: 13px; font-weight: 700; margin-bottom: 3px; cursor: default; border-bottom: 1px dashed rgba(97,96,97,0.35); display: inline-block; }
@@ -1235,14 +1238,14 @@ footer {
   <div class="chapters-inner">
 
     <div class="section-eyebrow" style="text-align:center">Three-Chapter Executive Profile</div>
-    <div class="section-title" style="text-align:center;margin-bottom:40px">Three-Chapter Fit Assessment</div>
+    <div class="section-title" style="text-align:center;margin-bottom:40px">The Career That Built the GM</div>
 
     <!-- CHAPTER 1 -->
     <div class="chapter ch-1" onclick="toggleChapter(this)">
       <div class="ch-header">
         <div class="ch-icon">🔧</div>
         <div class="ch-meta">
-          <div class="ch-label">Chapter 1 · AYO Digital</div>
+          <div class="ch-label">Chapter 1 · Think Limited &amp; AYO Digital</div>
           <div class="ch-title">Software Engineer, CTO &amp; Founder</div>
           <div class="ch-sub">Technical Execution &amp; Commercial P&amp;L Ownership</div>
           <div class="ch-tags">
@@ -1264,10 +1267,9 @@ footer {
           <div class="ch-narrative">
             <h4>Storyline</h4>
             <ul>
-              <li><div class="bullet"></div><span>BSc Software Engineering — specialisation in <strong>neural networks &amp; distributed systems</strong> (University of Teesside, 2002–06)</span></li>
-              <li><div class="bullet"></div><span>Co-founded AYO Digital; led a <strong>35-person cross-functional org</strong> spanning Engineering, UX, QA, DevOps &amp; Customer Success</span></li>
-              <li><div class="bullet"></div><span>Platform division drove <strong>80% of total corporate revenue</strong> — serving TK Maxx, Gentoo Group, Baltic Archives &amp; more</span></li>
-              <li><div class="bullet"></div><span>Owned full P&amp;L: capital allocation, headcount, pre-sales engineering, product management &amp; CSG</span></li>
+<li><div class="bullet"></div><span>Made the strategic call to pivot AYO Digital from bespoke software to a <strong>modular multi-tenant SaaS platform</strong> — that decision went on to drive <strong>80% of total corporate revenue</strong></span></li>
+              <li><div class="bullet"></div><span>Co-founded; scaled to a <strong>35-person cross-functional org</strong> spanning Engineering, UX, QA, DevOps &amp; Customer Success; owned full P&amp;L from day one</span></li>
+              <li><div class="bullet"></div><span>Delivered enterprise-grade platforms for <strong>TK Maxx</strong> (ecommerce), <strong>Gentoo Group</strong> (social housing tenancy lifecycle) &amp; <strong>New College Durham</strong> (digital campus) — complex, high-stakes software at pace</span></li>
               <li><div class="bullet"></div><span>Actively hands-on today — <strong>Claude Code &amp; Cursor</strong> AI development workflows; 100% AI adoption across current team</span></li>
             </ul>
           </div>
@@ -1335,12 +1337,12 @@ footer {
           <div class="ch-narrative">
             <h4>Storyline</h4>
             <ul>
-              <li><div class="bullet"></div><span>Led Sage's <strong>Target State Architecture</strong> — embedding scalability, security &amp; global compliance for multi-country SaaS rollout (7 countries in one quarter)</span></li>
-              <li><div class="bullet"></div><span>Core team that defined Sage's <strong>first-ever global marketplace</strong>; recruited <strong>50 premium ISVs in Year 1</strong></span></li>
-              <li><div class="bullet"></div><span>Defined API monetisation strategy: <strong>throttling, metering &amp; usage-based billing</strong>; negotiated Cloud Elements partnership</span></li>
-              <li><div class="bullet"></div><span>Established <strong>Customer Advisory Boards</strong> across global regions — translating user needs into a prioritised roadmap</span></li>
-              <li><div class="bullet"></div><span>Built an <strong>opinionated, highly structured developer blueprint</strong> — establishing pipeline marketing and Sage's first Technical Evangelist function to maintain a curated quality bar for how partners extended the platform.</span></li>
-              <li><div class="bullet"></div><span>Spearheaded Rolls-Royce <strong>Yocova</strong> — a complex API marketplace that unlocked and monetised siloed airline engine data</span></li>
+              <li><div class="bullet"></div><span>Built Sage's <strong>first-ever global marketplace from 0-to-1</strong> — designed the commercial model from scratch: partner tiers, certification standards, curation criteria; recruited <strong>50 premium ISVs in Year 1</strong><span class="stat-trigger" onclick="event.stopPropagation();openModal('isv')">↗ 50 ISVs</span></span></li>
+              <li><div class="bullet"></div><span>Built Sage's <strong>first developer portal</strong> — full developer journey from onboarding to pipeline marketing; created Sage's first Technical Evangelist role and set the standard for how partners extended the platform</span></li>
+              <li><div class="bullet"></div><span>Defined <strong>API monetisation strategy</strong>: throttling, metering &amp; usage-based billing; negotiated Cloud Elements partnership directly with the CEO</span></li>
+              <li><div class="bullet"></div><span>Recognised <strong>Fairsail</strong> as the strategic missing piece — Payments, People, Payroll; identified the acquisition thesis that became <strong>Sage People</strong></span></li>
+              <li><div class="bullet"></div><span>Delivered Sage Live: <strong>North America launch in 3 months</strong>, then <strong>7-country rollout in one quarter</strong> — Target State Architecture enabling secure, scalable, multi-country compliance</span></li>
+              <li><div class="bullet"></div><span>Spearheaded Rolls-Royce <strong>Yocova</strong> — a complex API marketplace that unlocked and monetised decades of siloed airline engine data; drove commercial strategy, financial modelling &amp; executive negotiations</span></li>
             </ul>
           </div>
           <div class="ch-matrix">
@@ -1414,12 +1416,12 @@ footer {
           <div class="ch-narrative">
             <h4>Storyline</h4>
             <ul>
-              <li><div class="bullet"></div><span>Transformed a <strong>30+ person global organisation</strong> into a Customer-Centric Technology Strategy team; ISV Leadership Team member overseeing <strong>$960M AOV / $230M ACV</strong></span></li>
-              <li><div class="bullet"></div><span>Co-developed <strong>PAELA</strong> from 0-to-1 — a hybrid EDA/OEM/Direct Customer license vehicle driving <strong>$100M ACV in FY27</strong></span></li>
-              <li><div class="bullet"></div><span>Increased AgentExchange developer leads <strong>30%+ in Year 1</strong>; leads flagship Salesforce Agentforce hackathons — developer content published via <a class="yt-inline-link" href="https://www.youtube.com/channel/UCNCOlw1Givqrx5hq1AyESFg" target="_blank" rel="noopener"><img src="https://yt3.googleusercontent.com/Z9R5qAO6wy4Eoy0Gidq2lIBeGe3K6krNQDzuao9ZeX1YVpYyvciBeSMe8ym-Exr31PxOFBqZAA=s160-c-k-c0x00ffffff-no-rj" alt="Agentic Platformers"> Agentic Platformers ↗</a></span></li>
-              <li><div class="bullet"></div><span>Created <strong>Partner Innovation Engineer</strong> role — optimising agents in production, driving consumption &amp; retention</span></li>
-              <li><div class="bullet"></div><span>Executive Sponsor for Salesforce's <strong>largest global ISV partners</strong> — works directly with their C-suites to realign roadmaps</span></li>
-              <li><div class="bullet"></div><span style="display:flex;align-items:flex-start;gap:8px;"><svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;flex-shrink:0;margin-top:1px;"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg><span><strong>UC Berkeley Haas School of Business, Executive Education</strong> — <a class="cert-link" href="https://execedcertificates.berkeley.edu/4b52155f-566d-4ccd-8629-6cdb6b33f48d?record_view=true#gs.2hegro" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>Berkeley Changemaker</a>, <a class="cert-link" href="https://execedcertificates.berkeley.edu/d0eada80-13e1-4155-a04e-f457e8769b24" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>High-Impact Leadership</a>, and <a class="cert-link" href="https://execedcertificates.berkeley.edu/2600306c-6f5b-4e66-a65b-2ad2e6499f90" target="_blank" rel="noopener"><svg class="cert-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1L2 3.5v5C2 11.9 4.7 14.5 8 15c3.3-.5 6-3.1 6-6.5v-5L8 1z" fill="#003262"/><path d="M8 3.2L4 5v3.5c0 2.2 1.7 4 4 4.4 2.3-.4 4-2.2 4-4.4V5L8 3.2z" fill="#FDB515"/><path d="M6.5 7.5h3v.8h-3zM6.5 9h3v.8h-3zM7.2 6h1.6v3.8H7.2z" fill="#003262"/></svg>Negotiating &amp; Influence</a> (2023–24)</span></span></li>
+              <li><div class="bullet"></div><span>Transformed a <strong>30+ person global organisation</strong> into a Customer-Centric Technology Strategy team; ISV Leadership Team member overseeing <strong>$960M AOV / $230M ACV</strong><span class="stat-trigger" onclick="event.stopPropagation();openModal('aov')">↗ $960M AOV</span></span></li>
+              <li><div class="bullet"></div><span>Co-developed <strong>PAELA</strong> from 0-to-1 — a hybrid EDA/OEM/Direct Customer license vehicle driving <strong>$100M ACV in FY27</strong><span class="stat-trigger" onclick="event.stopPropagation();openModal('paela')">↗ $100M PAELA</span></span></li>
+              <li><div class="bullet"></div><span>Built the <strong>AgentExchange developer programme</strong> — <strong>30%+ developer leads Year 1</strong> via reference apps, webinars &amp; flagship Agentforce hackathons; automated 80% of content production with AI</span></li>
+              <li><div class="bullet"></div><span>Created <strong>Partner Innovation Engineer</strong> role — optimising agents in production, driving consumption &amp; retention; and <strong>Partner Demo Kits</strong> that let SEs demo 3P apps inside enterprise sales cycles</span></li>
+              <li><div class="bullet"></div><span>Executive Sponsor for Salesforce's <strong>largest global ISV partners</strong> — works directly with their C-suites to realign roadmaps to the agentic platform</span></li>
+              <li><div class="bullet"></div><span>Leads a <strong>low-ego, high-ownership</strong> global team of 27 across AMER, EMEA &amp; ANZ — servant leader philosophy validated by Salesforce Global Insights: unblock challenges, unlock potential</span></li>
             </ul>
           </div>
           <div class="ch-matrix">
@@ -1483,6 +1485,13 @@ footer {
     <div class="section-title">A Platform Builder's Journey</div>
 
     <div class="timeline">
+      <div class="tl-node">
+        <div class="tl-dot" style="padding:8px;background:white;"><img src="https://media.licdn.com/dms/image/v2/C4D0BAQHaPbFJOtsGyg/company-logo_200_200/company-logo_200_200/0/1631330113291?e=2147483647&v=beta&t=1vvUSkM9kGLDN_r5sypXu-KYXsCmBMmYZa91wXhy3qM" style="width:100%;height:100%;object-fit:contain;" alt="Think Limited"></div>
+        <div class="tl-year" style="opacity:0.6;">2006–2008</div>
+        <div class="tl-org" style="opacity:0.6;">Think Limited</div>
+        <div class="tl-role" style="opacity:0.6;">App Developer → Dev Manager</div>
+        <div class="tl-metric" style="opacity:0.6;">Promoted in year one</div>
+      </div>
       <div class="tl-node" onclick="toggleTlPanel('ayo', this)">
         <div class="tl-dot" style="padding:10px;background:white;"><img class="co-logo" src="data:image/png;base64,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" alt="AYO Digital"></div>
         <div class="tl-year">2008–2014</div>
@@ -2074,8 +2083,8 @@ const STATS = {
     color: '#c084fc',
     value: '20 Years',
     title: 'From Neural Networks to Agentforce',
-    evidence: `<strong>BSc Software Engineering</strong> with neural network &amp; distributed systems specialisation — University of Teesside (2002–06)<br><br><strong>Co-founder &amp; CTO, AYO Digital</strong> — Led a 35-person org spanning Engineering, UX, QA, DevOps &amp; Customer Success; full P&amp;L ownership; platform drove 80% of revenue (2008–14)<br><br><strong>Architect, PM &amp; Ecosystem Leader, Sage Group</strong> — 0-to-1 SaaS transformation, Target State Architecture, first global marketplace (2014–17)<br><br><strong>Senior &amp; Principal Technical Evangelist, Salesforce London</strong> — C-suite engagement, EMEA ecosystem growth, +35–40% partner Year 1 revenue (2018–21)<br><br><strong>Senior Director, Partner Solutions, Salesforce San Francisco</strong> — $960M AOV, PAELA, Agentforce (2021–Present)<br><br><strong>UC Berkeley Haas School of Business — three executive programmes (2023–24):</strong><br>• <a href="https://execedcertificates.berkeley.edu/4b52155f-566d-4ccd-8629-6cdb6b33f48d?record_view=true#gs.2hegro" target="_blank" rel="noopener" style="color:#003262;font-weight:600;">Berkeley Changemaker® (2023)</a> — critical thinking, collaboration &amp; purposeful innovation<br>• <a href="https://execedcertificates.berkeley.edu/d0eada80-13e1-4155-a04e-f457e8769b24" target="_blank" rel="noopener" style="color:#003262;font-weight:600;">High-Impact Leadership (2023)</a> — authentic executive presence &amp; data-driven storytelling<br>• <a href="https://execedcertificates.berkeley.edu/2600306c-6f5b-4e66-a65b-2ad2e6499f90" target="_blank" rel="noopener" style="color:#003262;font-weight:600;">Negotiation &amp; Influence (2024)</a> — high-stakes negotiation &amp; conflict management without direct authority`,
-    source: '📌 Resume · University of Teesside → AYO Digital → Sage → Salesforce'
+    evidence: `<strong>BSc Software Engineering</strong> with neural network &amp; distributed systems specialisation — University of Teesside (2002–06)<br><br><strong>Application Developer → Development Manager, Think Limited</strong> — First industry role post-graduation; promoted to Development Manager within one year (2006–08)<br><br><strong>Co-founder &amp; CTO, AYO Digital</strong> — Led a 35-person org spanning Engineering, UX, QA, DevOps &amp; Customer Success; full P&amp;L ownership; platform drove 80% of revenue (2008–14)<br><br><strong>Architect, PM &amp; Ecosystem Leader, Sage Group</strong> — 0-to-1 SaaS transformation, Target State Architecture, first global marketplace (2014–17)<br><br><strong>Senior &amp; Principal Technical Evangelist, Salesforce London</strong> — C-suite engagement, EMEA ecosystem growth, +35–40% partner Year 1 revenue (2018–21)<br><br><strong>Senior Director, Partner Solutions, Salesforce San Francisco</strong> — $960M AOV, PAELA, Agentforce (2021–Present)<br><br><strong>UC Berkeley Haas School of Business — three executive programmes (2023–24):</strong><br>• <a href="https://execedcertificates.berkeley.edu/4b52155f-566d-4ccd-8629-6cdb6b33f48d?record_view=true#gs.2hegro" target="_blank" rel="noopener" style="color:#003262;font-weight:600;">Berkeley Changemaker® (2023)</a> — critical thinking, collaboration &amp; purposeful innovation<br>• <a href="https://execedcertificates.berkeley.edu/d0eada80-13e1-4155-a04e-f457e8769b24" target="_blank" rel="noopener" style="color:#003262;font-weight:600;">High-Impact Leadership (2023)</a> — authentic executive presence &amp; data-driven storytelling<br>• <a href="https://execedcertificates.berkeley.edu/2600306c-6f5b-4e66-a65b-2ad2e6499f90" target="_blank" rel="noopener" style="color:#003262;font-weight:600;">Negotiation &amp; Influence (2024)</a> — high-stakes negotiation &amp; conflict management without direct authority`,
+    source: '📌 Resume · University of Teesside → Think Limited → AYO Digital → Sage → Salesforce'
   },
   award: {
     icon: '📈',
@@ -2226,7 +2235,7 @@ function toggleChapter(el) {
         animation: { duration: 600, easing: 'easeOutQuart' },
         scales: {
           r: {
-            min: 85, max: 100,
+            min: 0, max: 100,
             ticks: { display: false, stepSize: 5 },
             grid: { color: '#F1F0F0' },
             pointLabels: { font: { family: 'Inter, sans-serif', size: 11 }, color: '#616061', padding: 16 },
@@ -2238,7 +2247,29 @@ function toggleChapter(el) {
           tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + '%' } }
         },
         elements: { line: { borderWidth: 2 } }
-      }
+      },
+      plugins: [{
+        id: 'radarPctLabels',
+        afterDraw: function(chart) {
+          const c = chart.ctx;
+          const meta = chart.getDatasetMeta(0);
+          const vals = chart.data.datasets[0].data;
+          const cx = chart.scales.r.xCenter;
+          const cy = chart.scales.r.yCenter;
+          meta.data.forEach(function(pt, i) {
+            const angle = Math.atan2(pt.y - cy, pt.x - cx);
+            const lx = pt.x + Math.cos(angle) * 14;
+            const ly = pt.y + Math.sin(angle) * 14;
+            c.save();
+            c.font = '600 10px Inter, sans-serif';
+            c.fillStyle = d.color;
+            c.textAlign = 'center';
+            c.textBaseline = 'middle';
+            c.fillText(vals[i] + '%', lx, ly);
+            c.restore();
+          });
+        }
+      }]
     });
 
     document.getElementById('radarModal').classList.add('visible');
