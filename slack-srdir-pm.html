@@ -1,0 +1,2389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Kevin Reece — Sr. Director PM, Slack Platform</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --aubergine: #4A154B;
+  --green:     #2EB67D;
+  --blue:      #36C5F0;
+  --yellow:    #ECB22E;
+  --red:       #E01E5A;
+  --ink:       #1D1C1D;
+  --muted:     #616061;
+  --faint:     #F1F0F0;
+  --white:     #FFFFFF;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #FAFAFA;
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(140deg, #2d0a2e 0%, #4A154B 40%, #3a0e3b 100%);
+  padding: 64px 48px 96px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* dot-grid texture */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.hero-blobs { position: absolute; inset: 0; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.15; }
+.blob-1 { width: 560px; height: 560px; background: #36C5F0; top: -220px; right: -80px; }
+.blob-2 { width: 420px; height: 420px; background: #2EB67D; bottom: -160px; left: 5%; }
+.blob-3 { width: 300px; height: 300px; background: #ECB22E; top: 40%; left: 50%; }
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Eyebrow chip */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 28px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+/* Massive name treatment */
+.hero-heading {
+  margin-bottom: 24px;
+  line-height: 0.95;
+}
+
+.hero-pre {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hero-name {
+  font-size: clamp(72px, 9vw, 112px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  display: block;
+  line-height: 1;
+}
+
+.hero-name .first { color: rgba(255,255,255,0.95); }
+.hero-name .last {
+  background: linear-gradient(90deg, #36C5F0 0%, #2EB67D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-rule {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+  margin: 20px 0;
+}
+
+.hero-tagline {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.3px;
+  margin-bottom: 32px;
+}
+
+.hero-tagline strong {
+  color: rgba(255,255,255,0.82);
+  font-weight: 600;
+}
+
+.hero-summary {
+  font-size: 17px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.78);
+  max-width: 660px;
+  line-height: 1.75;
+  margin-bottom: 52px;
+}
+
+/* ─── STAT CARDS ─────────────────────────────────────────── */
+.hero-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  padding: 22px 18px 18px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.04);
+  opacity: 0;
+  transition: opacity 0.2s;
+  border-radius: 16px;
+}
+
+.stat-card:hover { transform: translateY(-3px); border-color: rgba(255,255,255,0.25); }
+.stat-card:hover::after { opacity: 1; }
+.stat-card:active { transform: translateY(-1px); }
+
+.stat-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 16px 16px 0 0;
+}
+
+.stat-card[data-stat="aov"]    .stat-glow { background: var(--blue); }
+.stat-card[data-stat="paela"]  .stat-glow { background: var(--green); }
+.stat-card[data-stat="isv"]    .stat-glow { background: var(--yellow); }
+.stat-card[data-stat="years"]  .stat-glow { background: #c084fc; }
+.stat-card[data-stat="award"]  .stat-glow { background: var(--green); }
+
+.stat-icon { font-size: 22px; margin-bottom: 12px; display: block; }
+
+.stat-value {
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 900;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.stat-card[data-stat="aov"]   .stat-value { color: var(--blue); }
+.stat-card[data-stat="paela"] .stat-value { color: var(--green); }
+.stat-card[data-stat="isv"]   .stat-value { color: var(--yellow); }
+.stat-card[data-stat="years"] .stat-value { color: #c084fc; }
+.stat-card[data-stat="award"] .stat-value { color: var(--green); }
+
+.stat-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+
+.stat-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  transition: color 0.2s;
+}
+
+.stat-card:hover .stat-cta { color: rgba(255,255,255,0.65); }
+
+.stat-cta svg { transition: transform 0.2s; }
+.stat-card:hover .stat-cta svg { transform: translateX(3px); }
+
+/* ─── STAT MODAL ─────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  transform: scale(0.92) translateY(16px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-backdrop.visible .modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.modal-accent {
+  height: 4px;
+}
+
+.modal-body {
+  padding: 32px 32px 28px;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.modal-icon-wrap {
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.modal-close {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 1.5px solid var(--faint);
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.modal-close:hover { background: var(--faint); border-color: #ccc; }
+
+.modal-stat-value {
+  font-size: 44px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.modal-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.modal-divider {
+  height: 1px;
+  background: var(--faint);
+  margin-bottom: 20px;
+}
+
+.modal-evidence {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.modal-evidence strong { color: var(--ink); font-weight: 700; }
+
+
+/* ─── STAT MODAL NAV ─────────────────────────────────────── */
+.modal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--faint);
+  gap: 8px;
+}
+.modal-nav-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.5px; color: var(--muted);
+  background: none; border: 1.5px solid var(--faint);
+  padding: 5px 12px; border-radius: 100px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  white-space: nowrap; max-width: 130px;
+}
+.modal-nav-btn span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.modal-nav-btn:hover { color: var(--ink); border-color: #ccc; background: var(--faint); }
+.modal-nav-btn:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+.modal-nav-btn-right { flex-direction: row; }
+.modal-nav-dots {
+  display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+}
+.modal-nav-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--faint); transition: background 0.2s, transform 0.2s;
+}
+.modal-nav-dot.active { transform: scale(1.4); }
+
+/* ─── WAVE ───────────────────────────────────────────────── */
+.wave { display: block; width: 100%; height: 60px; margin-bottom: -2px; }
+
+/* ─── JOURNEY ────────────────────────────────────────────── */
+.journey { background: white; padding: 80px 48px 0; }
+.journey-inner { max-width: 1100px; margin: 0 auto; }
+
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  margin-bottom: 60px;
+  color: var(--ink);
+}
+
+.timeline {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: 28px; right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--green), var(--yellow), var(--aubergine));
+  border-radius: 2px;
+  z-index: 0;
+}
+
+.tl-node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.tl-dot {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  border: 3px solid white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tl-node:hover .tl-dot { transform: scale(1.1); box-shadow: 0 8px 28px rgba(0,0,0,0.18); }
+.tl-node.active .tl-dot { transform: scale(1.12); }
+
+.tl-node:nth-child(1) .tl-dot { background: linear-gradient(135deg,#dbeffe,#b3d9f7); }
+.tl-node:nth-child(2) .tl-dot { background: linear-gradient(135deg,#d4f5e7,#a3e8cc); }
+.tl-node:nth-child(3) .tl-dot { background: linear-gradient(135deg,#fff3cc,#ffe490); }
+.tl-node:nth-child(4) .tl-dot { background: linear-gradient(135deg,#f0e0f0,#d9a8da); }
+
+.tl-year { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.tl-org  { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.tl-role { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+
+.tl-metric {
+  font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 100px;
+}
+
+.tl-node:nth-child(1) .tl-metric { background:#dbeffe; color:#1A6A8A; }   /* Think — blue */
+.tl-node:nth-child(2) .tl-metric { background:#dbeffe; color:#1A6A8A; }   /* AYO — blue */
+.tl-node:nth-child(3) .tl-metric { background:#d4f5e7; color:#1B7A55; }   /* Sage — green */
+.tl-node:nth-child(4) .tl-metric { background:#fff3cc; color:#8A6000; }   /* SF London — yellow */
+.tl-node:nth-child(5) .tl-metric { background:#f0e0f0; color:#6B21A8; }   /* SF SF — purple */
+
+.tl-hint {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+  text-transform: uppercase; margin-top: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  transition: opacity 0.2s;
+}
+
+.tl-node:nth-child(1) .tl-hint { color: #1A6A8A; }
+.tl-node:nth-child(2) .tl-hint { color: #1B7A55; }
+.tl-node:nth-child(3) .tl-hint { color: #8A6000; }
+.tl-node:nth-child(4) .tl-hint { color: #6B21A8; }
+
+.tl-node.active .tl-hint { opacity: 0; }
+
+/* expanding panel */
+.tl-panel-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s cubic-bezier(0.4,0,0.2,1);
+  margin-top: 32px;
+}
+
+.tl-panel-wrap.open { grid-template-rows: 1fr; }
+
+.tl-panel-inner { overflow: hidden; }
+
+.tl-panel {
+  border-radius: 16px;
+  padding: 28px 32px 32px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.tl-panel-ayo     { background: linear-gradient(135deg,#f0f8ff,#e5f3fd); border: 1.5px solid #b3d9f7; }
+.tl-panel-sage    { background: linear-gradient(135deg,#f0fdf7,#e2f9ef); border: 1.5px solid #a3e8cc; }
+.tl-panel-sfdc-ln { background: linear-gradient(135deg,#fffdf0,#fff8e2); border: 1.5px solid #ffe490; }
+.tl-panel-sfdc-sf { background: linear-gradient(135deg,#fdf0ff,#f5e0f9); border: 1.5px solid #d9a8da; }
+
+.ayo-cycle { margin-top: 20px; padding: 16px 18px; background: rgba(179,217,247,0.25); border: 1.5px solid #b3d9f7; border-radius: 12px; }
+.ayo-cycle-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #1A6A8A; margin-bottom: 14px; }
+.ayo-cycle-track { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.ayo-step { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 64px; }
+.ayo-step-dot { width: 32px; height: 32px; border-radius: 50%; background: #1A6A8A; color: white; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ayo-step-label { font-size: 10px; font-weight: 600; color: #1A6A8A; text-align: center; line-height: 1.3; }
+.ayo-arrow { font-size: 14px; color: #5ba8d0; font-weight: 700; flex-shrink: 0; }
+.ayo-arrow-loop { font-size: 11px; color: #1A6A8A; font-weight: 800; background: rgba(26,106,138,0.1); padding: 3px 8px; border-radius: 20px; margin-left: 2px; }
+
+.pse-evo { margin-top: 20px; padding: 16px 18px; background: rgba(217,168,218,0.15); border: 1.5px solid #d9a8da; border-radius: 12px; }
+.pse-evo-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #6B21A8; margin-bottom: 14px; }
+.pse-evo-track { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 6px; }
+.pse-step { display: flex; flex-direction: column; align-items: center; gap: 5px; min-width: 64px; }
+.pse-step-dot { width: 32px; height: 32px; border-radius: 50%; background: #6B21A8; color: white; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.pse-step-label { font-size: 10px; font-weight: 600; color: #6B21A8; text-align: center; line-height: 1.3; }
+.pse-step-tag { font-size: 9px; font-weight: 700; color: white; background: #9333ea; padding: 2px 6px; border-radius: 8px; margin-top: 2px; white-space: nowrap; }
+.pse-arrow { font-size: 14px; color: #b97ad6; font-weight: 700; flex-shrink: 0; margin-top: 10px; }
+.pse-arrow-loop { font-size: 11px; color: #6B21A8; font-weight: 800; background: rgba(107,33,168,0.1); padding: 3px 8px; border-radius: 20px; margin-left: 2px; margin-top: 10px; }
+
+.pmf-pyramid { margin-top: 20px; padding: 16px 18px; background: rgba(255,228,144,0.2); border: 1.5px solid #ffe490; border-radius: 12px; }
+.pmf-pyramid-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #8A6000; margin-bottom: 14px; }
+.pmf-pyramid-wrap { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 50%; margin: 0 auto; }
+.pmf-tier { display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 4px; color: white; font-weight: 700; font-size: 11px; text-align: center; line-height: 1.25; padding: 7px 12px; }
+.pmf-tier-sub { font-size: 9px; font-weight: 500; opacity: 0.85; display: block; margin-top: 2px; }
+.pmf-t1 { width: 100%; background: #1A6A8A; }
+.pmf-t2 { width: 83%; background: #2a86b0; }
+.pmf-t3 { width: 66%; background: #5ba8d0; }
+.pmf-t4 { width: 49%; background: #8cc4e0; color: #1D4A60; }
+.pmf-t5 { width: 32%; background: #b3d9f0; color: #1D4A60; }
+
+.tl-panel-header {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+}
+
+.tl-panel-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.tl-panel-header h3 { font-size: 17px; font-weight: 800; }
+.tl-panel-header p  { font-size: 12px; color: var(--muted); }
+
+.tl-panel-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.1); background: white;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--muted); transition: background 0.15s;
+}
+.tl-panel-close:hover { background: var(--faint); }
+
+.tl-panel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.tl-case-full { grid-column: 1 / -1; }
+
+.tl-case {
+  background: white;
+  border-radius: 12px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column; gap: 6px;
+}
+
+.tl-case-label {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--muted);
+}
+
+.tl-case-title { font-size: 14px; font-weight: 700; }
+.tl-case-desc  { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+.tl-case-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 600;
+  text-decoration: none; margin-top: 4px;
+  transition: gap 0.15s;
+}
+.tl-case-link:hover { gap: 8px; }
+
+.tl-case-link.placeholder {
+  color: #aaa; cursor: default; pointer-events: none;
+}
+
+.tl-panel-ayo     .tl-case-link:not(.placeholder) { color: #1A6A8A; }
+.tl-panel-sage    .tl-case-link:not(.placeholder) { color: #1B7A55; }
+.tl-panel-sfdc-ln .tl-case-link:not(.placeholder) { color: #8A6000; }
+.tl-panel-sfdc-sf .tl-case-link:not(.placeholder) { color: #6B21A8; }
+
+/* YouTube brand card */
+.yt-brand-card {
+  background: white;
+  border-radius: 12px;
+  padding: 14px 18px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+  border: 1.5px solid transparent;
+}
+.yt-brand-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  transform: translateY(-1px);
+  border-color: #FF0000;
+}
+.yt-brand-logo {
+  width: 40px; height: 40px; border-radius: 50%;
+  object-fit: cover; flex-shrink: 0;
+  border: 2px solid #f0f0f0;
+}
+.yt-brand-text { flex: 1; }
+.yt-brand-name { font-size: 13px; font-weight: 700; color: var(--ink); }
+.yt-brand-sub  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.yt-brand-icon { color: #FF0000; font-size: 18px; flex-shrink: 0; }
+
+/* inline yt link used in chapter narrative */
+.yt-inline-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700;
+  color: #FF0000; text-decoration: none;
+  transition: opacity 0.15s;
+}
+.yt-inline-link:hover { opacity: 0.8; }
+.yt-inline-link img {
+  width: 18px; height: 18px; border-radius: 50%; object-fit: cover;
+}
+
+/* ─── CHAPTERS ───────────────────────────────────────────── */
+.chapters-section { background: #FAFAFA; padding: 80px 48px; }
+
+.chapters-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chapter {
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.3s, transform 0.3s;
+  background: white;
+  border: 1.5px solid transparent;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.chapter:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.12); transform: translateY(-2px); }
+.chapter.open  { box-shadow: 0 12px 60px rgba(0,0,0,0.14); transform: translateY(-3px); }
+
+.ch-1.open { border-color: var(--blue); }
+.ch-2.open { border-color: var(--green); }
+.ch-3.open { border-color: var(--aubergine); }
+
+.ch-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 28px 32px;
+  position: relative;
+  user-select: none;
+}
+
+.ch-number {
+  font-size: 72px; font-weight: 900; line-height: 1;
+  letter-spacing: -4px; opacity: 0.15;
+  position: absolute; right: 32px; top: 50%; transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.ch-1 .ch-number { color: var(--blue); }
+.ch-2 .ch-number { color: var(--green); }
+.ch-3 .ch-number { color: var(--aubergine); }
+
+.ch-icon {
+  width: 56px; height: 56px; border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px; flex-shrink: 0;
+}
+
+.ch-1 .ch-icon { background: linear-gradient(135deg,#dbeffe,#b3d9f7); }
+.ch-2 .ch-icon { background: linear-gradient(135deg,#d4f5e7,#a3e8cc); }
+.ch-3 .ch-icon { background: linear-gradient(135deg,#f0e0f0,#d9a8da); }
+
+.ch-meta { flex: 1; }
+
+.ch-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+
+.ch-1 .ch-label { color: var(--blue); }
+.ch-2 .ch-label { color: var(--green); }
+.ch-3 .ch-label { color: var(--aubergine); }
+
+.ch-title { font-size: 21px; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 4px; }
+.ch-sub   { font-size: 13px; color: var(--muted); font-style: italic; }
+
+.ch-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+
+.ch-tag {
+  font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 100px;
+}
+
+.ch-1 .ch-tag { background:#dbeffe; color:#1A6A8A; }
+.ch-2 .ch-tag { background:#d4f5e7; color:#1B7A55; }
+.ch-3 .ch-tag { background:#f0e0f0; color:#6B21A8; }
+
+.ch-toggle {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1.5px solid var(--faint);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.2s, border-color 0.2s;
+  margin-left: auto; position: relative; z-index: 1;
+}
+
+.ch-toggle svg { transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.chapter.open .ch-toggle svg { transform: rotate(180deg); }
+
+.ch-1.open .ch-toggle { background: var(--blue); border-color: var(--blue); }
+.ch-1.open .ch-toggle svg path { stroke: white; }
+.ch-2.open .ch-toggle { background: var(--green); border-color: var(--green); }
+.ch-2.open .ch-toggle svg path { stroke: white; }
+.ch-3.open .ch-toggle { background: var(--aubergine); border-color: var(--aubergine); }
+.ch-3.open .ch-toggle svg path { stroke: white; }
+
+.ch-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4,0,0.2,1);
+}
+
+.chapter.open .ch-body { grid-template-rows: 1fr; }
+
+.ch-body-inner { overflow: hidden; }
+
+.ch-content { padding: 0 32px 36px; }
+
+.ch-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--faint) 20%, var(--faint) 80%, transparent);
+  margin-bottom: 32px;
+}
+
+.ch-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 32px;
+}
+
+
+.ch-narrative h4 {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+
+.ch-narrative ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.ch-narrative ul li {
+  font-size: 14px; line-height: 1.5;
+  display: flex; align-items: flex-start; gap: 10px; color: #333;
+}
+
+.stat-trigger { display:inline-flex; align-items:center; gap:3px; margin-left:6px; font-size:10px; font-weight:600; color:var(--muted); border:1px solid #ddd; border-radius:10px; padding:1px 7px; cursor:pointer; vertical-align:middle; white-space:nowrap; transition:background 0.15s, color 0.15s; }
+.stat-trigger:hover { background:var(--faint); color:var(--ink); }
+
+.bullet { width: 6px; height: 6px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.ch-1 .bullet { background: var(--blue); }
+.ch-2 .bullet { background: var(--green); }
+.ch-3 .bullet { background: var(--aubergine); }
+
+.ch-narrative ul li strong { color: var(--ink); font-weight: 700; }
+
+.ch-matrix h4 {
+  font-size: 12px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+
+.matrix-items { display: flex; flex-direction: column; gap: 10px; }
+
+.matrix-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 16px; border-radius: 12px; background: #FAFAFA;
+  transition: background 0.2s;
+}
+
+.matrix-item:hover { background: var(--faint); }
+
+.mi-score {
+  width: 48px; height: 48px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; flex-shrink: 0;
+  font-size: 15px; font-weight: 800; line-height: 1;
+}
+
+.mi-score .mi-pct { font-size: 8px; font-weight: 600; opacity: 0.7; margin-top: 1px; }
+
+.score-99,.score-98,.score-97,.score-96,.score-95,.score-94,.score-93,.score-92,.score-91,.score-90,.score-89,.score-88,.score-87,.score-86,.score-85,.score-84,.score-83,.score-82 { background:#C8F0E0; color:#145C3F; }
+
+.mi-text { flex: 1; }
+.mi-req  { font-size: 13px; font-weight: 700; margin-bottom: 3px; cursor: default; border-bottom: 1px dashed rgba(97,96,97,0.35); display: inline-block; }
+
+#jd-tooltip {
+  position: fixed;
+  z-index: 9999;
+  background: #1D1C1D;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.45;
+  padding: 7px 11px;
+  border-radius: 7px;
+  max-width: 280px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+}
+#jd-tooltip::before {
+  content: 'JD: ';
+  font-weight: 700;
+  opacity: 0.55;
+}
+#jd-tooltip.visible { opacity: 1; }
+.mi-evidence { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+/* ─── CONCLUSION ─────────────────────────────────────────── */
+.conclusion-section { padding: 0 48px 80px; background: #FAFAFA; }
+.conclusion-inner { max-width: 1100px; margin: 0 auto; }
+
+.conclusion-card {
+  background: linear-gradient(135deg, #4A154B 0%, #3a0e3b 100%);
+  border-radius: 24px; padding: 56px; color: white;
+  position: relative; overflow: hidden;
+}
+
+.conclusion-card::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(54,197,240,0.12), transparent 70%);
+  top: -200px; right: -100px; pointer-events: none;
+}
+
+.conclusion-card::after {
+  content: '';
+  position: absolute;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(46,182,125,0.12), transparent 70%);
+  bottom: -150px; left: 5%; pointer-events: none;
+}
+
+.conclusion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px; margin-bottom: 40px;
+  position: relative; z-index: 1;
+}
+
+.concl-pillar {
+  padding: 28px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+}
+
+.concl-pillar-icon { font-size: 28px; margin-bottom: 12px; }
+.concl-pillar h4 { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+.concl-pillar p  { font-size: 13px; opacity: 0.75; line-height: 1.6; }
+
+.conclusion-close {
+  position: relative; z-index: 1;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 32px; text-align: center;
+  font-size: 16px; font-weight: 500; opacity: 0.85;
+  line-height: 1.7; max-width: 800px; margin: 0 auto;
+}
+
+.conclusion-close strong { font-weight: 800; opacity: 1; }
+
+/* ─── FIT SNAPSHOT BUTTON ────────────────────────────────── */
+.ch-fit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  padding: 5px 13px;
+  border-radius: 100px;
+  border: 1.5px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ch-1 .ch-fit-btn { color: var(--blue); }
+.ch-2 .ch-fit-btn { color: var(--green); }
+.ch-3 .ch-fit-btn { color: var(--aubergine); }
+
+.ch-1 .ch-fit-btn:hover { background: var(--blue); color: white; }
+.ch-2 .ch-fit-btn:hover { background: var(--green); color: white; }
+.ch-3 .ch-fit-btn:hover { background: var(--aubergine); color: white; }
+
+/* ─── RADAR MODAL ────────────────────────────────────────── */
+.radar-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.radar-modal-backdrop.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.radar-modal-card {
+  background: white;
+  border-radius: 24px;
+  max-width: 540px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.35);
+  transform: scale(0.92) translateY(16px);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 28px 32px 24px;
+}
+
+.radar-modal-backdrop.visible .radar-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.radar-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.radar-modal-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.radar-modal-canvas-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+/* ─── COMPANY LOGO IMGS ──────────────────────────────────── */
+img.co-logo {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* ─── CERT LINKS ─────────────────────────────────────────── */
+.cert-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: #003262;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.cert-link:hover { opacity: 0.72; text-decoration: underline; }
+.cert-icon {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* ─── HINT ───────────────────────────────────────────────── */
+.hint {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; color: var(--muted); font-size: 12px; font-weight: 500;
+  margin-bottom: 28px; opacity: 0.7;
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  background: white; border-top: 1px solid var(--faint);
+  padding: 20px 48px; text-align: center;
+  font-size: 11px; color: var(--muted); letter-spacing: 0.5px;
+}
+
+/* ─── LARGE SCREEN SCALING ──────────────────────────────────── */
+@media (min-width: 1440px) {
+  .hero-summary      { font-size: 19px; }
+  .hero-tagline      { font-size: 17px; }
+  .section-title     { font-size: 36px; }
+  .tl-org            { font-size: 17px; }
+  .tl-role           { font-size: 14px; }
+  .tl-panel-header h3 { font-size: 19px; }
+  .tl-case-title     { font-size: 16px; }
+  .tl-case-desc      { font-size: 14px; line-height: 1.55; }
+  .ch-title          { font-size: 23px; }
+  .ch-sub            { font-size: 15px; }
+  .ch-narrative ul li { font-size: 15px; }
+  .mi-req            { font-size: 14px; }
+  .mi-evidence       { font-size: 13px; }
+  .concl-pillar h4   { font-size: 16px; }
+  .concl-pillar p    { font-size: 15px; }
+  .conclusion-close  { font-size: 18px; }
+  .modal-evidence    { font-size: 16px; }
+  .stat-sub          { font-size: 13px; }
+  .recruiter-table td { font-size: 13px; }
+  .recruiter-intro   { font-size: 14px; }
+  /* Wider containers */
+  .journey-inner, .conclusion-inner, .recruiter-inner { max-width: 1300px; }
+  .hero-inner        { max-width: 1300px; }
+  /* Flywheel SVG */
+  .pse-flywheel-svg  { width: 340px !important; height: 340px !important; }
+}
+
+@media (min-width: 1920px) {
+  .hero-summary      { font-size: 21px; }
+  .section-title     { font-size: 40px; }
+  .tl-case-title     { font-size: 17px; }
+  .tl-case-desc      { font-size: 15px; }
+  .ch-title          { font-size: 25px; }
+  .ch-narrative ul li { font-size: 16px; }
+  .mi-req            { font-size: 15px; }
+  .mi-evidence       { font-size: 14px; }
+  .concl-pillar p    { font-size: 16px; }
+  .conclusion-close  { font-size: 19px; }
+  .modal-evidence    { font-size: 17px; }
+  .recruiter-table td { font-size: 14px; }
+  /* Wider containers */
+  .journey-inner, .conclusion-inner, .recruiter-inner { max-width: 1600px; }
+  .hero-inner        { max-width: 1600px; }
+  /* Flywheel SVG */
+  .pse-flywheel-svg  { width: 400px !important; height: 400px !important; }
+}
+
+/* ─── RECRUITER ASSESSMENT ───────────────────────────────────── */
+.recruiter-section {
+  background: #F6F5F5;
+  border-top: 2px dashed #D6D4D4;
+  padding: 0 0 48px;
+}
+.recruiter-inner { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+.recruiter-toggle {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px 0;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  cursor: pointer; user-select: none;
+  letter-spacing: 0.5px; text-transform: uppercase;
+  border-bottom: 1px solid #E0DEDF;
+}
+.recruiter-toggle:hover { color: var(--ink); }
+.recruiter-toggle-icon { font-size: 10px; transition: transform 0.25s; }
+.recruiter-toggle.open .recruiter-toggle-icon { transform: rotate(90deg); }
+.recruiter-badge {
+  margin-left: auto; background: #E0DEDF; color: var(--muted);
+  font-size: 10px; font-weight: 700; letter-spacing: 1px;
+  padding: 3px 10px; border-radius: 100px; text-transform: uppercase;
+}
+
+.recruiter-body { display: none; padding-top: 24px; }
+.recruiter-body.open { display: block; }
+
+.recruiter-intro {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.recruiter-legend {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+  font-size: 12px; color: var(--muted);
+  margin-bottom: 24px; padding: 12px 16px;
+  background: white; border-radius: 10px; border: 1px solid #E8E6E6;
+}
+.rc-dot {
+  display: inline-block; width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.rc-green  { background: #1B7A55; }
+.rc-amber  { background: #A06000; }
+.rc-red    { background: #8A0030; }
+
+.recruiter-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 12px; line-height: 1.5;
+  background: white; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.recruiter-table th {
+  background: var(--aubergine); color: white;
+  padding: 11px 14px; text-align: left;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.recruiter-table td {
+  padding: 10px 14px; border-bottom: 1px solid #F1F0F0;
+  vertical-align: top; color: var(--ink);
+}
+.recruiter-table tr:last-child td { border-bottom: none; }
+.recruiter-table tr:hover td { background: #FAFAFA; }
+
+.rc-section-row td {
+  background: #F1F0F0 !important;
+  font-weight: 700; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--muted);
+  padding: 8px 14px;
+}
+
+.rc-score {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+  white-space: nowrap;
+}
+.rc-score.rc-green  { background: #E8FBF4; color: #1B7A55; }
+.rc-score.rc-amber  { background: #FFF8E6; color: #8A6000; }
+.rc-score.rc-red    { background: #FFF1F5; color: #8A0030; }
+.rc-score::before   { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.rc-pct { font-size: 10px; font-weight: 500; opacity: 0.6; margin-left: 4px; letter-spacing: 0; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-inner">
+
+    <div class="hero-eyebrow">Executive Business Case · Confidential</div>
+
+    <div class="hero-heading">
+      <div class="hero-pre">Candidate for Sr. Director, Product Management · Slack-Salesforce</div>
+      <span class="hero-name">
+        <span class="first">Kevin </span><span class="last">Reece.</span>
+      </span>
+    </div>
+
+    <div class="hero-rule"></div>
+
+    <p class="hero-tagline">
+      <strong>Product Executive</strong> &nbsp;·&nbsp;
+      <strong>AI &amp; Technology Strategist</strong> &nbsp;·&nbsp;
+      <strong>10 Years PM Without the Title</strong>
+    </p>
+
+    <p class="hero-summary">
+      Twenty years of SaaS leadership — Co-founder/CTO to Salesforce Senior Director — delivering product outcomes across the full PM lifecycle: discovery, 0-to-1 builds, PLG motions, platform convergence strategy, and enterprise-scale roadmap execution. The title said Partner Solutions. The work was Product Management, applied through a Fractional CPO model across dozens of ISV engagements per year.
+    </p>
+
+    <!-- ── STAT CARDS ── -->
+    <div class="hero-stats">
+
+      <div class="stat-card" data-stat="years" onclick="openModal('years')">
+        <div class="stat-glow"></div>
+        <span class="stat-icon">🧭</span>
+        <div class="stat-value">20</div>
+        <div class="stat-sub">Years SaaS &amp; Product Leadership</div>
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.4px;margin-bottom:10px;line-height:1.3;">incl. 10 yrs PM without the title</div>
+        <div class="stat-cta">See evidence <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+      <div class="stat-card" data-stat="paela" onclick="openModal('paela')">
+        <div class="stat-glow"></div>
+        <span class="stat-icon">🚀</span>
+        <div class="stat-value" style="font-size:clamp(18px,2vw,22px);letter-spacing:-0.5px;line-height:1.15;">Career of<br>Shipping</div>
+        <div class="stat-sub" style="margin-top:6px;">Products, Platforms &amp;<br>Commercial Vehicles</div>
+        <div class="stat-cta">See evidence <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+      <div class="stat-card" data-stat="aov" onclick="openModal('aov')">
+        <div class="stat-glow"></div>
+        <span class="stat-icon">💡</span>
+        <div class="stat-value">PLG</div>
+        <div class="stat-sub">NA in 3 Months<br>7 Countries · 1 Quarter</div>
+        <div class="stat-cta">See evidence <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+      <div class="stat-card" data-stat="isv" onclick="openModal('isv')">
+        <div class="stat-glow"></div>
+        <span class="stat-icon">🏗️</span>
+        <div class="stat-value">$100M</div>
+        <div class="stat-sub">ACV Pipeline<br>PAELA · FY27</div>
+        <div class="stat-cta">See evidence <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+      <div class="stat-card" data-stat="award" onclick="openModal('award')">
+        <div class="stat-glow"></div>
+        <span class="stat-icon">🔍</span>
+        <div class="stat-value" style="font-size:clamp(18px,2vw,22px);letter-spacing:-0.5px;line-height:1.15;">Product<br>Market Fit</div>
+        <div class="stat-sub" style="margin-top:6px;">CABs · Design Sprints<br>Lean Product Playbook</div>
+        <div class="stat-cta">See evidence <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8M6 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT MODAL ── -->
+<div class="modal-backdrop" id="statModal" onclick="closeModalOnBackdrop(event)">
+  <div class="modal-card" id="modalCard">
+    <div class="modal-accent" id="modalAccent"></div>
+    <div class="modal-body">
+      <div class="modal-header">
+        <div class="modal-icon-wrap" id="modalIconWrap">
+          <span id="modalIcon"></span>
+        </div>
+        <button class="modal-close" onclick="closeModal()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="modal-stat-value" id="modalValue"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-divider"></div>
+      <div class="modal-evidence" id="modalEvidence"></div>
+      <div class="modal-nav">
+        <button class="modal-nav-btn" id="modalNavPrev" onclick="navigateStat(-1)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="modalNavPrevLabel"></span>
+        </button>
+        <div class="modal-nav-dots" id="modalNavDots"></div>
+        <button class="modal-nav-btn modal-nav-btn-right" id="modalNavNext" onclick="navigateStat(1)">
+          <span id="modalNavNextLabel"></span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RADAR MODAL ── -->
+<div class="radar-modal-backdrop" id="radarModal" onclick="closeRadarOnBackdrop(event)">
+  <div class="radar-modal-card">
+    <div class="radar-modal-header">
+      <div class="radar-modal-title" id="radarModalTitle"></div>
+      <button class="modal-close" onclick="closeRadar()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="radar-modal-canvas-wrap">
+      <canvas id="radarModalCanvas" width="440" height="440"></canvas>
+    </div>
+  </div>
+</div>
+
+<svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M0,60 C360,0 1080,0 1440,60 L1440,60 L0,60 Z" fill="#ffffff"/>
+</svg>
+
+<!-- ── CHAPTERS ── -->
+<section class="chapters-section">
+  <div class="chapters-inner">
+
+    <div class="section-eyebrow" style="text-align:center">Three-Chapter Product Profile</div>
+    <div class="section-title" style="text-align:center;margin-bottom:40px">10 Years of PM Without the Title</div>
+
+    <!-- CHAPTER 1 -->
+    <div class="chapter ch-1" onclick="toggleChapter(this)">
+      <div class="ch-header">
+        <div class="ch-icon">🔧</div>
+        <div class="ch-meta">
+          <div class="ch-label">Chapter 1 · Think Limited &amp; AYO Digital</div>
+          <div class="ch-title">Software Engineer, CTO &amp; Product Founder</div>
+          <div class="ch-sub">0-to-1 SaaS Platform, CRM Delivery &amp; Full PM Lifecycle — Built from Scratch</div>
+          <div class="ch-tags">
+            <span class="ch-tag">CRM Shipped from Scratch</span>
+            <span class="ch-tag">SMB + Enterprise</span>
+            <span class="ch-tag">PLG &amp; Platform Pivot</span>
+            <span class="ch-tag">80% Platform Revenue</span>
+          </div>
+          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(1)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Fit Snapshot →</button>
+        </div>
+        <div class="ch-toggle">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#616061" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="ch-number">1</div>
+      </div>
+      <div class="ch-body"><div class="ch-body-inner"><div class="ch-content">
+        <div class="ch-divider"></div>
+        <div class="ch-two-col">
+          <div class="ch-narrative">
+            <h4>Storyline</h4>
+            <ul>
+<li><div class="bullet"></div><span>Shipped a <strong>full CRM from scratch</strong> — user personas, workflow design, data model, reporting pipeline; deployed and validated across <strong>32+ enterprise client deployments</strong>; CRM ownership at the code level, not just the feature layer</span></li>
+              <li><div class="bullet"></div><span>Made the strategic call to pivot AYO Digital from bespoke software to a <strong>modular multi-tenant SaaS platform</strong> — that single product decision went on to drive <strong>80% of total corporate revenue</strong></span></li>
+              <li><div class="bullet"></div><span>Solved fundamentally different product problems across domains — enterprise retail operations, social housing tenancy lifecycle, and digital campus infrastructure; each required original user research, UX design, and architectural decisions from scratch</span></li>
+              <li><div class="bullet"></div><span>Co-founded; scaled to a <strong>35-person cross-functional org</strong> spanning Engineering, UX, QA, DevOps &amp; Customer Success — built the product culture from the ground up, shipping end-to-end from discovery through delivery</span></li>
+            </ul>
+          </div>
+          <div class="ch-matrix">
+            <h4>Sr. Director PM Fit Assessment</h4>
+            <div class="matrix-items">
+              <div class="matrix-item">
+                <div class="mi-score score-97">97<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="0-to-1 product development — ability to take a product from concept to launch, owning every stage of the lifecycle">0-to-1 Product Development</div>
+                  <div class="mi-evidence">Built AYOWare multi-tenant SaaS platform from scratch — concept, architecture, product-market fit, and commercial launch. Platform drove 80% of corporate revenue within the engagement period.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-92">92<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="CRM product ownership — deep fluency in CRM data models, user workflows, and the Sales/Service use cases that CRM powers">CRM Product Ownership &amp; Data Model</div>
+                  <div class="mi-evidence">Shipped full CRM from scratch at AYO — user personas, workflow design, data model, reporting. 32+ clients across enterprise, retail, education, housing. Understands CRM at the code layer, not just the feature layer.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-88">88<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="PLG / self-serve for SMB — designing frictionless onboarding and product-led acquisition motions targeting small and mid-market customers">PLG / Self-Serve &amp; SMB Experience</div>
+                  <div class="mi-evidence">Majority of AYO client base was SMB — built products for and sold to small businesses, lived the SMB founder experience for 6 years. Designed self-serve onboarding and pricing for AYO SaaS products independently.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-94">94<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="Customer research &amp; PMF methodology — user personas, journey mapping, CABs, PABs, Design Sprints; a repeatable framework for identifying underserved needs and validating product-market fit">Customer Research &amp; PMF Methodology</div>
+                  <div class="mi-evidence">Ran Customer Advisory Boards at AYO to validate features before build — qualitative synthesis driving roadmap prioritisation. Applied Dan Olsen's Lean Product Playbook framework across the full product lifecycle: JTBD, value proposition, MVP hypothesis, test-and-iterate.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- CHAPTER 2 -->
+    <div class="chapter ch-2" onclick="toggleChapter(this)">
+      <div class="ch-header">
+        <div class="ch-icon">🏗️</div>
+        <div class="ch-meta">
+          <div class="ch-label">Chapter 2 · Sage Group</div>
+          <div class="ch-title">Product Manager, Architect &amp; Ecosystem Builder</div>
+          <div class="ch-sub">Sage Live PLG, Developer Experience, API Strategy &amp; 0-to-1 Marketplace</div>
+          <div class="ch-tags">
+            <span class="ch-tag">Sage Live PLG</span>
+            <span class="ch-tag">NA in 3 Months</span>
+            <span class="ch-tag">Developer Portal 0-to-1</span>
+            <span class="ch-tag">API Monetisation</span>
+          </div>
+          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(2)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Fit Snapshot →</button>
+        </div>
+        <div class="ch-toggle">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#616061" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="ch-number">2</div>
+      </div>
+      <div class="ch-body"><div class="ch-body-inner"><div class="ch-content">
+        <div class="ch-divider"></div>
+        <div class="ch-two-col">
+          <div class="ch-narrative">
+            <h4>Storyline</h4>
+            <ul>
+              <li><div class="bullet"></div><span>Co-owned and solely drove the platform strategy for <strong>Sage Live</strong> — Target State Architecture, multi-country compliance, and a PLG motion that launched <strong>North America in 3 months</strong> then <strong>7 countries in one quarter</strong>; secured the legacy install base through the SaaS transition without revenue decline</span></li>
+              <li><div class="bullet"></div><span>Built Sage's <strong>first-ever global marketplace from 0-to-1</strong> — designed the commercial model from scratch: partner tiers, certification criteria, and a curation model that balanced ecosystem openness with quality signal; <strong>50 premium ISVs recruited in Year 1</strong><span class="stat-trigger" onclick="event.stopPropagation();openModal('isv')">↗ 50 ISVs</span></span></li>
+              <li><div class="bullet"></div><span>Built Sage's <strong>first developer portal</strong> — designed the full developer journey from first API call to production-grade app; created the Technical Evangelist function and reduced developer time-to-value from days to hours with self-serve sandboxes and structured onboarding</span></li>
+              <li><div class="bullet"></div><span>Defined <strong>API monetisation strategy</strong>: throttling, metering &amp; usage-based billing model; identified the strategic partnership that closed the platform's connectivity gap and negotiated directly at CEO level</span></li>
+              <li><div class="bullet"></div><span>Spearheaded <strong>Yocova</strong> (Rolls-Royce R2 Labs) — a complex B2B API marketplace built 0-to-1 that unlocked and monetised decades of siloed aviation data; owned commercial strategy, financial modelling &amp; executive negotiations</span></li>
+            </ul>
+          </div>
+          <div class="ch-matrix">
+            <h4>Sr. Director PM Fit Assessment</h4>
+            <div class="matrix-items">
+              <div class="matrix-item">
+                <div class="mi-score score-97">97<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="0-to-1 product development — Sage Live launched NA in 3 months, 7 countries/languages in one quarter; Product-Led Growth motion without a sales team">Sage Live PLG — 0-to-1 &amp; Multi-Country</div>
+                  <div class="mi-evidence">Owned the full product vision, Target State Architecture, roadmap, and PLG motion for Sage Live. NA in 3 months, 7 countries in one quarter. Secured legacy install base during SaaS transition without revenue decline — one of the hardest problems in enterprise software migration.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-91">91<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="Developer experience — time-to-value, onboarding, activation; the journey from first API call to published, production-quality application">Developer Experience &amp; Time-to-Value</div>
+                  <div class="mi-evidence">Built Sage Developer Portal 0-to-1 — reduced individual developer TtV from days to hours with self-serve sandboxes, structured onboarding UX, and API documentation. Pipeline marketing engine fed qualified ISV leads into the marketplace.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="In-Slack App & Agent Experience — The end-user experience of apps and agents within Slack: how they surface in conversations, how users discover and invoke them, and how AI agents are presented and trusted by end users.">In-Slack App &amp; Agent Experience (UX/DX)</div>
+                  <div class="mi-evidence">Deep UX ownership throughout career: storyboarding and UX design is standard practice in every partner engagement. Led UX + Conversation Experience Design workstream for a live TDX keynote prototype. Sets and enforces design quality bar across the full partner portfolio.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-96">96<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="Salesforce platform knowledge — APIs, data model, identity, provisioning; understanding of how Salesforce and Slack can converge as a unified platform">Salesforce Platform &amp; Convergence Vision</div>
+                  <div class="mi-evidence">10 years ISV advisory on Salesforce platform — APIs, data model, identity, auth, provisioning. Brings a practitioner's understanding of how Slack and Salesforce converge as a unified platform from both the developer and product strategy layers.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-93">93<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="AI-first product experience — Agentforce, natural language interactions, agentic orchestration; building products where AI is a first-class capability, not a bolt-on">AI-First Product Experience</div>
+                  <div class="mi-evidence">Leads Salesforce's Agentforce developer ecosystem. PAELA (agentic commercial model tied to agent usage). Partner Innovation Engineering (agents in production at ISV scale). 100% AI workflow adoption across global team. Identifies AI product gaps as a practitioner — built Bolt.js and Next Gen Deno Slack apps to understand the platform first-hand.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- CHAPTER 3 -->
+    <div class="chapter ch-3" onclick="toggleChapter(this)">
+      <div class="ch-header">
+        <div class="ch-icon">⚡</div>
+        <div class="ch-meta">
+          <div class="ch-label">Chapter 3 · Salesforce</div>
+          <div class="ch-title">Fractional CPO, Product Strategist &amp; Cross-Org Executor</div>
+          <div class="ch-sub">Partner Solutions Process Map · Agentforce · PAELA · SlackCRM Convergence Vision</div>
+          <div class="ch-tags">
+            <span class="ch-tag">Partner Solutions Process Map</span>
+            <span class="ch-tag">Agentforce AI-First</span>
+            <span class="ch-tag">PAELA 0-to-1</span>
+            <span class="ch-tag">SlackCRM Vision</span>
+          </div>
+          <button class="ch-fit-btn" onclick="event.stopPropagation(); openRadar(3)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Fit Snapshot →</button>
+        </div>
+        <div class="ch-toggle">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6L8 10L12 6" stroke="#616061" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="ch-number">3</div>
+      </div>
+      <div class="ch-body"><div class="ch-body-inner"><div class="ch-content">
+        <div class="ch-divider"></div>
+        <div class="ch-two-col">
+          <div class="ch-narrative">
+            <h4>Storyline</h4>
+            <ul>
+              <li><div class="bullet"></div><span>Devised the <strong>Partner Solutions Process Map</strong> — a 10-step Fractional CPO methodology covering the full PM lifecycle: Discovery, Design Sprints, Roadmapping, Prioritisation, Solutioning, POV, Delivery, and GTM Activation; deployed across 30+ ISV product engagements per year</span></li>
+              <li><div class="bullet"></div><span>Identified an unmet commercial need no one had named — co-developed <strong>PAELA</strong> from 0-to-1: defined the product concept, wrote the business case, navigated Legal/RevRec/Compliance/Deal Desk to bring it to market; <strong>$100M ACV target in FY27</strong><span class="stat-trigger" onclick="event.stopPropagation();openModal('isv')">↗ $100M PAELA</span></span></li>
+              <li><div class="bullet"></div><span>Runs structured <strong>Customer &amp; Product Advisory Boards</strong> across the ISV portfolio — qualitative research feeding directly into platform roadmap decisions; Design Sprints producing validated prototypes in 5 days</span></li>
+              <li><div class="bullet"></div><span>Created the <strong>Partner Innovation Engineer</strong> role — a new product function optimising Agentforce agents in production; and <strong>Partner Demo Kits</strong> embedding 3P capabilities in enterprise sales cycles</span></li>
+              <li><div class="bullet"></div><span>Leads a <strong>27-person global team</strong> (AMER, EMEA, ANZ) including 1 Senior Director + 3 Directors — coaches product thinking at every level: roadmap prioritisation, user research habits, hypothesis-first decision-making</span></li>
+              <li><div class="bullet"></div><span>Vision for <strong>SlackCRM</strong>: Slack as the conversational front door to Salesforce — natural language CRM, Agentforce orchestration, and identity convergence</span></li>
+            </ul>
+          </div>
+          <div class="ch-matrix">
+            <h4>Sr. Director PM Fit Assessment</h4>
+            <div class="matrix-items">
+              <div class="matrix-item">
+                <div class="mi-score score-97">97<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="Product vision &amp; strategy — own the full product vision for SlackCRM, Slackbot CRM, and SlackFirst primitives; translate strategy into a prioritised roadmap executed across teams">Product Vision &amp; Strategy at Scale</div>
+                  <div class="mi-evidence">PAELA: identified a commercial gap nobody else saw, created the product vision, drove 5-deal pipeline targeting $100M ACV. Partner Solutions Process Map structures vision-to-delivery across every ISV engagement. Futuristic #8 CliftonStrengths — vivid, prescriptive vision of what should be built and why.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-96">96<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="Cross-org complexity at Salesforce scale — navigating Legal, RevRec, Compliance, Deal Desk, Sales, and Product simultaneously across Slack and Salesforce orgs">Cross-Org Execution at Salesforce Scale</div>
+                  <div class="mi-evidence">PAELA navigated Legal, RevRec, Compliance, Deal Desk, Sales, and Product simultaneously across Slack and Salesforce orgs. ISV ELT member with executive endorsements from EVP, SVP, and VP levels across multiple functions. Reports into CRO org.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-95">95<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="AI-first product experience — Agentforce, natural language interactions, agentic orchestration; building products where AI is a first-class capability, not a bolt-on">AI-First Product Execution</div>
+                  <div class="mi-evidence">Partner Innovation Engineer role (agents in production). Agentforce hackathons. PAELA consumption model tied to agent usage. 100% AI workflow adoption across global team. Built Bolt.js and Next Gen Deno Slack apps this week — identified 3 platform-level DX gaps as a practising developer.</div>
+                </div>
+              </div>
+              <div class="matrix-item">
+                <div class="mi-score score-92">92<div class="mi-pct">%</div></div>
+                <div class="mi-text">
+                  <div class="mi-req" data-jd="Slack–Salesforce platform convergence — OrgJWT, permissions sync, identity unification; the technical and product work to make Slack and Salesforce feel like one platform">Slack–Salesforce Convergence Vision</div>
+                  <div class="mi-evidence"><strong>Unique insider advantage.</strong> Already embedded in the Salesforce ISV ecosystem — understands the platform convergence challenge from both sides. Brings a prescriptive point of view on how Slack and Salesforce should converge as a unified developer and end-user experience. No external hire has this starting point.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── JOURNEY ── -->
+<section class="journey">
+  <div class="journey-inner">
+    <div class="section-eyebrow">Career Arc</div>
+    <div class="section-title">A Product Builder's Journey</div>
+
+    <div class="timeline">
+      <div class="tl-node" style="cursor:default;pointer-events:none;">
+        <div class="tl-dot" style="padding:8px;background:white;"><img src="https://media.licdn.com/dms/image/v2/C4D0BAQHaPbFJOtsGyg/company-logo_200_200/company-logo_200_200/0/1631330113291?e=2147483647&v=beta&t=1vvUSkM9kGLDN_r5sypXu-KYXsCmBMmYZa91wXhy3qM" style="width:100%;height:100%;object-fit:contain;" alt="Think Limited"></div>
+        <div class="tl-year" style="opacity:0.6;">2006–2008</div>
+        <div class="tl-org" style="opacity:0.6;">Think Limited</div>
+        <div class="tl-role" style="opacity:0.6;">Engineer → Dev Lead</div>
+        <div class="tl-metric" style="opacity:0.6;">Promoted in year one</div>
+      </div>
+      <div class="tl-node" onclick="toggleTlPanel('ayo', this)">
+        <div class="tl-dot" style="padding:10px;background:white;"><img class="co-logo" src="data:image/png;base64,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" alt="AYO Digital"></div>
+        <div class="tl-year">2008–2014</div>
+        <div class="tl-org">AYO Digital</div>
+        <div class="tl-role">Co-founder &amp; CTO</div>
+        <div class="tl-metric">80% platform revenue</div>
+        <div class="tl-hint">View Highlights ↓</div>
+      </div>
+      <div class="tl-node" onclick="toggleTlPanel('sage', this)">
+        <div class="tl-dot" style="padding:10px;background:white;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sage-logo_svg.svg/1280px-Sage-logo_svg.svg.png" style="width:100%;height:100%;object-fit:contain;" alt="Sage"></div>
+        <div class="tl-year">2014–2017</div>
+        <div class="tl-org">Sage Group</div>
+        <div class="tl-role">Architect, PM &amp; Ecosystem Leader</div>
+        <div class="tl-metric">First marketplace &amp; DX</div>
+        <div class="tl-hint">View Highlights ↓</div>
+      </div>
+      <div class="tl-node" onclick="toggleTlPanel('sfdc-ln', this)">
+        <div class="tl-dot" style="padding:8px;background:white;"><img src="https://logos-world.net/wp-content/uploads/2020/10/Salesforce-Logo.png" style="width:100%;height:100%;object-fit:contain;" alt="Salesforce"></div>
+        <div class="tl-year">2018–2021</div>
+        <div class="tl-org">Salesforce · London</div>
+        <div class="tl-role">Principal Technical Evangelist</div>
+        <div class="tl-metric">+35–40% Year 1 partner rev</div>
+        <div class="tl-hint">View Highlights ↓</div>
+      </div>
+      <div class="tl-node" onclick="toggleTlPanel('sfdc-sf', this)">
+        <div class="tl-dot" style="padding:8px;background:white;"><img src="https://logos-world.net/wp-content/uploads/2020/10/Salesforce-Logo.png" style="width:100%;height:100%;object-fit:contain;" alt="Salesforce"></div>
+        <div class="tl-year">2021–Now</div>
+        <div class="tl-org">Salesforce · SF</div>
+        <div class="tl-role">Sr. Director, Partner Solutions</div>
+        <div class="tl-metric">$960M AOV ecosystem</div>
+        <div class="tl-hint">View Highlights ↓</div>
+      </div>
+    </div>
+
+    <!-- AYO DIGITAL -->
+    <div class="tl-panel-wrap" id="panel-ayo">
+      <div class="tl-panel-inner">
+        <div class="tl-panel tl-panel-ayo">
+          <button class="tl-panel-close" onclick="closeTlPanel('ayo')">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tl-panel-header">
+            <div class="tl-panel-icon" style="padding:6px;"><img class="co-logo" src="data:image/png;base64,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" alt="AYO Digital"></div>
+            <div>
+              <h3>AYO Digital</h3>
+              <p>Co-founder &amp; CTO · Newcastle, UK · 2008–2014</p>
+            </div>
+          </div>
+          <div class="tl-panel-grid">
+            <div class="tl-case tl-case-full">
+              <div class="tl-case-label">Platform · Product Methodology · P&amp;L</div>
+              <div class="tl-case-title">The Platform Pivot — AYOWare &amp; the Origin of the Methodology</div>
+              <div class="tl-case-desc">AYO Digital started as a bespoke software studio — building custom applications one client at a time. Kevin made the call to change that. The decision was a product and commercial bet: move from one-off builds to a <strong>modular, multi-tenant SaaS platform</strong> that could be deployed rapidly across clients without rebuilding the core each time.<br><br>But the platform pivot alone wasn't enough. Shipping fast on reusable infrastructure only works if what gets built is the right thing. Kevin developed a <strong>repeatable product delivery methodology</strong> at AYO that governed every engagement — a closed-loop cycle from pre-sales through to ongoing product evolution. This was the origin of the process Kevin has refined and applied across every chapter of his career since — including the <strong>Partner Solutions Process Map</strong> deployed across Salesforce's global ISV portfolio today.<br><br>The cycle ensured no feature entered the platform without validated need, no product launched without a clear success measure, and no client relationship ended at go-live — it became the continuous engine of product improvement.<br><br>Kevin led the <strong>35-person cross-functional org</strong> — Engineering, UX, QA, DevOps, and Customer Success — with full P&amp;L accountability. The platform division went on to drive <strong>80% of total corporate revenue</strong>.</div>
+              <div class="ayo-cycle">
+                <div class="ayo-cycle-title">The AYOWare Product Delivery Cycle — Origin of the Methodology</div>
+                <div class="ayo-cycle-track">
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">1</div>
+                    <div class="ayo-step-label">Pre-Sales &amp;<br>Scoping</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">2</div>
+                    <div class="ayo-step-label">Discovery &amp;<br>Research</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">3</div>
+                    <div class="ayo-step-label">Personas &amp;<br>Journey Maps</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">4</div>
+                    <div class="ayo-step-label">Architecture &amp;<br>Prototyping</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">5</div>
+                    <div class="ayo-step-label">Build &amp;<br>Test</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">6</div>
+                    <div class="ayo-step-label">Launch &amp;<br>Enablement</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">7</div>
+                    <div class="ayo-step-label">Aftercare &amp;<br>CSG</div>
+                  </div>
+                  <div class="ayo-arrow">→</div>
+                  <div class="ayo-step">
+                    <div class="ayo-step-dot">8</div>
+                    <div class="ayo-step-label">CABs &amp;<br>Feedback</div>
+                  </div>
+                  <div class="ayo-arrow ayo-arrow-loop">↩ iterate</div>
+                </div>
+              </div>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">Vertical CRM · UX Research · Complex Domain</div>
+              <div class="tl-case-title">Care Coordination Platform — 0-to-1 Vertical CRM</div>
+              <div class="tl-case-desc">A care organisation delivering personalised support for individuals with complex neurological conditions, brain injuries, and physical or learning disabilities had a fundamental product problem: care coordination — matching community workers to clients, scheduling social activities, logging observations, and billing across local authority and NHS funding streams — was being managed without software built for the job. The stakes were not abstract: wrong matches, missed risk notes, or billing errors directly affected vulnerable people and the workers caring for them.<br><br>Kevin and his UX researchers spent <strong>weeks onsite</strong> with three distinct user groups — organisation staff, community workers (those supporting clients in social settings such as day trips, shopping, and outings), and client guardians (legal guardians or responsible parties). The team ran structured <strong>discovery sessions</strong>, then moved into <strong>user persona mapping, user journey mapping, value proposition definition, and metrics</strong> before a single prototype was drawn.<br><br>The platform Kevin and his team designed and built covered five interconnected use cases:<br><br>• <strong>Client onboarding</strong> — needs assessment, care plan documentation, billing setup, and guardian relationship management<br>• <strong>Community worker onboarding</strong> — skills profiling, availability, certification tracking (DBS, specialist training), and compliance requirements<br>• <strong>Intelligent matching</strong> — client paired to worker against skills, availability, and care plan; <strong>private clinical notes released to the matched worker only</strong> at point of assignment — privacy-preserving, role-gated disclosure<br>• <strong>Social activity log</strong> — post-visit write-ups: observations, risks, incidents; reviewed by staff who issued guidance and set safety policies for future visits; an auditable, continuously improving care record<br>• <strong>Billing and invoicing</strong> — flexible multi-payer billing to individuals, businesses, and local authorities funding care through UK benefits and NHS — each with distinct invoicing formats, payment terms, and compliance requirements<br><br>Kevin was personally involved across the full lifecycle — <strong>discovery through CSG</strong> — serving as executive sponsor throughout. The matching and private-notes architecture was the hardest design challenge: balancing care plan transparency with client privacy, worker safety obligations, and GDPR data minimisation simultaneously.</div>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">Field Service · CRM · IoT · Mobile</div>
+              <div class="tl-case-title">AAF International — End-to-End Field Service Platform</div>
+              <div class="tl-case-desc">AAF International is the global leader in commercial filtration and clean air solutions — $500M+ turnover, 2,800+ employees, operations across 24 countries, part of the Daikin Industries Group. The platform AYO built was one of the most technically complex engagements in the portfolio: a fully integrated field service management system spanning the complete commercial and operational lifecycle across four distinct user personas — sales managers, OEM engineers, field technicians, and warehouse operators.<br><br>• <strong>CRM — Sales &amp; Service</strong> — leads, opportunities, and full sales cycle management for the global salesforce; post-sale support cases; account and contact management across Aftermarket and OEM teams<br>• <strong>Parts catalogue &amp; BOM management</strong> — high-volume parts data and Bills of Materials as a single source of truth across quoting, ordering, and field service<br>• <strong>QMS &amp; OEM quoting</strong> — centralised quotation management for the Aftermarket team; complex custom-build configuration for the OEM team; quote turnaround reduced from <strong>weeks to hours</strong><br>• <strong>Warehouse integration</strong> — real-time parts availability feeding into quoting, ordering, and field dispatch<br>• <strong>IoT sensor integration &amp; predictive maintenance</strong> — live equipment health monitoring from parts sensors; failures flagged before breakdown; reactive maintenance became preventive<br>• <strong>Mobile app for field technicians</strong> — QR code and RFID tag scanning to identify parts instantly; contextual repair guide retrieval; onsite replacement part ordering direct to warehouse; structured inspection logging in the field<br><br>Fully live in the UK with US state-by-state rollout underway at point of engagement close. "AYO Digital provided a highly professional service." — James Ross, Aftermarket Business Manager, AAF International</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAGE GROUP -->
+    <div class="tl-panel-wrap" id="panel-sage">
+      <div class="tl-panel-inner">
+        <div class="tl-panel tl-panel-sage">
+          <button class="tl-panel-close" onclick="closeTlPanel('sage')">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tl-panel-header">
+            <div class="tl-panel-icon" style="padding:6px;"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Sage-logo_svg.svg/1280px-Sage-logo_svg.svg.png" style="width:100%;height:100%;object-fit:contain;" alt="Sage"></div>
+            <div>
+              <h3>Sage Group</h3>
+              <p>Architect, PM &amp; Ecosystem Leader · Newcastle, UK · 2014–2017</p>
+            </div>
+          </div>
+          <div class="tl-panel-grid">
+            <div class="tl-case tl-case-full">
+              <div class="tl-case-label">Named PM Role · PLG · Multi-Country · Platform Strategy</div>
+              <div class="tl-case-title">Sage Live (now Sage Intacct) — Product Manager &amp; Platform Architect</div>
+              <div class="tl-case-desc">Sage Live was Kevin's named PM role — and the most complete expression of full-stack product ownership in the Sage chapter. Kevin held accountability across three connected layers simultaneously.<br><br><strong>As Product Manager</strong>, Kevin owned the full product roadmap — setting strategy, running the Agile delivery cycle, writing user stories, managing the engineering team, and facilitating sprint ceremonies as Scrum Master. Kevin led the <strong>Product-Led Growth motion</strong> that launched Sage Live in North America in <strong>3 months</strong> — without a direct sales team — and then executed a <strong>7-country rollout in a single quarter</strong> (Germany, France, Spain, Australia, South Africa, UK, and Italy), each requiring distinct language variants, regional tax legislation, and local accounting compliance. Critically, Kevin secured Sage's legacy install base through the SaaS transition without triggering revenue decline — one of the hardest problems in enterprise software migration.<br><br><strong>As Architect</strong>, Kevin defined the Target State Architecture: the technical foundation that made Sage Live secure, scalable, and simultaneously compliant across multiple regulatory environments. This architecture is what made the PLG velocity possible — without it, the speed of rollout would have been impossible.<br><br><strong>As Platform Business Lead</strong>, Kevin owned the commercial layer for third-party developers — defining how ISVs could extend Sage Live, structuring the partner access model, and bridging the Developer Portal and Marketplace into a commercially viable ecosystem. Kevin was the Salesforce platform expert and small business advisor for ISVs building on the platform.<br><br>Sage Live was built on Salesforce — and the global strategic partnership that underpinned it was validated at the highest level:</div>
+              <blockquote style="margin:12px 0 4px;padding:12px 16px;background:#F6F6F6;border-left:3px solid #ECB22E;border-radius:6px;font-size:12px;line-height:1.6;color:#1D1C1D;">"I'm excited about the opportunity this partnership creates for our customers. Together, Sage and Salesforce are empowering fast growing companies to run their businesses on the world's #1 enterprise cloud platform."<br><span style="display:block;margin-top:6px;font-size:11px;font-weight:700;color:#616061;">— Marc Benioff, Chairman &amp; CEO, Salesforce</span></blockquote>
+              <a class="tl-case-link" href="https://www.sage.com/investors/investor-downloads/press-releases/2015/05/13/sage-and-salesforce-announce-global-strategic-partnership/" target="_blank" rel="noopener">🔗 Press Announcement ↗</a>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">Product Manager · 0-to-1 · Curation Design · Partner UX</div>
+              <div class="tl-case-title">Sage Marketplace — PM from Blank Page to 50 ISVs</div>
+              <div class="tl-case-desc">There was no marketplace before this — no product brief, no prior art, no team. Kevin was the PM. That meant starting with the product problem: how should a global accounting software company present third-party applications to its customers in a way that builds trust, drives adoption, and scales without sacrificing quality?<br><br>Kevin defined the product from the ground up — the user experience for ISVs browsing and evaluating apps, the curation model that determined what got listed and how, the certification standards that created the quality bar, and the partner tier structure that balanced commercial incentives with ecosystem integrity. Every decision was a product decision: what does "featured" mean and who decides? How does a customer discover the right app for their workflow? What does it take to be "Sage Certified" and why should that matter to a buyer?<br><br>Kevin also owned the ISV onboarding journey as a product surface — not just a process. He designed how partners experienced the submission, review, and listing flow, and recruited <strong>50 premium ISVs in Year 1</strong> by making the platform genuinely worth building on. The marketplace became a commercially productive ecosystem — not a catalogue.</div>
+              <a class="tl-case-link" href="https://www.sage.com/en-gb/sage-business-cloud/intacct/marketplace/" target="_blank" rel="noopener">🔗 View Sage Marketplace ↗</a>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">Product Manager · Developer Experience · Time-to-Value</div>
+              <div class="tl-case-title">Sage Developer Portal — PM for the Full Developer Journey</div>
+              <div class="tl-case-desc">Sage had no developer destination before this — and no model for how one should work. Kevin was the PM. The product problem was clear: how do you take a developer from first awareness of Sage's APIs to a production-quality, certified app in the marketplace — as fast as possible, with as little friction as possible?<br><br>Kevin owned the full developer journey as a product: the onboarding flow, the documentation architecture, the sandbox environment design, and the progression from trial access to certified partner. Every stage was a UX problem — what does a developer need to see at each step to keep moving forward rather than drop off?<br><br>Kevin defined the success metrics (time-to-first-API-call, time-to-certification, conversion from portal registration to marketplace listing), designed the pipeline marketing engine that fed qualified ISV leads into the commercial funnel, and created Sage's first <strong>Technical Evangelist</strong> role to enforce and evolve the quality standard at scale.<br><br>The result was a portal developers actually used — a measurable reduction in developer time-to-value from days to hours — and a funnel that made the marketplace trustworthy to enterprise customers.</div>
+              <a class="tl-case-link" href="https://developer.sage.com/" target="_blank" rel="noopener">🔗 View Sage Developer Portal ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALESFORCE LONDON -->
+    <div class="tl-panel-wrap" id="panel-sfdc-ln">
+      <div class="tl-panel-inner">
+        <div class="tl-panel tl-panel-sfdc-ln">
+          <button class="tl-panel-close" onclick="closeTlPanel('sfdc-ln')">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tl-panel-header">
+            <div class="tl-panel-icon" style="padding:6px;"><img src="https://logos-world.net/wp-content/uploads/2020/10/Salesforce-Logo.png" style="width:100%;height:100%;object-fit:contain;" alt="Salesforce"></div>
+            <div>
+              <h3>Salesforce · London</h3>
+              <p>Senior &amp; Principal Technical Evangelist · 2018–2021</p>
+            </div>
+          </div>
+          <div class="tl-panel-grid">
+            <div class="tl-case tl-case-full">
+              <div class="tl-case-label">Product Methodology · Fractional CPO · Individual Contributor</div>
+              <div class="tl-case-title">The Fractional CPO — Embedded Product Leadership</div>
+              <div class="tl-case-desc">Kevin joined Salesforce London as an individual contributor — no team, no direct reports. What he built was something harder to see on an org chart: a product methodology that transformed how an entire function operated, through personal craft and influence alone.<br><br>It was during this chapter that Kevin first read <a href="https://leanproductplaybook.com" target="_blank" rel="noopener" style="color:#8A6000;font-weight:600;">Dan Olsen's <em>The Lean Product Playbook</em></a> (2015) — and it became his operating framework. The Product-Market Fit Pyramid gave Kevin a structured, repeatable way to diagnose where a product was failing and what to fix first: start with the target customer, understand their underserved needs, define the value proposition, build the feature set, and only then focus on UX. Applied to ISV partner engagements, it replaced assumption-driven product conversations with evidence-backed ones.<br><br>Kevin rebuilt every partner engagement around this foundation, adding three complementary practices:<br><br>• <strong>Design Sprints</strong> — 5-day structured cycles from problem to tested prototype; partners left with validated product concepts, not vague requirements or slide decks<br>• <strong>Lean Startup</strong> — build-measure-learn loops replacing assumption-driven roadmaps with evidence-backed priorities<br>• <strong>Business Model Canvas</strong> — a shared commercial language forcing alignment on value proposition, revenue model, and customer segments before engineering began<br><br>Kevin operated as a <strong>Fractional CPO</strong> inside each partner organisation — running discovery, mapping user personas and journeys, defining value propositions, co-building roadmaps, and setting product strategy alongside founders, PMs, and engineering teams. Kevin had no authority over any of them. The outcomes — double-digit ACV growth year-on-year across EMEA — reflect what happens when product rigour is applied as a discipline, not a service.</div>
+              <div class="pmf-pyramid">
+                <div class="pmf-pyramid-title">Dan Olsen's Product-Market Fit Pyramid — Kevin's Operating Framework Since 2018</div>
+                <div class="pmf-pyramid-wrap">
+                  <div class="pmf-tier pmf-t5">UX<span class="pmf-tier-sub">Look, feel &amp; usability</span></div>
+                  <div class="pmf-tier pmf-t4">Feature Set<span class="pmf-tier-sub">What the product does</span></div>
+                  <div class="pmf-tier pmf-t3">Value Proposition<span class="pmf-tier-sub">How you beat alternatives</span></div>
+                  <div class="pmf-tier pmf-t2">Underserved Needs<span class="pmf-tier-sub">What the customer actually needs</span></div>
+                  <div class="pmf-tier pmf-t1">Target Customer<span class="pmf-tier-sub">Who you are building for</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">0-to-1 Product · Data Marketplace · Architecture · User Personas</div>
+              <div class="tl-case-title">Yocova · Rolls-Royce R2 Labs — Building the Unbuilt</div>
+              <div class="tl-case-desc">Yocova didn't exist — not the concept, not the model, not the market. There was no prior art for a commercial data marketplace connecting aircraft operators, OEMs, and MRO providers across decades of siloed engine and operational data. Kevin led the way on every layer of what that product needed to be.<br><br>The product design challenges were fundamental: What is the user? What does "access" mean across organisations with different governance models and commercial sensitivities? Who owns the data, who prices it, and who trusts the platform enough to share it? Kevin started where every product should — with the people.<br><br>Kevin defined the <strong>user personas</strong> for each side of the marketplace (data providers and data consumers had entirely different motivations, trust requirements, and workflows), mapped the <strong>user journeys</strong> for both, identified the <strong>key use cases</strong> that justified the platform's existence, and defined the <strong>value proposition</strong> for each participant type before any architecture was agreed.<br><br>From there, Kevin led the <strong>data exchange model design</strong> — how data would be structured, governed, and made discoverable across organisations — defined the <strong>commercial access tiers</strong>, set the <strong>curation and trust standards</strong> for data providers, and served as <strong>architecture advisor</strong> throughout the build.<br><br>Yocova went from blank page to live, operating marketplace. No template. No precedent. Real commercial negotiations, real revenue model, real product shipped.</div>
+              <a class="tl-case-link" href="https://www.yocova.com" target="_blank" rel="noopener">🔗 View Yocova ↗</a>
+            </div>
+            <div class="tl-case">
+              <div class="tl-case-label">Hands-On Build · Hackathons · Boardroom to Engineering Floor</div>
+              <div class="tl-case-title">Equally at Home in a Hackathon as a Boardroom</div>
+              <div class="tl-case-desc">One of the defining qualities of Kevin's Salesforce London chapter is range — the ability to move from a C-suite strategy session to a partner's engineering floor without breaking stride, and to be genuinely useful in both rooms.<br><br>Kevin ran <strong>multi-day developer hackathons</strong> — not as a facilitator standing at the front, but as a participant: setting the challenge, coding alongside engineers, debugging in real time, and shipping working prototypes on the Salesforce platform. He ran <strong>week-long immersion sessions</strong> with partner development teams, going from architecture whiteboard to working application, building best practices for platform extensibility from the inside out.<br><br>Kevin also built <strong>reference applications</strong> personally — production-quality apps that closed the gap between API documentation and something developers could actually build against. These weren't demos; they were the standard.<br><br>The same week Kevin might be running a hackathon with a partner's engineering team, he would be on stage at <strong>Dreamforce, TDX, or a Salesforce World Tour</strong> — delivering keynotes to thousands in-person and millions via Salesforce+, or sitting in a boardroom with a CPO aligning on a multi-year platform roadmap.<br><br>That range — practitioner credibility with engineers, strategic authority with executives — is what makes Kevin's product leadership distinctive. Kevin doesn't just set direction. Kevin can build.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALESFORCE SF -->
+    <div class="tl-panel-wrap" id="panel-sfdc-sf">
+      <div class="tl-panel-inner">
+        <div class="tl-panel tl-panel-sfdc-sf">
+          <button class="tl-panel-close" onclick="closeTlPanel('sfdc-sf')">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <div class="tl-panel-header">
+            <div class="tl-panel-icon" style="padding:6px;"><img src="https://logos-world.net/wp-content/uploads/2020/10/Salesforce-Logo.png" style="width:100%;height:100%;object-fit:contain;" alt="Salesforce"></div>
+            <div>
+              <h3>Salesforce · San Francisco</h3>
+              <p>Senior Director, Partner Solutions · 2021–Present</p>
+            </div>
+          </div>
+          <div class="tl-panel-grid">
+
+            <!-- CARD 1: Full-width — Partner Solutions Process Map Evolution -->
+            <div class="tl-case tl-case-full">
+              <div class="tl-case-label">Product Methodology · AI-Native Execution · Fractional CPO at Scale</div>
+              <div class="tl-case-title">The Partner Solutions Process Map — v3: POV, Storytelling &amp; AI-Native Partner Engagement</div>
+              <div class="tl-case-desc">The methodology Kevin runs today is the third generation of a process that started at AYO Digital and matured through Salesforce London. Each iteration added a layer; none replaced what came before.<br><br>
+<strong>v1 — AYO (origin):</strong> A closed-loop product delivery cycle built out of necessity — from pre-sales scoping through discovery, build, launch, aftercare, CABs, and feedback. The discipline of not shipping without validated need and not going live without a success measure.<br><br>
+<strong>v2 — London (formalised):</strong> Dan Olsen's PMF Pyramid as the diagnostic backbone. Design Sprints, Lean Startup, and the Business Model Canvas added as the three operating practices. Individual contributor with no direct authority — the methodology was the only lever. It produced double-digit ACV growth year-on-year across EMEA.<br><br>
+<strong>v3 — SF (scaled &amp; AI-native):</strong> The Partner Solutions Process Map now runs across a 27-person global team as the shared operating standard for every ISV engagement. Three significant additions distinguish this generation:<br><br>
+• <strong>The POV (Point of View)</strong> — a structured investment-case asset that opens every strategic engagement. The POV captures user personas, user journeys, the product opportunity, the competitive landscape, and a clear value proposition — written like an internal pitch, not a slide deck. It replaces assumption-led conversations with a shared artefact the partner can take back to their leadership. It is the product strategy on a page.<br>
+• <strong>Storytelling &amp; Narrative Tools</strong> — added to the methodology to help partners communicate their product strategy to their own boards, customers, and engineering teams. Kevin's background in executive communication and stage presence (Dreamforce, TDX, Salesforce+) is codified here as a repeatable skill the whole team uses.<br>
+• <strong>AI-Native Engagement</strong> — the most significant evolution. Kevin's vision: in the Agentforce era, skills are software functions and agents are products. The Partner Solutions process now explicitly handles AI product definition — from identifying which workflows are agent-worthy to scoping skills, defining trust and safety guardrails, and structuring the human-in-the-loop design. The team builds alongside partners, not just advises.<br><br>
+The <strong>Partner Innovation Engineer (PIE)</strong> role — created by Kevin — is the hands-on expression of this. PIEs are embedded engineers who build working POCs, write production-quality code for ISV products, and close the gap between architecture advice and shipped software. This is not advisory work; it is engineering in service of partner product velocity.</div>
+              <div class="pse-evo">
+                <div class="pse-evo-title">Partner Solutions Process Map — v3 (Salesforce SF) · Continuous Flywheel</div>
+                <!-- SVG flywheel: 6 segments clockwise, cx=220 cy=220 r=220 viewBox 0 0 440 440 -->
+                <div style="display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;">
+                  <!--
+                    Flywheel: 6 donut segments, 60° each, clockwise from top (-90°).
+                    cx=220, cy=220. Outer r=165, inner r=100.
+                    Outer boundary points: P0(-90°)=(220,55) P1(-30°)=(362.9,137.5)
+                      P2(30°)=(362.9,302.5) P3(90°)=(220,385) P4(150°)=(77.1,302.5) P5(210°)=(77.1,137.5)
+                    Inner boundary points: Q0=(220,120) Q1=(306.6,170) Q2=(306.6,270)
+                      Q3=(220,320) Q4=(133.4,270) Q5=(133.4,170)
+                    Labels at radial midpoint r=132.5, angle = segment midpoint.
+                  -->
+                  <svg viewBox="0 0 440 440" width="280" height="280" xmlns="http://www.w3.org/2000/svg" class="pse-flywheel-svg" style="flex-shrink:0;">
+                    <defs>
+                      <marker id="cwArr" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+                        <path d="M1,1 L6,3.5 L1,6 Z" fill="#c084fc"/>
+                      </marker>
+                    </defs>
+
+                    <!-- SEG1: -90° to -30° — Pre-Sales & Scoping -->
+                    <path d="M 220,55 A 165,165 0 0,1 362.9,137.5 L 306.6,170 A 100,100 0 0,0 220,120 Z"
+                          fill="#6B21A8" stroke="white" stroke-width="3"/>
+                    <!-- SEG2: -30° to 30° — Discovery & Research -->
+                    <path d="M 362.9,137.5 A 165,165 0 0,1 362.9,302.5 L 306.6,270 A 100,100 0 0,0 306.6,170 Z"
+                          fill="#6B21A8" stroke="white" stroke-width="3"/>
+                    <!-- SEG3: 30° to 90° — Personas & Journey Maps -->
+                    <path d="M 362.9,302.5 A 165,165 0 0,1 220,385 L 220,320 A 100,100 0 0,0 306.6,270 Z"
+                          fill="#6B21A8" stroke="white" stroke-width="3"/>
+                    <!-- SEG4: 90° to 150° — POV & Narrative ★v3 -->
+                    <path d="M 220,385 A 165,165 0 0,1 77.1,302.5 L 133.4,270 A 100,100 0 0,0 220,320 Z"
+                          fill="#9333ea" stroke="white" stroke-width="3"/>
+                    <!-- SEG5: 150° to 210° — Skills, Agent & PIE Build ★v3 -->
+                    <path d="M 77.1,302.5 A 165,165 0 0,1 77.1,137.5 L 133.4,170 A 100,100 0 0,0 133.4,270 Z"
+                          fill="#9333ea" stroke="white" stroke-width="3"/>
+                    <!-- SEG6: 210° to 270° — Launch, CABs & Iterate -->
+                    <path d="M 77.1,137.5 A 165,165 0 0,1 220,55 L 220,120 A 100,100 0 0,0 133.4,170 Z"
+                          fill="#6B21A8" stroke="white" stroke-width="3"/>
+
+                    <!-- Clockwise rotation cues — 3 short arcs just outside ring -->
+                    <!-- Top cue ~-100° to -80° at r=178 -->
+                    <path d="M 189,46 A 178,178 0 0,1 251,46" fill="none" stroke="#c084fc" stroke-width="2.5" marker-end="url(#cwArr)"/>
+                    <!-- Bottom-right cue ~20° to 40° at r=178 -->
+                    <path d="M 381,281 A 178,178 0 0,1 334,345" fill="none" stroke="#c084fc" stroke-width="2.5" marker-end="url(#cwArr)"/>
+                    <!-- Left cue ~160° to 200° at r=178 — start low, end high (clockwise = upward on left) -->
+                    <path d="M 53,276 A 178,178 0 0,1 53,164" fill="none" stroke="#c084fc" stroke-width="2.5" marker-end="url(#cwArr)"/>
+
+                    <!-- Centre hub -->
+                    <circle cx="220" cy="220" r="88" fill="white" stroke="#d9a8da" stroke-width="2"/>
+                    <text x="220" y="204" text-anchor="middle" font-size="10" font-weight="800" fill="#6B21A8" font-family="Inter,sans-serif">Partner Solutions</text>
+                    <text x="220" y="218" text-anchor="middle" font-size="10" font-weight="800" fill="#6B21A8" font-family="Inter,sans-serif">Process Map v3</text>
+                    <text x="220" y="240" text-anchor="middle" font-size="10" fill="#9333ea" font-weight="700" font-family="Inter,sans-serif">∞ flywheel</text>
+
+                    <!-- Labels: white, centered at r=132.5 for each segment midpoint (no rotation) -->
+                    <!-- SEG1 midpoint -60°: (286.3, 105.3) -->
+                    <text text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">
+                      <tspan x="286" dy="0" y="100">Pre-Sales</tspan>
+                      <tspan x="286" dy="13">&amp; Scoping</tspan>
+                    </text>
+                    <!-- SEG2 midpoint 0°: (352.5, 220) -->
+                    <text text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">
+                      <tspan x="353" dy="0" y="215">Discovery</tspan>
+                      <tspan x="353" dy="13">&amp; Research</tspan>
+                    </text>
+                    <!-- SEG3 midpoint 60°: (286.3, 334.7) -->
+                    <text text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">
+                      <tspan x="286" dy="0" y="329">Personas &amp;</tspan>
+                      <tspan x="286" dy="13">Journey Maps</tspan>
+                    </text>
+                    <!-- SEG4 midpoint 120°: (153.8, 334.7) — v3 -->
+                    <text text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">
+                      <tspan x="154" dy="0" y="323">POV &amp;</tspan>
+                      <tspan x="154" dy="13">Narrative</tspan>
+                      <tspan x="154" dy="12" font-size="8" fill="#f3e8ff">★ v3</tspan>
+                    </text>
+                    <!-- SEG5 midpoint 180°: (87.5, 220) — v3 -->
+                    <text text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">
+                      <tspan x="88" dy="0" y="209">Skills &amp;</tspan>
+                      <tspan x="88" dy="13">Agent/PIE</tspan>
+                      <tspan x="88" dy="12" font-size="8" fill="#f3e8ff">★ v3</tspan>
+                    </text>
+                    <!-- SEG6 midpoint 240°: (153.8, 105.3) -->
+                    <text text-anchor="middle" font-size="9.5" font-weight="700" fill="white" font-family="Inter,sans-serif">
+                      <tspan x="154" dy="0" y="99">Launch,</tspan>
+                      <tspan x="154" dy="13">CABs &amp; ↺</tspan>
+                    </text>
+                  </svg>
+
+                  <!-- Legend -->
+                  <div style="display:flex;flex-direction:column;gap:10px;min-width:140px;">
+                    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:#6B21A8;margin-bottom:4px;">Legend</div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div style="width:14px;height:14px;border-radius:3px;background:#6B21A8;flex-shrink:0;"></div>
+                      <span style="font-size:10px;color:#333;line-height:1.3;">Core process<br>(v1–v3)</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <div style="width:14px;height:14px;border-radius:3px;background:#9333ea;flex-shrink:0;"></div>
+                      <span style="font-size:10px;color:#333;line-height:1.3;"><strong>★ v3 additions</strong><br>SF-era evolution</span>
+                    </div>
+                    <div style="margin-top:8px;padding:8px 10px;background:rgba(147,51,234,0.08);border-radius:8px;border:1px solid #d9a8da;">
+                      <div style="font-size:9px;font-weight:700;color:#6B21A8;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">v3 Additions</div>
+                      <div style="font-size:10px;color:#4a1d6e;line-height:1.6;">
+                        <strong>POV &amp; Narrative</strong> — investment-case asset: personas, journeys, product strategy on a page<br><br>
+                        <strong>Skills &amp; Agent Definition</strong> — AI-native: skills as functions, agents as products<br><br>
+                        <strong>PIE Build</strong> — hands-on engineering, POCs, production code for ISV products
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- CARD 2: PAELA + scale -->
+            <div class="tl-case">
+              <div class="tl-case-label">Commercial Innovation · $960M AOV · ISV ELT</div>
+              <div class="tl-case-title">PAELA · $100M ACV Pipeline · P&amp;L at Scale</div>
+              <div class="tl-case-desc">Kevin is a member of Salesforce's <strong>ISV Executive Leadership Team</strong> — co-owning a <strong>$960M AOV / $230M ACV</strong> business with full accountability for NNAOV targets, partner attrition, multi-million dollar budgets, and quarterly business review cadence. This is not an advisory seat; it is operational ownership at BU scale.<br><br>Within that context, Kevin co-developed <strong>PAELA</strong> — the Partner Agentic Enterprise License Agreement — from first principles. Nothing like it existed before at Salesforce.<br><br>The core insight: the most strategic ISV partners simultaneously consume Salesforce as a <strong>customer</strong> (licenses and platform capacity to build their product) and sell Salesforce as a <strong>partner</strong> (OEM licenses bundled into their own solution). Every prior commercial structure treated these as separate. PAELA unifies them — one agreement, one commercial relationship, one set of aligned incentives — and adds consumption economics for the first time, directly tying Salesforce's revenue to how deeply the ISV's customers use the platform.<br><br>With <strong>5 deals in flight targeting $100M ACV in FY27</strong>, PAELA required navigating Legal, RevRec, Compliance, and Deal Desk across a complex multi-party structure. It is 0-to-1 product thinking applied to commercial architecture.</div>
+            </div>
+
+            <!-- CARD 3: Leadership & Org Transformation -->
+            <div class="tl-case">
+              <div class="tl-case-label">Leading Leaders · Org Transformation · Servant Leadership</div>
+              <div class="tl-case-title">27-Person Global Team · Managing Senior Directors · Raising the Bar</div>
+              <div class="tl-case-desc">Kevin manages managers — including Senior Directors — across a <strong>27-person global team in AMER, EMEA, and ANZ</strong>. He inherited a function that was technically capable but commercially underutilised. The transformation he ran was cultural and structural: raising the performance standard, building commercial accountability where there had been activity metrics, and evolving the team from technical advisors into product strategists operating as Fractional CPOs inside partner organisations.<br><br>The bar-raising was deliberate and measurable: every engagement now runs the Partner Solutions Process Map; every team member is expected to own partner outcomes, not just relationships; 100% AI workflow adoption across the team reflects a culture that builds, not waits.<br><br>Kevin's leadership philosophy is grounded in servant leadership — <em>"the job of the leader is to unblock their challenges and unlock their potential"</em> — validated externally by Salesforce's Global Insights programme (structured 360 feedback), which consistently reflects a low-ego, high-ownership culture.<br><br>The profile behind this: <strong>ENFJ — The Protagonist</strong>. Natural motivator. Leads through empathy and vision. CliftonStrengths <strong>Futuristic (#8)</strong> — sees vividly where things could be and brings others along. These are not abstract traits; they are the operating system behind a team that has consistently grown, adapted, and outperformed in one of Salesforce's most complex matrix environments.</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONCLUSION ── -->
+<section class="conclusion-section">
+  <div class="conclusion-inner">
+    <div class="conclusion-card">
+      <div class="conclusion-grid">
+        <div class="concl-pillar">
+          <div class="concl-pillar-icon">🚀</div>
+          <h4>Ship Products</h4>
+          <p>Five 0-to-1 products shipped across a 20-year career: AYOWare platform, Sage Live, PAELA commercial vehicle, Sage Developer Portal, and Yocova marketplace. Each built from concept through PMF to commercial launch. The craft of shipping is not new. The platform is.</p>
+        </div>
+        <div class="concl-pillar">
+          <div class="concl-pillar-icon">🔍</div>
+          <h4>Obsess over Customers</h4>
+          <p>Dan Olsen practitioner. Customer Advisory Boards and Product Advisory Boards established at Sage and across ISV engagements. Design Sprints, user personas, journey mapping, and build-measure-learn loops applied across every product engagement via the Partner Solutions Process Map. Research-first, always.</p>
+        </div>
+        <div class="concl-pillar">
+          <div class="concl-pillar-icon">⚡</div>
+          <h4>Drive Convergence</h4>
+          <p>Slack and Salesforce can converge in a way no other provider can match — and Kevin has lived both sides of that equation. For Salesforce, convergence is the reality of Headless: the platform powering experiences beyond the UI. For Slack, it is the growth engine — the path to ACV expansion and a richer ISV ecosystem. Kevin has spent years shaping the Salesforce ecosystem from the inside. That depth is now a strategic asset for Slack: a prescriptive convergence vision — SlackCRM, SlackFirst, Slackbot CRM — built from real developer and partner experience, not theory. He shaped the future of Salesforce's platform. The role is to bring that to Slack.</p>
+        </div>
+      </div>
+      <div class="conclusion-close">
+        SlackCRM needs a PM who can build from 0-to-1, operate with PMF rigour, and navigate Salesforce's cross-org complexity — simultaneously. Kevin Reece has the product craft, the Salesforce platform depth, and the convergence vision. <strong>The title said Partner Solutions. The work was Product Management. This is the role that names it.</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── RECRUITER ASSESSMENT TOOL ── -->
+<section class="recruiter-section">
+  <div class="recruiter-inner">
+    <div class="recruiter-toggle" onclick="toggleRecruiter(this)">
+      <span class="recruiter-toggle-icon">▶</span>
+      <span>Recruiter Assessment Tool — JD Requirements Mapped to Evidence</span>
+      <span class="recruiter-badge">Confidential</span>
+    </div>
+    <div class="recruiter-body" id="recruiterBody">
+      <p class="recruiter-intro">Every requirement from the Sr. Director PM, Slack-Salesforce job description mapped to a specific evidence point. Overall fit: <strong>88% HIGH</strong> — 13 of 15 requirements rated HIGH (82%+). Confidence scores reflect depth of demonstrated experience.</p>
+      <p class="recruiter-intro" style="margin-top:8px;padding:12px 16px;background:white;border-radius:10px;border:1px solid #E8E6E6;font-style:italic;">ℹ️ <strong style="font-style:normal;">AI-Generated Assessment.</strong> This evaluation was produced by Claude (Anthropic) through an unbiased analysis of the job description, Kevin's resume, and a series of detailed conversations designed to surface additional context about his roles, experience, and outcomes as a leader. It is intended as a structured starting point for recruiter review — not a self-assessment.</p>
+
+      <div class="recruiter-legend">
+        <span class="rc-dot rc-green"></span> High confidence — direct, repeated, proven experience
+        <span class="rc-dot rc-amber" style="margin-left:16px"></span> Medium confidence — strong adjacent experience
+        <span class="rc-dot rc-red" style="margin-left:16px"></span> Lower confidence — limited direct evidence
+      </div>
+
+      <table class="recruiter-table">
+        <thead>
+          <tr>
+            <th>JD Requirement</th>
+            <th>Category</th>
+            <th>Evidence in This Document</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- PRODUCT CORE -->
+          <tr class="rc-section-row"><td colspan="4">Product Vision &amp; 0-to-1</td></tr>
+          <tr>
+            <td>Product vision &amp; strategy — own the full product vision for SlackCRM, Slackbot CRM, SlackFirst</td>
+            <td>Strategy</td>
+            <td>PAELA (0-to-1 commercial vision nobody else saw); Sage Live (vision to 7-country rollout); Yocova (0-to-1 marketplace); Partner Solutions Process Map (structured product strategy framework); Futuristic #8 CliftonStrengths — vivid vision of what could be</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>0-to-1 product development — concept to launch, owning every stage of the PM lifecycle</td>
+            <td>Product</td>
+            <td>AYOWare (0-to-1 SaaS); Sage Live (NA in 3 months); Sage Developer Portal (0-to-1); PAELA (0-to-1 commercial vehicle); Yocova (0-to-1 marketplace) — five distinct 0-to-1 builds across career</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>PLG / self-serve for SMB — frictionless onboarding and product-led acquisition</td>
+            <td>Product</td>
+            <td>Sage Live PLG — no sales team in NA, product had to sell itself; AYO majority SMB client base; ran own SMB for 6 years; designed self-serve pricing for AYO SaaS products</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>CRM product ownership — data model fluency, user workflows, Sales/Service use cases</td>
+            <td>Product</td>
+            <td>Shipped full CRM from scratch at AYO (32+ clients); 10 years advising ISVs extending/verticalising Salesforce CRM; understands CRM at the code layer — user personas, journeys, workflow actions, insight</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- AI AND PLATFORM -->
+          <tr class="rc-section-row"><td colspan="4">AI-First &amp; Platform Convergence</td></tr>
+          <tr>
+            <td>AI-first product experience — Agentforce, natural language, agentic orchestration</td>
+            <td>Product</td>
+            <td>Leads Salesforce's Agentforce developer ecosystem; PAELA (agentic commercial model tied to agent usage); Partner Innovation Engineering (agents in production); 100% AI workflow adoption across team; built Slack apps hands-on to understand the platform as a practitioner</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Slack–Salesforce platform convergence — OrgJWT, permissions sync, identity unification</td>
+            <td>Platform</td>
+            <td>Brings a prescriptive convergence point of view grounded in real developer and ISV advisory experience on both sides of the platform boundary. Understands identity, auth, and provisioning at depth from 10 years of Salesforce ISV advisory work.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Salesforce platform knowledge — APIs, data model, identity, provisioning</td>
+            <td>Platform</td>
+            <td>10 years ISV advisory on Salesforce platform; BSc Software Engineering; built Sage Live on Salesforce; built Bolt.js and Next Gen Deno Slack apps hands-on; identified platform gaps as a practising developer</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- DEVELOPER EXPERIENCE -->
+          <tr class="rc-section-row"><td colspan="4">Developer Experience &amp; Customer Research</td></tr>
+          <tr>
+            <td>Developer experience — TtV, onboarding, activation; first API call to published app</td>
+            <td>Developer</td>
+            <td>Built Sage Developer Portal 0-to-1 — reduced developer TtV from days to hours; self-serve sandboxes, structured onboarding UX, pipeline marketing. Built Bolt.js and Next Gen Deno Slack apps hands-on — platform experience as a practising developer.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Customer research &amp; PMF methodology — CABs, Design Sprints, user personas, journey mapping</td>
+            <td>Research</td>
+            <td>Dan Olsen Lean Product Playbook practitioner. CABs established at Sage and across ISV engagements. PABs, Design Sprints (Partner Solutions Process Map step 5a), qualitative + quantitative synthesis, Business Model Canvas, Value Proposition Canvas, user personas and journey mapping.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Cross-org complexity at Salesforce scale — Legal, RevRec, Compliance, Sales, Product</td>
+            <td>Execution</td>
+            <td>PAELA required simultaneous alignment across Legal, RevRec, Compliance, Deal Desk, Sales, and Product across both Slack and Salesforce orgs. ISV ELT member with EVP, SVP, VP executive endorsements. Reports into CRO org.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- TEAM LEADERSHIP -->
+          <tr class="rc-section-row"><td colspan="4">Team Leadership</td></tr>
+          <tr>
+            <td>Managing senior PMs / managers of managers</td>
+            <td>Leadership</td>
+            <td>Full IC-to-manager-of-managers career arc: led engineering and product ICs as CTO at AYO; named PM at Sage; now leads a 27-person global org with 1 Senior Director + 3 Directors as direct reports. Coaches product thinking across the ISV portfolio — roadmap prioritisation, hypothesis-first decisions, research discipline — without formal authority, which is harder than managing reports.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Slack platform product depth — shipped Slack products at scale</td>
+            <td>Experience</td>
+            <td>Built Bolt.js and Next Gen Deno Slack apps hands-on. Has NOT shipped a Slack product to production users at scale — honest gap. Platform is new; the craft of shipping is not.</td>
+            <td><span class="rc-score rc-amber">Medium</span></td>
+          </tr>
+          <tr>
+            <td>PLG funnel analytics — cohort analysis, activation metrics, A/B testing</td>
+            <td>Analytics</td>
+            <td><strong>PLG strategy:</strong> Sage Live — designed the full self-serve PLG motion into NA; no sales team, product had to earn conversion. <strong>Acquisition funnel:</strong> AgentExchange developer programme built and owned end-to-end (+30% leads Y1); Agentic Platformers content engine driving organic top-of-funnel. <strong>Trial &amp; "Aha!" design:</strong> AppExchange has built-in trial and freemium conversion tooling; advised 30+ ISVs on trial design, feature gating, and upgrade triggers as part of Partner Solutions Process Map. <strong>Conversion:</strong> API monetisation at Sage (throttling, metering, usage-based billing); PAELA (consumption economics aligned to usage). <strong>Data instincts:</strong> Strong on metrics, tracking, and pivoting; NNAOV and attrition ownership. Direct Amplitude/Mixpanel depth is the one honest gap — offset by strong strategic and commercial PLG track record.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+
+          <!-- SMB GTM -->
+          <tr class="rc-section-row"><td colspan="4">SMB Go-to-Market &amp; Pricing</td></tr>
+          <tr>
+            <td>SMB go-to-market — pricing, packaging, freemium conversion</td>
+            <td>GTM</td>
+            <td>Sage Live PLG (frictionless onboarding, self-serve into NA market); PAELA (novel pricing from first principles); API monetisation at Sage (throttling, metering, usage-based billing); AYO SaaS products independently priced and launched</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Mobile product experience — mobile UX, offline, SLDS, mobile-first design</td>
+            <td>Product</td>
+            <td>Sage Live heavily mobile — worked with Mobile PM and Mobile Engineering team; advises ISVs on mobile UX, offline behaviour, SLDS in Salesforce Mobile App. Has not personally shipped a mobile app recently — acknowledged; not a blocker for this role.</td>
+            <td><span class="rc-score rc-amber">Medium</span></td>
+          </tr>
+
+          <!-- PROFILE -->
+          <tr class="rc-section-row"><td colspan="4">Who You Are</td></tr>
+          <tr>
+            <td>Technical background with hands-on product instincts</td>
+            <td>Experience</td>
+            <td>BSc Software Engineering (neural networks, distributed systems). Founded and ran a 35-person engineering org. Built reference apps, ran hackathons hands-on, built Slack apps this week. Reads code, sets architecture, runs Design Sprints.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Influencer and communicator — can align stakeholders, ship across complex orgs</td>
+            <td>Leadership</td>
+            <td>PAELA cross-functional alignment across 6+ functions; Dreamforce/TDX keynote speaker; ISV C-suite influence without direct authority; 27-person global team; Salesforce Global Insights validation of low-ego leadership</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+          <tr>
+            <td>Familiarity with the Salesforce ecosystem and how Slack fits within it</td>
+            <td>Experience</td>
+            <td><strong>Unparalleled insider advantage.</strong> Already on Salesforce ISV ELT. Built Sage Live on Salesforce. 7 years at Salesforce (London + SF). Brings a deep, practitioner-level understanding of how Slack and Salesforce converge. No external candidate has this starting point.</td>
+            <td><span class="rc-score rc-green">High</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>Kevin Reece · Candidate for Sr. Director PM, Slack-Salesforce · Confidential</footer>
+
+<!-- ── MODAL DATA + LOGIC ── -->
+<script>
+const STATS = {
+  aov: {
+    icon: '💡',
+    iconBg: '#dbeffe',
+    color: '#36C5F0',
+    value: 'PLG',
+    title: 'Sage Live — Product-Led Growth · NA in 3 Months',
+    evidence: `Kevin owned the full product vision, Target State Architecture, roadmap, and PLG motion for <strong>Sage Live</strong> — the SaaS successor to Sage's legacy accounting platform.<br><br>The challenge was a classic hard PLG problem: launch a brand-new product in North America without a direct sales team, while also managing the transition of Sage's existing customer base from perpetual licensing to SaaS — without triggering revenue decline during the migration.<br><br><strong>Result:</strong> North America launch in <strong>3 months</strong>. Seven countries and languages rolled out <strong>in a single quarter</strong>. The legacy install base was secured through a Product-Led Growth strategy that made the value of switching self-evident — no sales force required.<br><br>The architecture Kevin designed (Target State Architecture) made this velocity possible: secure, scalable, multi-country-compliant from day one.`,
+    source: '📌 Resume · Product Manager & Principal Technical Evangelist · Sage Group (2014–2017)'
+  },
+  paela: {
+    icon: '🚀',
+    iconBg: '#d4f5e7',
+    color: '#2EB67D',
+    value: 'Shipping',
+    title: 'A Career of Shipping — Products, Platforms &amp; Commercial Vehicles',
+    evidence: `<strong>AYO Digital (2008–14)</strong> — 32+ client products shipped across enterprise, retail, education, housing, and financial services. Full lifecycle ownership on every engagement: discovery, UX research, architecture, build, QA, launch. AYOWare pivoted from bespoke studio to multi-tenant SaaS platform — driving 80% of corporate revenue.<br><br><strong>Sage Group (2014–17)</strong> — Sage Live was a suite: accounting engine, multi-currency, regional tax compliance, mobile apps, and integrations layer. Co-owned the product; sole ownership of platform strategy and roadmap. NA in 3 months, 7 countries in one quarter. Plus: Sage Developer Portal (0-to-1), Sage Marketplace (0-to-1), hands-on co-builds with 50 premium ISVs.<br><br><strong>Salesforce (2018–Present)</strong> — Reference apps built personally for Dreamforce and TDX keynotes. PAELA from first principles as a 0-to-1 commercial product. Yocova shipped from concept to live marketplace. The craft of shipping has never stopped.`,
+    source: '📌 Resume + Business Case · AYO Digital → Sage Group → Salesforce'
+  },
+  isv: {
+    icon: '🏗️',
+    iconBg: '#fff3cc',
+    color: '#ECB22E',
+    value: '$100M',
+    title: 'PAELA — 0-to-1 Commercial Product · $100M ACV Pipeline',
+    evidence: `PAELA — the <strong>Partner Agentic Enterprise License Agreement</strong> — is the most recent example of Kevin's 0-to-1 product instinct applied at Salesforce scale.<br><br>The core insight: Salesforce's most strategic ISV partners have a dual relationship — they are simultaneously a <strong>customer</strong> (consuming Salesforce licenses) and a <strong>partner</strong> (reselling Salesforce-embedded apps). Every existing commercial structure treated these as separate relationships. PAELA unifies them into a single agreement for the first time.<br><br>Kevin identified the gap, defined the product, built the commercial model, and drove the deal structure through Legal, RevRec, Compliance, and Deal Desk — the full PM lifecycle for a commercial product, not a software product, but the same discipline.<br><br>Result: <strong>5 deals in flight targeting $100M ACV in FY27.</strong> Miguel Milano (Salesforce CRO) is executive sponsor on the deal cycles.`,
+    source: '📌 Business Case · Salesforce ISV Leadership Team (FY27 Target)'
+  },
+  years: {
+    icon: '🧭',
+    iconBg: '#f0e0f0',
+    color: '#c084fc',
+    value: '20 Years',
+    title: '20 Years SaaS Leadership · 10 Years PM Without the Title',
+    evidence: `The title said CTO, then Evangelist, then Partner Solutions. The work was <strong>product management</strong> — consistently, across three chapters, for 20 years.<br><br><strong>AYO Digital (2008–14) — Platform Builder &amp; CTO</strong><br>Pivoted from bespoke software studio to a modular multi-tenant SaaS platform. Owned the full PM lifecycle: discovery, architecture, roadmap, UX research, Customer Advisory Boards, delivery, and P&amp;L. AYOWare drove 80% of corporate revenue.<br><br><strong>Sage Group (2014–17) — Named PM Role</strong><br>Product Manager for Sage Live — 0-to-1 SaaS launch into North America in 3 months, then 7 countries in one quarter. Designed the PLG motion, owned the product roadmap, and built the developer portal and marketplace from scratch alongside.<br><br><strong>Salesforce (2018–Present) — Fractional CPO at Scale</strong><br>Devised the Partner Solutions Process Map: a 10-step methodology covering discovery, Design Sprints, roadmapping, prioritisation, solutioning, POV, delivery, and GTM activation — applied across 30+ ISV product engagements per year. The outcomes are PM outcomes: PAELA (0-to-1 commercial product), Partner Innovation Engineer (new product function created to solve agents-in-production gap), AgentExchange programme (product strategy driving measurable developer activation).`,
+    source: '📌 Resume · AYO Digital → Sage Group → Salesforce'
+  },
+  award: {
+    icon: '🔍',
+    iconBg: '#d4f5e7',
+    color: '#2EB67D',
+    value: 'Product-Market Fit',
+    title: 'Product-Market Fit · Customer Research · Lean Product Playbook',
+    evidence: `Kevin's product process is structured and repeatable — grounded in Dan Olsen's <strong>Lean Product Playbook</strong>: identify underserved needs → define target customer and JTBD → establish value proposition → create MVP hypothesis → test and iterate to PMF. Applied at AYO (CABs before every major build), at Sage (PLG motion validated against real NA user behaviour), and across ISV product strategy at Salesforce.<br><br><strong>Research tools in regular use:</strong> Customer Advisory Boards (CABs) · Product Advisory Boards (PABs) · Design Sprints (5-day problem-to-prototype cycles) · User Personas &amp; Journey Mapping · Business Model Canvas · Value Proposition Canvas.<br><br><strong>The Partner Solutions Process Map</strong> — Kevin's own 10-step framework: discovery, ideation, Design Sprint, roadmap, prioritisation, solutioning, POV, delivery, GTM activation, feedback loop. Applied across 30+ ISV product engagements per year.`,
+    source: '📌 Interview Prep · Sage Group + Salesforce SF · Dan Olsen, Lean Product Playbook'
+  }
+};
+
+const STAT_ORDER = ['years', 'paela', 'aov', 'isv', 'award'];
+let currentStatIndex = 0;
+
+function openModal(key) {
+  currentStatIndex = STAT_ORDER.indexOf(key);
+  renderModal();
+  document.getElementById('statModal').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderModal() {
+  const key = STAT_ORDER[currentStatIndex];
+  const d = STATS[key];
+  document.getElementById('modalAccent').style.background = d.color;
+  document.getElementById('modalIcon').textContent = d.icon;
+  document.getElementById('modalIconWrap').style.background = d.iconBg;
+  document.getElementById('modalValue').textContent = d.value;
+  document.getElementById('modalValue').style.color = d.color;
+  document.getElementById('modalTitle').textContent = d.title;
+  document.getElementById('modalEvidence').innerHTML = d.evidence;
+
+  const prev = currentStatIndex > 0 ? STATS[STAT_ORDER[currentStatIndex - 1]] : null;
+  const next = currentStatIndex < STAT_ORDER.length - 1 ? STATS[STAT_ORDER[currentStatIndex + 1]] : null;
+
+  const prevBtn = document.getElementById('modalNavPrev');
+  const nextBtn = document.getElementById('modalNavNext');
+  document.getElementById('modalNavPrevLabel').textContent = prev ? prev.value : '';
+  document.getElementById('modalNavNextLabel').textContent = next ? next.value : '';
+  prevBtn.disabled = !prev;
+  nextBtn.disabled = !next;
+
+  // dots
+  const dotsEl = document.getElementById('modalNavDots');
+  dotsEl.innerHTML = STAT_ORDER.map((_, i) =>
+    `<div class="modal-nav-dot${i === currentStatIndex ? ' active' : ''}" style="${i === currentStatIndex ? 'background:' + d.color : ''}"></div>`
+  ).join('');
+}
+
+function navigateStat(dir) {
+  const next = currentStatIndex + dir;
+  if (next >= 0 && next < STAT_ORDER.length) {
+    currentStatIndex = next;
+    renderModal();
+  }
+}
+
+function closeModal() {
+  document.getElementById('statModal').classList.remove('visible');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnBackdrop(e) {
+  if (e.target === document.getElementById('statModal')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeRadar(); }
+  if (e.key === 'ArrowLeft' && document.getElementById('statModal').classList.contains('visible')) navigateStat(-1);
+  if (e.key === 'ArrowRight' && document.getElementById('statModal').classList.contains('visible')) navigateStat(1);
+});
+
+function toggleTlPanel(key, node) {
+  const wrap = document.getElementById('panel-' + key);
+  const isOpen = wrap.classList.contains('open');
+  // close all panels and deactivate all nodes
+  document.querySelectorAll('.tl-panel-wrap').forEach(p => p.classList.remove('open'));
+  document.querySelectorAll('.tl-node').forEach(n => n.classList.remove('active'));
+  if (!isOpen) {
+    wrap.classList.add('open');
+    node.classList.add('active');
+    // scroll to the clicked node (stable position) rather than the panel (shifts during transition)
+    node.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+}
+
+function closeTlPanel(key) {
+  document.getElementById('panel-' + key).classList.remove('open');
+  document.querySelectorAll('.tl-node').forEach(n => n.classList.remove('active'));
+}
+
+function toggleChapter(el) {
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.chapter').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    el.classList.add('open');
+  }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function() {
+  const RADAR_DATA = {
+    1: {
+      title: 'Chapter 1 · AYO Digital — PM Fit Snapshot',
+      color: 'rgba(54,197,240,1)',
+      labels: ['0-to-1 Build', 'CRM Shipped', 'SMB + PLG', 'Customer Research'],
+      data: [97, 92, 88, 94]
+    },
+    2: {
+      title: 'Chapter 2 · Sage Group — PM Fit Snapshot',
+      color: 'rgba(46,182,125,1)',
+      labels: ['Sage Live PLG', ['Developer', 'Experience'], ['Salesforce', 'Platform'], ['AI-First', 'Product']],
+      data: [97, 91, 90, 93]
+    },
+    3: {
+      title: 'Chapter 3 · Salesforce — PM Fit Snapshot',
+      color: 'rgba(74,21,75,1)',
+      labels: ['Product Vision', ['Cross-Org', 'Execution'], ['AI-First', 'Product'], ['Convergence', 'Vision'], ['Managing', 'Leaders']],
+      data: [97, 96, 95, 92, 91]
+    }
+  };
+
+  let activeRadarChart = null;
+
+  window.openRadar = function(n) {
+    const d = RADAR_DATA[n];
+    document.getElementById('radarModalTitle').textContent = d.title;
+
+    if (activeRadarChart) { activeRadarChart.destroy(); activeRadarChart = null; }
+
+    const ctx = document.getElementById('radarModalCanvas');
+    activeRadarChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: d.labels,
+        datasets: [{
+          data: d.data,
+          backgroundColor: d.color.replace('1)', '0.15)'),
+          borderColor: d.color,
+          pointBackgroundColor: d.color,
+          pointRadius: 4
+        }]
+      },
+      options: {
+        animation: { duration: 600, easing: 'easeOutQuart' },
+        scales: {
+          r: {
+            min: 0, max: 100,
+            ticks: { display: false, stepSize: 5 },
+            grid: { color: '#F1F0F0' },
+            pointLabels: { font: { family: 'Inter, sans-serif', size: 11 }, color: '#616061', padding: 16 },
+            angleLines: { color: '#F1F0F0' }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + '%' } }
+        },
+        elements: { line: { borderWidth: 2 } }
+      },
+      plugins: [{
+        id: 'radarPctLabels',
+        afterDraw: function(chart) {
+          const c = chart.ctx;
+          const meta = chart.getDatasetMeta(0);
+          const vals = chart.data.datasets[0].data;
+          const cx = chart.scales.r.xCenter;
+          const cy = chart.scales.r.yCenter;
+          meta.data.forEach(function(pt, i) {
+            const angle = Math.atan2(pt.y - cy, pt.x - cx);
+            const lx = pt.x + Math.cos(angle) * 14;
+            const ly = pt.y + Math.sin(angle) * 14;
+            c.save();
+            c.font = '600 10px Inter, sans-serif';
+            c.fillStyle = d.color;
+            c.textAlign = 'center';
+            c.textBaseline = 'middle';
+            c.fillText(vals[i] + '%', lx, ly);
+            c.restore();
+          });
+        }
+      }]
+    });
+
+    document.getElementById('radarModal').classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeRadar = function() {
+    document.getElementById('radarModal').classList.remove('visible');
+    document.body.style.overflow = '';
+    if (activeRadarChart) { activeRadarChart.destroy(); activeRadarChart = null; }
+  };
+
+  window.closeRadarOnBackdrop = function(e) {
+    if (e.target === document.getElementById('radarModal')) closeRadar();
+  };
+})();
+</script>
+
+<div id="jd-tooltip"></div>
+<script>
+(function() {
+  const tip = document.getElementById('jd-tooltip');
+  let hideTimer;
+
+  document.addEventListener('mouseover', function(e) {
+    const el = e.target.closest('[data-jd]');
+    if (!el) return;
+    clearTimeout(hideTimer);
+    tip.textContent = el.dataset.jd;
+    tip.classList.add('visible');
+    positionTip(e);
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!tip.classList.contains('visible')) return;
+    if (!e.target.closest('[data-jd]')) return;
+    positionTip(e);
+  });
+
+  document.addEventListener('mouseout', function(e) {
+    if (!e.target.closest('[data-jd]')) return;
+    hideTimer = setTimeout(() => tip.classList.remove('visible'), 100);
+  });
+
+  function positionTip(e) {
+    const pad = 12;
+    const tw = tip.offsetWidth, th = tip.offsetHeight;
+    let x = e.clientX + pad, y = e.clientY - th - pad;
+    if (x + tw > window.innerWidth - 8) x = e.clientX - tw - pad;
+    if (y < 8) y = e.clientY + pad;
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+  }
+})();
+</script>
+
+<script>
+function toggleRecruiter(el) {
+  el.classList.toggle('open');
+  const body = document.getElementById('recruiterBody');
+  body.classList.toggle('open');
+}
+
+(function() {
+  const pcts = [
+    // Product Vision & 0-to-1 (4 rows)
+    97, 97, 88, 92,
+    // AI-First & Platform Convergence (3 rows)
+    95, 88, 90,
+    // Developer Experience & Customer Research (3 rows)
+    91, 95, 96,
+    // Team Leadership (2 rows)
+    91, 58,
+    // PLG analytics (1 row)
+    83,
+    // SMB GTM & Pricing (2 rows)
+    83, 74,
+    // Who You Are (3 rows)
+    93, 96, 99
+  ];
+  const scores = document.querySelectorAll('#recruiterBody .rc-score');
+  scores.forEach(function(el, i) {
+    if (pcts[i] !== undefined) {
+      const pct = document.createElement('span');
+      pct.className = 'rc-pct';
+      pct.textContent = pcts[i] + '%';
+      el.appendChild(pct);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
