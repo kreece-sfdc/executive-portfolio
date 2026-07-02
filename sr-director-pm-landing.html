@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Kevin Reece — Candidate · Sr. Director, Product Management · Slack-Salesforce</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --aubergine: #4A154B;
+  --green:     #2EB67D;
+  --blue:      #36C5F0;
+  --yellow:    #ECB22E;
+  --red:       #E01E5A;
+  --ink:       #1D1C1D;
+  --muted:     #616061;
+  --faint:     #F1F0F0;
+  --white:     #FFFFFF;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #FAFAFA;
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(140deg, #2d0a2e 0%, #4A154B 40%, #3a0e3b 100%);
+  padding: 64px 48px 96px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.hero-blobs { position: absolute; inset: 0; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.15; }
+.blob-1 { width: 560px; height: 560px; background: #36C5F0; top: -220px; right: -80px; }
+.blob-2 { width: 420px; height: 420px; background: #2EB67D; bottom: -160px; left: 5%; }
+.blob-3 { width: 300px; height: 300px; background: #ECB22E; top: 40%; left: 50%; }
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  margin-bottom: 28px;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+}
+
+.hero-heading { margin-bottom: 24px; line-height: 0.95; }
+
+.hero-pre {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.hero-name {
+  font-size: clamp(72px, 9vw, 112px);
+  font-weight: 900;
+  letter-spacing: -4px;
+  display: block;
+  line-height: 1;
+}
+
+.hero-name .first { color: rgba(255,255,255,0.95); }
+.hero-name .last {
+  background: linear-gradient(90deg, #36C5F0 0%, #2EB67D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-rule {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+  margin: 20px 0;
+}
+
+.hero-tagline {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.3px;
+  margin-bottom: 32px;
+}
+
+.hero-tagline strong {
+  color: rgba(255,255,255,0.82);
+  font-weight: 600;
+}
+
+.hero-bio {
+  font-size: 17px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.78);
+  max-width: 680px;
+  line-height: 1.75;
+  margin-bottom: 48px;
+}
+
+.hero-bio strong { color: rgba(255,255,255,0.95); font-weight: 600; }
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+}
+
+.chip-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+}
+
+/* ─── MAIN CONTENT ──────────────────────────────────────────── */
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 72px 48px 96px;
+}
+
+/* ─── SECTION HEADER ────────────────────────────────────────── */
+.section-header {
+  margin-bottom: 40px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 20px; height: 2px;
+  background: linear-gradient(90deg, var(--blue), var(--green));
+  border-radius: 2px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  color: var(--ink);
+  line-height: 1.1;
+}
+
+.section-sub {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--muted);
+  margin-top: 12px;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+/* ─── VIDEO ──────────────────────────────────────────────────── */
+.video-section { margin-bottom: 88px; }
+
+.video-wrap {
+  background: var(--ink);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.video-wrap video {
+  display: block;
+  width: 100%;
+  max-height: 600px;
+  background: #000;
+}
+
+/* ─── LINKS GRID ─────────────────────────────────────────────── */
+.links-section { margin-bottom: 88px; }
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.link-card.pm-infographic {
+  grid-column: 1 / -1;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border: 1px solid #E8E8E8;
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.link-card.pm-infographic::before { background: linear-gradient(90deg, var(--aubergine), #7b3f7d); }
+.link-card.bolt::before            { background: linear-gradient(90deg, var(--green), #1a8f5e); }
+.link-card.nextgen::before         { background: linear-gradient(90deg, var(--blue), #1a9fc4); }
+
+.link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.1);
+  border-color: #D0D0D0;
+}
+
+.link-icon {
+  font-size: 32px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.link-type {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.link-title {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.link-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 24px;
+}
+
+.link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 100px;
+  align-self: flex-start;
+  transition: opacity 0.2s;
+}
+
+.link-card.pm-infographic .link-pill { background: #F3E8F4; color: var(--aubergine); }
+.link-card.bolt .link-pill            { background: #E6F9F3; color: #1a8f5e; }
+.link-card.nextgen .link-pill         { background: #E6F6FC; color: #1a9fc4; }
+
+.link-card:hover .link-pill { opacity: 0.8; }
+
+.career-stats {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 24px;
+  border-top: 1px solid #F0F0F0;
+  padding-top: 16px;
+}
+
+.career-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #F8F4F8;
+  border-radius: 10px;
+  padding: 10px 8px;
+  gap: 2px;
+}
+
+.career-stat-value {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--aubergine);
+  line-height: 1;
+}
+
+.career-stat-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.fn-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px 32px;
+  margin-bottom: 20px;
+  border-top: 1px solid #F0F0F0;
+  padding-top: 16px;
+}
+
+.fn-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.fn-name {
+  font-weight: 700;
+  color: #1a9fc4;
+}
+
+.fn-desc {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.bolt-fns {
+  grid-template-columns: 1fr;
+  gap: 2px;
+  background: #F8F8F8;
+  border-radius: 10px;
+  padding: 8px 12px;
+  border: 1px solid #EBEBEB;
+}
+
+.bolt-fns .fn-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  padding: 3px 0;
+}
+
+.fn-name.bolt-fn {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.fn-name.bolt-fn::before {
+  content: '@World Cup 2026 ';
+  font-weight: 600;
+  color: #1264A3;
+  background: #E8F0F9;
+  border-radius: 3px;
+  padding: 0 3px;
+  margin-right: 2px;
+  font-size: 13px;
+}
+
+.link-arrow {
+  transition: transform 0.2s;
+}
+.link-card:hover .link-arrow { transform: translateX(3px); }
+
+/* ─── FOOTER ─────────────────────────────────────────────────── */
+.footer {
+  background: var(--ink);
+  padding: 40px 48px;
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 6px;
+}
+
+.footer-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+}
+
+.footer-sub a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+.footer-sub a:hover { text-decoration: underline; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero { padding: 40px 24px 64px; }
+  .content { padding: 48px 24px 64px; }
+  .links-grid { grid-template-columns: 1fr; }
+  .hero-chips { gap: 8px; }
+}
+
+@media (min-width: 1440px) {
+  .hero-bio      { font-size: 19px; }
+  .hero-tagline  { font-size: 17px; }
+  .section-title { font-size: 36px; }
+  .section-sub   { font-size: 17px; }
+  .link-desc     { font-size: 15px; }
+  .link-title    { font-size: 22px; }
+}
+
+@media (min-width: 1920px) {
+  .hero-bio      { font-size: 21px; }
+  .section-title { font-size: 40px; }
+  .section-sub   { font-size: 18px; }
+  .link-desc     { font-size: 16px; }
+  .link-title    { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Candidate for Sr. Director, Product Management · Slack-Salesforce</div>
+    <div class="hero-heading">
+      <p class="hero-pre">Kevin Reece</p>
+      <span class="hero-name">
+        <span class="first">Kevin </span><span class="last">Reece</span>
+      </span>
+    </div>
+    <div class="hero-rule"></div>
+    <p class="hero-tagline">
+      <strong>Product Executive</strong> &nbsp;·&nbsp; <strong>AI &amp; Technology Strategist</strong> &nbsp;·&nbsp; <strong>10 Years PM Without the Title</strong>
+    </p>
+    <p class="hero-bio">
+      Twenty years of SaaS leadership — Co-founder/CTO to Salesforce Senior Director — delivering product outcomes across the full PM lifecycle: <strong>discovery, 0-to-1 builds, PLG motions, platform convergence strategy, and enterprise-scale roadmap execution</strong>.
+      <br><br>
+      The title said Partner Solutions. The work was Product Management, applied through a <strong>Fractional CPO model</strong> across dozens of ISV engagements per year — built on a career of shipping products from <strong>0-to-1</strong>.
+    </p>
+    <div class="hero-chips">
+      <span class="chip"><span class="chip-dot" style="background:#2EB67D"></span>0-to-1 Product Builds</span>
+      <span class="chip"><span class="chip-dot" style="background:#36C5F0"></span>Fractional CPO</span>
+      <span class="chip"><span class="chip-dot" style="background:#ECB22E"></span>PLG Strategy</span>
+      <span class="chip"><span class="chip-dot" style="background:#c084fc"></span>Agentforce</span>
+      <span class="chip"><span class="chip-dot" style="background:#E01E5A"></span>Design Sprints</span>
+      <span class="chip"><span class="chip-dot" style="background:#2EB67D"></span>Slack Platform</span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MAIN CONTENT ─────────────────────────────────────────── -->
+<main class="content">
+
+  <!-- VIDEO -->
+  <section class="video-section">
+    <div class="section-header">
+      <p class="section-label">Demo</p>
+      <h2 class="section-title">See it in action</h2>
+      <p class="section-sub">A walkthrough of both Slack Platform apps — App Home dashboard, @mention commands, live World Cup data, and Next Gen workflow steps.</p>
+    </div>
+    <div class="video-wrap">
+      <video controls preload="metadata" poster="">
+        <source src="Slack_Apps_Demo.mp4" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
+    </div>
+  </section>
+
+  <!-- LINKS -->
+  <section class="links-section">
+    <div class="section-header">
+      <p class="section-label">Resources</p>
+      <h2 class="section-title">Explore the work</h2>
+      <p class="section-sub">The full PM career infographic, and two Slack Platform apps built from scratch — evidence of the builder mentality behind the product methodology.</p>
+    </div>
+    <div class="links-grid">
+
+      <a href="slack-srdir-pm.html" target="_blank" rel="noopener" class="link-card pm-infographic">
+        <span class="link-icon">📊</span>
+        <p class="link-type">Interactive Infographic</p>
+        <p class="link-title">10 Years of PM<br>Without the Title</p>
+        <p class="link-desc">Three-chapter case for the Sr. Director PM role — from co-founding and scaling <strong>AYO Digital</strong> as Founder/CTO and PM, to building the <strong>Sage marketplace and Developer Portal</strong> from zero, to operating as a <strong>Fractional CPO</strong> across Salesforce's $960M AOV ISV ecosystem. Includes interactive evidence panels, a JD fit matrix, and full career timeline.</p>
+        <div class="career-stats">
+          <div class="career-stat">
+            <span class="career-stat-value">$960M</span>
+            <span class="career-stat-label">AOV</span>
+          </div>
+          <div class="career-stat">
+            <span class="career-stat-value">$100M</span>
+            <span class="career-stat-label">PAELA Pipeline</span>
+          </div>
+          <div class="career-stat">
+            <span class="career-stat-value">20yrs</span>
+            <span class="career-stat-label">SaaS Leadership</span>
+          </div>
+          <div class="career-stat">
+            <span class="career-stat-value">PLG</span>
+            <span class="career-stat-label">Product-Led Growth</span>
+          </div>
+          <div class="career-stat">
+            <span class="career-stat-value">PMF</span>
+            <span class="career-stat-label">Product-Market Fit</span>
+          </div>
+        </div>
+        <span class="link-pill">View infographic <span class="link-arrow">→</span></span>
+      </a>
+
+      <a href="https://github.com/kreece-sfdc/slack-platform-demo" target="_blank" rel="noopener" class="link-card bolt">
+        <span class="link-icon">⚡</span>
+        <p class="link-type">GitHub · Source Code</p>
+        <p class="link-title">Slack Platform<br>Bolt.js App</p>
+        <p class="link-desc">Node.js app using Socket Mode with a personalised App Home dashboard — set your team, view upcoming fixtures, results, group standings, and squad. @mention the app in any channel with natural language:</p>
+        <div class="fn-list bolt-fns">
+          <div class="fn-item">
+            <span class="fn-name bolt-fn">set my team to United States</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name bolt-fn">when is the next England game?</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name bolt-fn">who are the players for France?</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name bolt-fn">where are Brazil in the standings?</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name bolt-fn">show me the bracket</span>
+          </div>
+        </div>
+        <span class="link-pill">View on GitHub <span class="link-arrow">→</span></span>
+      </a>
+
+      <a href="https://github.com/kreece-sfdc/slack-platform-nextgen-demo" target="_blank" rel="noopener" class="link-card nextgen">
+        <span class="link-icon">🦕</span>
+        <p class="link-type">GitHub · Source Code</p>
+        <p class="link-title">Slack Platform<br>Next Gen App</p>
+        <p class="link-desc">Deno + TypeScript on the Next Gen platform. Datastores, custom workflow steps, App Home, and Slack AI-ready function definitions.</p>
+        <div class="fn-list">
+          <div class="fn-item">
+            <span class="fn-name">🏠 Build Dashboard</span>
+            <span class="fn-desc">Opens the World Cup App Home dashboard modal</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name">⚽ Get Games</span>
+            <span class="fn-desc">Fixtures, results &amp; match history for any team</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name">📊 Get Standings</span>
+            <span class="fn-desc">Group stage table, points &amp; positions</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name">🏆 Get Bracket</span>
+            <span class="fn-desc">Full knockout stage bracket</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name">🧑‍🤝‍🧑 Get Squad</span>
+            <span class="fn-desc">Player roster grouped by position</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name">💬 Handle @mention</span>
+            <span class="fn-desc">Responds to an @mention in a channel with World Cup data</span>
+          </div>
+          <div class="fn-item">
+            <span class="fn-name">✉️ Handle DM</span>
+            <span class="fn-desc">Fuzzy-matches a team name from a DM and saves user preference</span>
+          </div>
+        </div>
+        <span class="link-pill">View on GitHub <span class="link-arrow">→</span></span>
+      </a>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── FOOTER ────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-name">Kevin Reece</p>
+    <p class="footer-sub">
+      Senior Director, Partner Solutions · Salesforce ·
+      <a href="https://linkedin.com/in/kevinbrianreece" target="_blank" rel="noopener">LinkedIn</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
